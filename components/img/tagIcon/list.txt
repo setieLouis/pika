@@ -1,0 +1,12 @@
+add_ic_call-24px.svg
+directions_bike-24px.svg        local_car_wash-24px.svg         phonelink_ring-24px.svg         sports_tennis-24px.svg
+attachment-24px.svg             directions_boat-24px.svg        local_drink-24px.svg            pool-24px.svg                   sports_volleyball-24px.svg
+battery_full-24px.svg           directions_bus-24px.svg         local_gas_station-24px.svg      school-24px.svg                 stay_current_portrait-24px.svg
+brightness_2-24px.svg           directions_railway-24px.svg     local_hotel-24px.svg            shopping_basket-24px.svg        subway-24px.svg
+brightness_5-24px.svg           directions_run-24px.svg         local_pharmacy-24px.svg         shopping_cart-24px.svg          theaters-24px.svg
+build-24px.svg                  format_paint-24px.svg           local_shipping-24px.svg         smoking_rooms-24px.svg          two_wheeler-24px.svg
+business_center-24px.svg        headset-24px.svg                local_taxi-24px.svg             sports_esports-24px.svg         wifi-24px.svg
+cake-24px.svg                   laptop_mac-24px.svg             memory-24px.svg                 sports_football-24px.svg        work-24px.svg
+camera_alt-24px.svg             local_airport-24px.svg          museum-24px.svg                 sports_motorsports-24px.svg
+child_friendly-24px.svg         local_bar-24px.svg              outdoor_grill-24px.svg          sports_rugby-24px.svg
+devices_other-24px.svg          local_cafe-24px.svg             perm_phone_msg-24px.svg         sports_soccer-24px.svg
