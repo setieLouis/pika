@@ -13,7 +13,9 @@ export default class PaperContainer extends React.Component {
           borderRadius: 2,
           backgroundColor: '#fff',
           marginLeft: windowWidth,
-          marginBottom: windowWidth,
+          marginTop: windowWidth/2,
+          marginBottom: windowWidth/2,
+
           borderWidth: 1,
           borderColor: '#e4e9ed',
           /*shadowColor: '#000',

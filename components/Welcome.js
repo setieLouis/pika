@@ -6,7 +6,7 @@ import IconOverlay from './IconOverlay';
 
 
 
-const adderTop = Math.floor((Dimensions.get('window').height * 85) / 100);
+const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
 export default class Welcome extends React.Component {
   _showDialog = () => this.setState({showDialog: true});
