@@ -2,46 +2,30 @@ import React from 'react';
 import {Dimensions, FlatList, TouchableOpacity, View} from 'react-native';
 import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconOverlay from './IconOverlay';
-
-
+import {connect} from 'react-redux';
 
 const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
-export default class Welcome extends React.Component {
-  _showDialog = () => this.setState({showDialog: true});
-
-  _hideDialog = () => this.setState({showDialog: false});
-
-  _addTag = tag => {
-    let tmp = this.state.tag;
-    tmp.push(tag);
-    this.setState({
-      tag: tmp,
-    });
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      showDialog: false,
-      tag: [],
-    };
-  }
+class Welcome extends React.Component {
   render() {
+    const {tags} = this.props;
     return (
       <View>
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          data={this.state.tag}
+          data={tags}
           renderItem={obj => (
-            <PaperContainer name={obj.item.item} color={'#5295bf'} />
+            <PaperContainer
+              name={obj.item.name}
+              icon={obj.item.icon}
+              color={'#5295bf'}
+            />
           )} //... toString() since it accepts string elements
           keyExtractor={(item, index) => index.toString()}
         />
         <TouchableOpacity
-          onPress={() => this._showDialog()}
+          onPress={() => this._switcherOne()} /**this._showDialog()}**/
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -64,17 +48,19 @@ export default class Welcome extends React.Component {
           }}>
           <Icon name={'plus'} size={30} color={'#fff'} />
         </TouchableOpacity>
-        <IconOverlay
-          visible={this.state.showDialog}
-          createTag={this._createTag}
-        />
       </View>
     );
   }
 
-  _createTag = obj => {
-    this._hideDialog();
-    this._addTag(obj);
-    console.log(obj);
+  _switcherOne = () => {
+    this.props.navigation.navigate('Tag');
   };
 }
+
+const mapStateToProps = state => {
+  return {
+    tags: state.tags,
+  };
+};
+
+export default connect(mapStateToProps)(Welcome);

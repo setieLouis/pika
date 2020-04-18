@@ -9,7 +9,7 @@ const overlayHgth = Math.floor((Dimensions.get('window').height * 90) / 100);
 
 export default class IconOverlay extends React.Component {
   render() {
-    const {visible, createTag} = this.props;
+    const {visible, icon} = this.props;
     return (
       <Overlay
         isVisible={visible}
@@ -23,7 +23,7 @@ export default class IconOverlay extends React.Component {
           data={ICONS}
           renderItem={obj => (
             <TouchableOpacity
-              onPress={() => createTag(obj)}
+              onPress={() => icon(obj)}
               style={{
                 margin: 10,
                 alignItems: 'center',

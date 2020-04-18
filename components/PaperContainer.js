@@ -4,7 +4,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 const windowWidth = Math.ceil(Dimensions.get('window').width - 360) / 3;
 export default class PaperContainer extends React.Component {
   render() {
-    const {name, color} = this.props;
+    const {name, color, icon} = this.props;
+    console.log(name);
+    console.log(icon);
     return (
       <View
         style={{
@@ -13,8 +15,8 @@ export default class PaperContainer extends React.Component {
           borderRadius: 2,
           backgroundColor: '#fff',
           marginLeft: windowWidth,
-          marginTop: windowWidth/2,
-          marginBottom: windowWidth/2,
+          marginTop: windowWidth / 2,
+          marginBottom: windowWidth / 2,
 
           borderWidth: 1,
           borderColor: '#e4e9ed',
@@ -37,7 +39,7 @@ export default class PaperContainer extends React.Component {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Icon name={name} size={80} color={color} />
+          <Icon name={icon} size={80} color={color} />
           <Text>{name}</Text>
         </View>
       </View>
