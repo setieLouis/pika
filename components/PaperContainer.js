@@ -5,10 +5,6 @@ const windowWidth = Math.ceil(Dimensions.get('window').width - 360) / 3;
 export default class PaperContainer extends React.Component {
   render() {
     const {name, color} = this.props;
-
-    console.log("=============================")
-    console.log(name)
-    console.log("=============================")
     return (
       <View
         style={{
