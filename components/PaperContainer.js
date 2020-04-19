@@ -1,14 +1,14 @@
 import React from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 const windowWidth = Math.ceil(Dimensions.get('window').width - 360) / 3;
 export default class PaperContainer extends React.Component {
   render() {
-    const {name, color, icon} = this.props;
-    console.log(name);
-    console.log(icon);
+    const {tag, ListerAction} = this.props;
+
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => ListerAction(tag)}
         style={{
           width: 180,
           height: 180,
@@ -39,10 +39,10 @@ export default class PaperContainer extends React.Component {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Icon name={icon} size={80} color={color} />
-          <Text>{name}</Text>
+          <Icon name={tag.icon} size={80} color={'#5295bf'} />
+          <Text>{tag.name}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

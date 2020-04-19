@@ -17,9 +17,8 @@ class Welcome extends React.Component {
           data={tags}
           renderItem={obj => (
             <PaperContainer
-              name={obj.item.name}
-              icon={obj.item.icon}
-              color={'#5295bf'}
+              tag={obj.item}
+              ListerAction={this._switcherLister}
             />
           )} //... toString() since it accepts string elements
           keyExtractor={(item, index) => index.toString()}
@@ -54,6 +53,10 @@ class Welcome extends React.Component {
 
   _switcherOne = () => {
     this.props.navigation.navigate('Tag');
+  };
+
+  _switcherLister = tag => {
+    this.props.navigation.navigate('Lister', {tag});
   };
 }
 
