@@ -18,7 +18,11 @@ export default class PaperLister extends React.Component {
         showsVerticalScrollIndicator={false}
         data={this.state.tag.papers}
         renderItem={(obj, index) => (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              console.log('receipt like recevuta');
+              this._switcherPaper();
+            }}>
             <ListItem
               title={obj.item.nome}
               subtitle={obj.item.indirizzo}
@@ -39,4 +43,8 @@ export default class PaperLister extends React.Component {
       tag: getPaperList(this.props.route.params.tag.name),
     });
   }
+
+  _switcherPaper = () => {
+    this.props.navigation.navigate('paper');
+  };
 }
