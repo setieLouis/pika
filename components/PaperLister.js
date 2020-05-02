@@ -14,11 +14,12 @@ export default class PaperLister extends React.Component {
   }
   render() {
     return (
+
       <FlatList
         showsVerticalScrollIndicator={false}
         data={this.state.tag.papers}
         renderItem={(obj, index) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this._switcherPaper(obj.item)}>
             <ListItem
               title={obj.item.nome}
               subtitle={obj.item.indirizzo}
@@ -28,10 +29,17 @@ export default class PaperLister extends React.Component {
             />
           </TouchableOpacity>
         )}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item.id.toString()}
       />
     );
   }
+
+  _switcherPaper = paper => {
+    this.props.navigation.navigate('paper', {
+      tagId: this.state.tag.tag,
+      paper_meta: paper,
+    });
+  };
 
   componentDidMount(): void {
     console.log();

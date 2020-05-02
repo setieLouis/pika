@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, FlatList, TouchableOpacity, View} from 'react-native';
+import {Dimensions, FlatList, TouchableOpacity, View, Text} from 'react-native';
 import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {connect} from 'react-redux';
@@ -11,6 +11,8 @@ class Welcome extends React.Component {
     const {tags} = this.props;
     return (
       <View>
+
+
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
