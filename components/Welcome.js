@@ -3,16 +3,22 @@ import {Dimensions, FlatList, TouchableOpacity, View, Text} from 'react-native';
 import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {connect} from 'react-redux';
+import {findAllBlock, findAllMeta} from './database/Paperbase';
 
 const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
 class Welcome extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props.route.params);
+    this.list = [];
+    super(props);
+  }
+
   render() {
     const {tags} = this.props;
     return (
       <View>
-
-
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
@@ -58,8 +64,12 @@ class Welcome extends React.Component {
   };
 
   _switcherLister = tag => {
-    this.props.navigation.navigate('Lister', {tag});
+    this.props.navigation.navigate('Lister', {list: JSON.stringify(this.list)});
   };
+
+  componentDidMount(): void {
+    this.list = findAllMeta();
+  }
 }
 
 const mapStateToProps = state => {

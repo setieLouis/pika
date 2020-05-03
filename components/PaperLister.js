@@ -1,50 +1,55 @@
 import React from 'react';
-import {FlatList, Text, TouchableOpacity} from 'react-native';
-import {getPaperList} from './caller/PaperCaller';
+import {FlatList, TouchableOpacity, Text} from 'react-native';
 import {ListItem} from 'react-native-elements';
+import {findAllBlock, findAllMeta, findBlockByid} from './database/Paperbase';
+import {formatDate} from './Utility';
 
 export default class PaperLister extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tag: {
-        papers: [],
-      },
-    };
-  }
-  render() {
-    return (
 
+    this.blocks = [];
+    this.state = {};
+
+    console.log(this.state.tag);
+  }
+
+  render() {
+    const list = JSON.parse(this.props.route.params.list);
+
+
+    return (
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={this.state.tag.papers}
-        renderItem={(obj, index) => (
-          <TouchableOpacity onPress={() => this._switcherPaper(obj.item)}>
-            <ListItem
-              title={obj.item.nome}
-              subtitle={obj.item.indirizzo}
-              rightTitle={obj.item.data}
-              rightSubtitle={''}
-              bottomDivider
-            />
-          </TouchableOpacity>
-        )}
+        data={list}
+        renderItem={(obj, index) => {
+          return (
+            <TouchableOpacity onPress={() => this._switcherPaper(obj.item.id)}>
+              <ListItem
+                title={obj.item.negozio}
+                subtitle={obj.item.indirizzo}
+                rightTitle={formatDate(obj.item.data)}
+                rightSubtitle={''}
+                bottomDivider
+              />
+            </TouchableOpacity>
+          );
+        }}
         keyExtractor={item => item.id.toString()}
       />
     );
   }
 
-  _switcherPaper = paper => {
+  _switcherPaper = id => {
+    console.log('====================================');
+    const bl = this.blocks.filter(value => value.papermeta === id);
     this.props.navigation.navigate('paper', {
-      tagId: this.state.tag.tag,
-      paper_meta: paper,
+      block: id,
+      content: bl[0].content,
     });
   };
 
   componentDidMount(): void {
-    console.log();
-    this.setState({
-      tag: getPaperList(this.props.route.params.tag.name),
-    });
+    this.blocks = findAllBlock(this.props.route.params.block);
   }
 }
