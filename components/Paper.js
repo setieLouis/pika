@@ -3,7 +3,7 @@ import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import {getPaper} from './caller/PaperCaller';
 
 import QRCode from 'react-native-qrcode-svg';
-""
+
 export default class extends React.Component {
   constructor(props) {
     super(props);
@@ -56,32 +56,4 @@ export default class extends React.Component {
       </Text>
     );
   }
-
-
 }
-/**
-       * <Text style={{fontSize:15}}>Ciao Mamma cone va oggi</Text>
-       <Text style={{fontSize:15, fontFamily:'CourierNew-Regular'}}>Ciao Mamma cone va oggi</Text>
-       <Text style={{fontSize:15, fontFamily:'CourierNew-Regular'}}>**** ***** **** ** ****</Text>
-       <Text style={{fontSize:15, fontFamily:'CourierNew-Regular'}}>---- ----- ---- -- ----</Text>
-       <Text style={{fontSize:15, fontFamily:'CourierNew-Regular'}}>C                     i</Text>
-
-
-
-
-       <QRCode
-       value={this.state.text}
-       size={200}
-       bgColor="black"
-       fgColor="white"
-       />
-
-
-
- /*<FlatList
- showsVerticalScrollIndicator={false}
- data={list}
- renderItem={obj => this._getRow(obj.item)}
- keyExtractor={(item, index) => index.toString()}
- />
-      **/

@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, TouchableOpacity, Text} from 'react-native';
 import {ListItem} from 'react-native-elements';
-import {findAllBlock, findAllMeta, findBlockByid} from './database/Paperbase';
+import {findAllBlock} from './database/Paperbase';
 import {formatDate} from './Utility';
 
 export default class PaperLister extends React.Component {
@@ -16,7 +16,6 @@ export default class PaperLister extends React.Component {
 
   render() {
     const list = JSON.parse(this.props.route.params.list);
-
 
     return (
       <FlatList

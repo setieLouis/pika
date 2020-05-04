@@ -10,7 +10,7 @@ const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.route.params);
+
     this.list = [];
     super(props);
   }
