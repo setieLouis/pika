@@ -1,22 +1,26 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, ScrollView} from 'react-native';
 import {getPaper} from './caller/PaperCaller';
 
 import QRCode from 'react-native-qrcode-svg';
+import {findBlockByid} from './database/Paperbase';
 
 export default class extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const list = this.props.route.params.content.split('|');
+    const list = findBlockByid(this.props.route.params.info).content.split('|');
 
     return (
-      <View style={{flex: 1, backgroundColor: '#fff', margin: 15, padding: 15}}>
-        {list.map(element => {
-          return this._getRow(element);
-        })}
-      </View>
+      <ScrollView>
+        <View
+          style={{flex: 1, backgroundColor: '#fff', margin: 15, padding: 15}}>
+          {list.map(element => {
+            return this._getRow(element);
+          })}
+        </View>
+      </ScrollView>
     );
   }
   componentDidMount(): void {}

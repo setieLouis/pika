@@ -1,22 +1,17 @@
 import React from 'react';
 import {FlatList, TouchableOpacity, Text} from 'react-native';
 import {ListItem} from 'react-native-elements';
-import {findAllBlock} from './database/Paperbase';
+import {findAllBlock, findMetaByTagId} from './database/Paperbase';
 import {formatDate} from './Utility';
 
 export default class PaperLister extends React.Component {
   constructor(props) {
     super(props);
-
     this.blocks = [];
-    this.state = {};
-
-    console.log(this.state.tag);
   }
 
   render() {
-    const list = JSON.parse(this.props.route.params.list);
-
+    const list = findMetaByTagId(this.props.route.params.tag); //JSON.parse(this.props.route.params.list);
     return (
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -40,12 +35,7 @@ export default class PaperLister extends React.Component {
   }
 
   _switcherPaper = id => {
-    console.log('====================================');
-    const bl = this.blocks.filter(value => value.papermeta === id);
-    this.props.navigation.navigate('paper', {
-      block: id,
-      content: bl[0].content,
-    });
+    this.props.navigation.navigate('paper', {info: id});
   };
 
   componentDidMount(): void {

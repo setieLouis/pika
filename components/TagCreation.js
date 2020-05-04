@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconPut from './IconPut';
 import IconOverlay from './IconOverlay';
 import {connect} from 'react-redux';
+import {saveTag, tagModel} from './database/Paperbase';
 
 class TagCreation extends React.Component {
   _showDialog = () => this.setState({showDialog: true});
@@ -67,6 +68,9 @@ class TagCreation extends React.Component {
   };
 
   _createTags() {
+    //SAVE ON DATABASE
+    saveTag(tagModel(this.state.tagName, this.state.icon));
+
     const action = {
       type: 'ADD',
       value: {

@@ -8,7 +8,7 @@ export default class PaperContainer extends React.Component {
 
     return (
       <TouchableOpacity
-        onPress={() => ListerAction(tag)}
+        onPress={() => ListerAction(tag.id)}
         style={{
           width: 180,
           height: 180,
@@ -40,7 +40,7 @@ export default class PaperContainer extends React.Component {
             justifyContent: 'center',
           }}>
           <Icon name={tag.icon} size={80} color={'#5295bf'} />
-          <Text>{tag.name}</Text>
+          <Text>{tag.tag}</Text>
         </View>
       </TouchableOpacity>
     );

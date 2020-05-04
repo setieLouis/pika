@@ -3,7 +3,7 @@ import {Dimensions, FlatList, TouchableOpacity, View, Text} from 'react-native';
 import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {connect} from 'react-redux';
-import {findAllBlock, findAllMeta} from './database/Paperbase';
+import {findAllBlock, findAllMeta, findAllTag} from './database/Paperbase';
 
 const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
@@ -16,7 +16,7 @@ class Welcome extends React.Component {
   }
 
   render() {
-    const {tags} = this.props;
+    const tags = findAllTag();
     return (
       <View>
         <FlatList
@@ -63,8 +63,8 @@ class Welcome extends React.Component {
     this.props.navigation.navigate('Tag');
   };
 
-  _switcherLister = tag => {
-    this.props.navigation.navigate('Lister', {list: JSON.stringify(this.list)});
+  _switcherLister = id => {
+    this.props.navigation.navigate('Lister', {tag: id});
   };
 
   componentDidMount(): void {
