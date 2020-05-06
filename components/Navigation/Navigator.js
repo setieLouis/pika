@@ -4,14 +4,28 @@ import Welcome from '../Welcome';
 import TagCreation from '../TagCreation';
 import PaperLister from '../PaperLister';
 import Paper from '../Paper';
-
+import TagHeader from './header/TagHeader';
+import {Animated, Easing, Text, TextInput, View} from 'react-native';
+import TextPut from '../TextPut';
 const Stack = createStackNavigator();
 
 export default class Navigator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchWidth: new Animated.Value(0),
+    };
+  }
   render() {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Welcome} />
+        <Stack.Screen
+          options={(navigation, route) => ({
+            header: props => <TagHeader nav={navigation} />,
+          })}
+          name={'welcome'}
+          component={Welcome}
+        />
         <Stack.Screen name="Tag" component={TagCreation} />
         <Stack.Screen name="Lister" component={PaperLister} />
         <Stack.Screen name="paper" component={Paper} />
@@ -19,3 +33,36 @@ export default class Navigator extends React.Component {
     );
   }
 }
+/**
+ {({route}) => {
+           // console.log(route);
+            headerTitle: navigation => {
+              //console.log(navigation)
+              return (
+                <View style={{height: '100%'}}>
+                  <Text>Ciao</Text>
+                </View>
+              );
+            };
+          }}
+
+
+
+ style={{height: 80, width: '100%', backgroundColor: '#fff', borderWidth:0}}>
+ <TextInput
+ placeholder={'Search'}
+ placeholderTextColor={'#919291'}
+ onChangeText={text => navigation.route.params.search(text)}
+ style={{
+                      height: '100%',
+                      width: '100%',
+                      borderColor: 'gray',
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#bfbfbf',
+                      fontSize: 17,
+                      paddingRight: 30,
+                      paddingLeft: 20,
+                      fontFamily: 'BrandonGrotesque-Light',
+                      color: '#3D83FE',
+                    }}
+ **/
