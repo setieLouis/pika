@@ -73,7 +73,7 @@ class Welcome extends React.Component {
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
                 style={{margin: 5}}
-                onPress={this._headerUpdateTagAction()}>
+                onPress={this._headerUpdateTagAction}>
                 <MatIcon name={'pencil'} size={30} color={'#fff'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
@@ -128,12 +128,14 @@ class Welcome extends React.Component {
   }
 
   _showHeaderLeftBtn = tag => {
+    console.log(tag);
     this.setState(
       {
         focusTag: tag,
         headerBtnIndex: 2,
       },
       () => {
+        console.log(this.state.focusTag);
         Animated.timing(this.state.headerBtn, {
           toValue: 1,
           duration: 500,
@@ -156,9 +158,10 @@ class Welcome extends React.Component {
     });
   };
 
-  _headerUpdateTagAction() {
+  _headerUpdateTagAction = () => {
     this._switcherOne(this.state.focusTag);
-  }
+    this._hideHeaderLeftBtn();
+  };
 
   _switcherOne = tag => {
     this.props.navigation.navigate('Tag', {tag: tag});
