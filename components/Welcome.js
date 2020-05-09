@@ -1,12 +1,21 @@
 import React from 'react';
-import {Dimensions, FlatList, TouchableOpacity, View, Text} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  TouchableOpacity,
+  View,
+  Text,
+  Animated,
+} from 'react-native';
 import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import MatIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
-import {findAllBlock, findAllMeta, findAllTag} from './database/Paperbase';
+import {findAllTag} from './database/Paperbase';
 
 const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
+
 class Welcome extends React.Component {
   static navigationOptions = ({navigation}) => {
     console.log('=======');
@@ -23,6 +32,49 @@ class Welcome extends React.Component {
   render() {
     return (
       <View>
+        <View
+          style={{
+            backgroundColor: '#000',
+            height: 80,
+            padding: 10,
+              width:'100%',
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+                height: 80,
+              backgroundColor: '#34eb7a',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 20,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+              elevation: 10,
+
+              width: '100%',
+              position: 'absolute',
+              left: 0,
+              top: 0,
+            }}>
+            <Text style={{fontSize: 25, textAlign: 'left'}}>Paper</Text>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity style={{margin: 5}}>
+                <MatIcon name={'pencil'} size={30} color={'#fff'} />
+              </TouchableOpacity>
+              <TouchableOpacity style={{margin: 5}}>
+                <MatIcon name={'delete'} size={30} color={'#fff'} />
+              </TouchableOpacity>
+              <TouchableOpacity style={{margin: 5}}>
+                <MatIcon name={'share-variant'} size={30} color={'#fff'} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
@@ -69,7 +121,6 @@ class Welcome extends React.Component {
   };
 
   _switcherLister = id => {
-
     this.props.navigation.navigate('Lister', {tag: id});
   };
 
