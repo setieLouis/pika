@@ -9,10 +9,16 @@ function tagsHandler(state = initialState, action) {
         tags: [...state.tags, action.value],
       };
       break;
+    case 'ADD_TAG_LIST':
+      nextstate = {
+        ...state,
+        tags: [...state.tags, ...action.value],
+      };
+
+      break;
     default:
       return state;
   }
-
   return nextstate;
   //return nextState || state
 }

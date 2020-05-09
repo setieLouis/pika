@@ -21,15 +21,16 @@ class Welcome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tags: [],
-
       focusTag: {},
       headerBtn: new Animated.Value(0),
       headerBtnIndex: 0,
     };
+
+    this._addTagList(findAllTag());
   }
 
   render() {
+    console.log();
     return (
       <View>
         <View
@@ -89,14 +90,17 @@ class Welcome extends React.Component {
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          data={this.state.tags}
-          renderItem={obj => (
-            <PaperContainer
-              tag={obj.item}
-              pressAction={this._switcherLister}
-              longPressAction={this._showHeaderLeftBtn}
-            />
-          )}
+          data={this.props.tags}
+          renderItem={obj => {
+            console.log(obj);
+            return (
+              <PaperContainer
+                tag={obj.item}
+                pressAction={this._switcherLister}
+                longPressAction={this._showHeaderLeftBtn}
+              />
+            );
+          }}
           keyExtractor={(item, index) => index.toString()}
         />
         <TouchableOpacity
@@ -126,7 +130,13 @@ class Welcome extends React.Component {
       </View>
     );
   }
-
+  _addTagList = tags => {
+    const action = {
+      type: 'ADD_TAG_LIST',
+      value: tags,
+    };
+    this.props.dispatch(action);
+  };
   _showHeaderLeftBtn = tag => {
     console.log(tag);
     this.setState(
@@ -171,10 +181,6 @@ class Welcome extends React.Component {
     this.props.navigation.navigate('Lister', {tag: id});
   };
 
-  _showIconBar = tag => {
-    this.props.route.params.actionBar(tag);
-  };
-
   componentDidMount(): void {
     this.setState({
       tags: findAllTag(),
@@ -191,7 +197,4 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(Welcome);
-/**
 
-
- **/
