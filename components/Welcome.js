@@ -36,15 +36,15 @@ class Welcome extends React.Component {
           style={{
             backgroundColor: '#000',
             height: 80,
-            padding: 10,
-              width:'100%',
+            width: '100%',
           }}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-                height: 80,
+              height: 80,
+              padding: 10,
               backgroundColor: '#34eb7a',
               shadowColor: '#000',
               shadowOffset: {
