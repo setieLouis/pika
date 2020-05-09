@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import MatIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MatCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MatIcon from 'react-native-vector-icons/MaterialIcons';
 import {connect} from 'react-redux';
 import {findAllTag, deleteTag} from './database/Paperbase';
 
@@ -20,8 +21,9 @@ const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
+
+    this.focusTag = undefined;
     this.state = {
-      focusTag: {},
       headerBtn: new Animated.Value(0),
       headerBtnIndex: 0,
     };
@@ -60,7 +62,7 @@ class Welcome extends React.Component {
                 height: 80,
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'flex-end',
+                justifyContent: 'space-between',
                 backgroundColor: '#3486eb',
                 width: '100%',
                 position: 'absolute',
@@ -70,17 +72,22 @@ class Welcome extends React.Component {
                 opacity: this.state.headerBtn,
               },
             ]}>
+            <TouchableOpacity
+              style={{margin: 5}}
+              onPress={this._cancelHeaderBtn}>
+              <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
+            </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
                 style={{margin: 5}}
                 onPress={this._headerUpdateTagAction}>
-                <MatIcon name={'pencil'} size={30} color={'#fff'} />
+                <MatCIcon name={'pencil'} size={30} color={'#fff'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}} onPress={this._deleteTag}>
-                <MatIcon name={'delete'} size={30} color={'#fff'} />
+                <MatCIcon name={'delete'} size={30} color={'#fff'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
-                <MatIcon name={'share-variant'} size={30} color={'#fff'} />
+                <MatCIcon name={'share-variant'} size={30} color={'#fff'} />
               </TouchableOpacity>
             </View>
           </Animated.View>
@@ -136,9 +143,12 @@ class Welcome extends React.Component {
     this.props.dispatch(action);
   };
   _showHeaderLeftBtn = tag => {
+    if (this.focusTag) {
+      console.log('already take');
+    }
+    this.focusTag = tag;
     this.setState(
       {
-        focusTag: tag,
         headerBtnIndex: 2,
       },
       () => {
@@ -166,33 +176,38 @@ class Welcome extends React.Component {
   };
 
   _headerUpdateTagAction = () => {
-    this._switcherOne(this.state.focusTag);
+    this._switcherOne(this.focusTag);
     this._hideHeaderLeftBtn();
   };
 
   _switcherOne = tag => {
+    if (this.focusTag) {
+      return;
+    }
     this.props.navigation.navigate('Tag', {tag: tag});
   };
 
   _switcherLister = id => {
+    if (this.focusTag) {
+      return;
+    }
     this.props.navigation.navigate('Lister', {tag: id});
   };
 
   _deleteTag = () => {
     const action = {
       type: 'DELETE_TAG',
-      value: this.state.focusTag,
+      value: this.focusTag,
     };
     this.props.dispatch(action);
 
-    deleteTag(this.state.focusTag);
-    this.setState({
-      focusTag: '',
-    });
+    deleteTag(this.focusTag);
+    this.focusTag = undefined;
   };
 
-  componentWillUnmount(): void {
-    this.props.updateTags.forEach(tag => { saveTag(tag)});
+  _cancelHeaderBtn = () => {
+    this._hideHeaderLeftBtn();
+    this.focusTag = undefined;
   }
 }
 

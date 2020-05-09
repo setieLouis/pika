@@ -4,9 +4,7 @@ import Welcome from '../Welcome';
 import TagCreation from '../TagCreation';
 import PaperLister from '../PaperLister';
 import Paper from '../Paper';
-import TagHeader from './header/TagHeader';
 import {Animated, Easing, Text, TextInput, View} from 'react-native';
-import TextPut from '../TextPut';
 const Stack = createStackNavigator();
 
 export default class Navigator extends React.Component {
@@ -21,8 +19,6 @@ export default class Navigator extends React.Component {
       <Stack.Navigator>
         <Stack.Screen
           options={{
-
-
             headerShown: false,
           }}
           name={'welcome'}
@@ -35,36 +31,3 @@ export default class Navigator extends React.Component {
     );
   }
 }
-/**
- {({route}) => {
-           // console.log(route);
-            headerTitle: navigation => {
-              //console.log(navigation)
-              return (
-                <View style={{height: '100%'}}>
-                  <Text>Ciao</Text>
-                </View>
-              );
-            };
-          }}
-
-
-
- style={{height: 80, width: '100%', backgroundColor: '#fff', borderWidth:0}}>
- <TextInput
- placeholder={'Search'}
- placeholderTextColor={'#919291'}
- onChangeText={text => navigation.route.params.search(text)}
- style={{
-                      height: '100%',
-                      width: '100%',
-                      borderColor: 'gray',
-                      borderBottomWidth: 1,
-                      borderBottomColor: '#bfbfbf',
-                      fontSize: 17,
-                      paddingRight: 30,
-                      paddingLeft: 20,
-                      fontFamily: 'BrandonGrotesque-Light',
-                      color: '#3D83FE',
-                    }}
- **/
