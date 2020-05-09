@@ -8,7 +8,7 @@ import {
   Easing,
 } from 'react-native';
 import {ListItem} from 'react-native-elements';
-import {findAllInfo, findAllTag, findMetaByTagId} from './database/Paperbase';
+import {deleteInfo, findAllInfo, findAllTag, findMetaByTagId} from './database/Paperbase';
 import {formatDate} from './Utility';
 import MatIcon from 'react-native-vector-icons/MaterialIcons';
 import MatCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -23,7 +23,6 @@ class PaperLister extends React.Component {
       metaHeaderBtn: new Animated.Value(0),
       metaHeaderBtnIndex: 0,
     };
-    console.log(props)
     this._addInfoList(findAllInfo());
   }
 
@@ -83,7 +82,7 @@ class PaperLister extends React.Component {
               <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity style={{margin: 5}} onPress={this._deleteMeta}>
+              <TouchableOpacity style={{margin: 5}} onPress={this._deleteInfo}>
                 <MatCIcon name={'delete'} size={30} color={'#fff'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
@@ -122,6 +121,7 @@ class PaperLister extends React.Component {
     };
     this.props.dispatch(action);
   };
+
   _showInfoHeaderBtn = meta => {
     if (this.focusMeta) {
       return;
@@ -150,19 +150,30 @@ class PaperLister extends React.Component {
     });
   };
 
+  _deleteInfo = () => {
+    const action = {
+      type: 'DELETE_INFO',
+      value: this.focusMeta,
+    };
+    this.props.dispatch(action);
+    deleteInfo(this.focusMeta);
+    this.focusMeta = undefined;
+    this._hideInfoHeaderBtn();
+  };
+
   _cancelMetaBtn = () => {
     this._hideInfoHeaderBtn();
     this.focusMeta = undefined;
   };
   _switcherPaper = id => {
+    if(this.focusMeta) return;
     this.props.navigation.navigate('paper', {info: id});
   };
 }
 const mapStateToProps = state => {
   return {
-    tags: state.paper.tag.tags,
-    updateTags: state.paper.tag.updateTags,
-    deleteTags: state.paper.tag.deleteTags,
+    deleteInfos: state.paper.info.deleteInfos,
+    infos: state.paper.info.infos,
   };
 };
 

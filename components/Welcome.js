@@ -200,9 +200,9 @@ class Welcome extends React.Component {
       value: this.focusTag,
     };
     this.props.dispatch(action);
-
     deleteTag(this.focusTag);
     this.focusTag = undefined;
+    this._hideHeaderLeftBtn();
   };
 
   _cancelHeaderBtn = () => {

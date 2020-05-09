@@ -126,11 +126,16 @@ export function saveBlock(block) {
  */
 
 export function deleteTag(tag) {
-  console.log('delete the follow elements')
-  console.log(tag)
   repo.write(() => {
-    const el = repo.create(TAG, tag, Realm.UpdateMode.All);
+    let el = repo.create(TAG, tag, Realm.UpdateMode.All);
     repo.delete(el);
+  });
+}
+
+export function deleteInfo(info) {
+  repo.write(() => {
+   let tmpInfo =  repo.create(PAPER_INFO, info, Realm.UpdateMode.All);
+   repo.delete(tmpInfo)
   });
 }
 
@@ -218,6 +223,10 @@ function toArray(collect) {
 
 const t1 = tagModel('default', 'carrot', 0);
 const m1 = metaModel(0, 'serafino', 'via garibaldi', '01 Apr 2008', 0);
+const m2 = metaModel(0, 'alberto', 'via garibaldi', '01 Apr 2008', 1);
+const m3 = metaModel(0, 'emilie', 'via garibaldi', '01 Apr 2008', 2);
+const m4 = metaModel(0, 'ramona', 'via garibaldi', '01 Apr 2008', 3);
+const m5 = metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 4);
 const b1 = blockModel(
   '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}',
   0,
@@ -225,4 +234,9 @@ const b1 = blockModel(
 
 saveTag(t1);
 saveMeta(m1);
+saveMeta(m2);
+saveMeta(m3);
+saveMeta(m4);
+saveMeta(m5);
+
 saveBlock(b1);

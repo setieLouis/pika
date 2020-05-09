@@ -5,17 +5,26 @@ const initialState = {
       updateTags: [],
       deleteTags: [],
     },
+    info: {
+      infos: [],
+      deleteInfos: [],
+    },
   },
 };
 
 function tagsHandler(state = initialState, action) {
   let nextstate;
+  let list;
   const stateTag = state.paper.tag;
+  const stateInfo = state.paper.info;
+  const paper = state.paper;
+
   switch (action.type) {
     case 'ADD_NEW_TAGS':
       nextstate = {
         ...state,
         paper: {
+          ...paper,
           tag: {
             ...stateTag,
             tags: [...stateTag.tags, action.value],
@@ -24,11 +33,12 @@ function tagsHandler(state = initialState, action) {
       };
       break;
     case 'UPDATE_TAG':
-      const list = stateTag.tags.filter(tag => tag.id !== action.value.id);
+      list = stateTag.tags.filter(tag => tag.id !== action.value.id);
       console.log(list);
       nextstate = {
         ...state,
         paper: {
+          ...paper,
           tag: {
             ...stateTag,
             tags: [...list, action.value],
@@ -42,6 +52,7 @@ function tagsHandler(state = initialState, action) {
       nextstate = {
         ...state,
         paper: {
+          ...paper,
           tag: {
             ...stateTag,
             tags: [...action.value],
@@ -50,14 +61,40 @@ function tagsHandler(state = initialState, action) {
       };
       break;
     case 'DELETE_TAG':
-      let tmp = stateTag.tags.filter(tag => tag.id !== action.value.id);
+      list = stateTag.tags.filter(tag => tag.id !== action.value.id);
       nextstate = {
         ...state,
         paper: {
+          ...paper,
           tag: {
             ...stateTag,
-            tags: [...tmp],
+            tags: [...list],
             deleteTags: [...stateTag.deleteTags, action.value],
+          },
+        },
+      };
+      break;
+    case 'ADD_INFO_LIST':
+      nextstate = {
+        ...state,
+        paper: {
+          ...paper,
+          info: {
+            ...stateInfo,
+            infos: [...stateInfo.infos, ...action.value],
+          },
+        },
+      };
+      break;
+    case 'DELETE_INFO':
+      list = stateTag.tags.filter(tag => tag.id !== action.value.id);
+      nextstate = {
+        ...state,
+        paper: {
+          ...paper,
+          info: {
+            ...stateInfo,
+            infos: [...list],
           },
         },
       };
