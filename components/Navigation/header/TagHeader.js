@@ -25,7 +25,7 @@ export default class TagHeader extends React.Component {
       searchWidth: new Animated.Value(0),
       iconBarWidth: new Animated.Value(0),
     };
-    this.props.nav.navigation.setParams({actionBar: this._espandIconBar});
+
   }
   render() {
     const {nav} = this.props;

@@ -18,15 +18,12 @@ const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
 
 class Welcome extends React.Component {
-  static navigationOptions = ({navigation}) => {
-    console.log('=======');
-    console.log(navigation);
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       tags: [],
+
+      focusTag: {},
       headerBtn: new Animated.Value(0),
       headerBtnIndex: 0,
     };
@@ -70,11 +67,13 @@ class Welcome extends React.Component {
                 left: 0,
                 top: 0,
                 zIndex: this.state.headerBtnIndex,
+                opacity: this.state.headerBtn,
               },
-              {opacity: this.state.headerBtn},
             ]}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity style={{margin: 5}} onPress={this._hideHeaderLeftBtn} >
+              <TouchableOpacity
+                style={{margin: 5}}
+                onPress={this._headerUpdateTagAction()}>
                 <MatIcon name={'pencil'} size={30} color={'#fff'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
@@ -128,9 +127,10 @@ class Welcome extends React.Component {
     );
   }
 
-  _showHeaderLeftBtn = () => {
+  _showHeaderLeftBtn = tag => {
     this.setState(
       {
+        focusTag: tag,
         headerBtnIndex: 2,
       },
       () => {
@@ -143,7 +143,7 @@ class Welcome extends React.Component {
       },
     );
   };
-    _hideHeaderLeftBtn = () => {
+  _hideHeaderLeftBtn = () => {
     Animated.timing(this.state.headerBtn, {
       toValue: 0,
       duration: 500,
@@ -155,6 +155,10 @@ class Welcome extends React.Component {
       });
     });
   };
+
+  _headerUpdateTagAction() {
+    this._switcherOne(this.state.focusTag);
+  }
 
   _switcherOne = tag => {
     this.props.navigation.navigate('Tag', {tag: tag});
