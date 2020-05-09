@@ -67,7 +67,7 @@ export default class TagHeader extends React.Component {
             {zIndex: this.state.iconBarIndex, width: this.state.iconBarWidth},
           ]}>
           <TouchableOpacity onPress={() => this._updateTag()}>
-            <MatIcon style={{margin:20}} name={'pencil'} size={25} color={'#fff'} />
+            <MatIcon name={'pencil'} size={25} color={'#fff'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this._deleteTag()}>
             <MatIcon name={'delete'} size={25} color={'#fff'} />

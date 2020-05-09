@@ -6,6 +6,7 @@ import {
   View,
   Text,
   Animated,
+  Easing,
 } from 'react-native';
 import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -26,6 +27,8 @@ class Welcome extends React.Component {
     super(props);
     this.state = {
       tags: [],
+      headerBtn: new Animated.Value(0),
+      headerBtnIndex: 0,
     };
   }
 
@@ -41,43 +44,9 @@ class Welcome extends React.Component {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'flex-start',
               alignItems: 'center',
-              height: 80,
-              padding: 10,
               backgroundColor: '#34eb7a',
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 20,
-              },
-              shadowOpacity: 0.22,
-              shadowRadius: 2.22,
-              elevation: 10,
-
-              width: '100%',
-              position: 'absolute',
-              left: 0,
-              top: 0,
-            }}>
-            <Text style={{fontSize: 25, textAlign: 'left'}}>Paper</Text>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity style={{margin: 5}}>
-                <MatIcon name={'pencil'} size={30} color={'#fff'} />
-              </TouchableOpacity>
-              <TouchableOpacity style={{margin: 5}}>
-                <MatIcon name={'delete'} size={30} color={'#fff'} />
-              </TouchableOpacity>
-              <TouchableOpacity style={{margin: 5}}>
-                <MatIcon name={'share-variant'} size={30} color={'#fff'} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
               height: 80,
               padding: 10,
               width: '100%',
@@ -86,8 +55,26 @@ class Welcome extends React.Component {
               top: 0,
               zIndex: 1,
             }}>
+            <Text style={{fontSize: 25, textAlign: 'left'}}>Paper</Text>
+          </View>
+          <Animated.View
+            style={[
+              {
+                height: 80,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                backgroundColor: '#3486eb',
+                width: '100%',
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                zIndex: this.state.headerBtnIndex,
+              },
+              {opacity: this.state.headerBtn},
+            ]}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity style={{margin: 5}}>
+              <TouchableOpacity style={{margin: 5}} onPress={this._hideHeaderLeftBtn} >
                 <MatIcon name={'pencil'} size={30} color={'#fff'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
@@ -97,7 +84,7 @@ class Welcome extends React.Component {
                 <MatIcon name={'share-variant'} size={30} color={'#fff'} />
               </TouchableOpacity>
             </View>
-          </View>
+          </Animated.View>
         </View>
 
         <FlatList
@@ -108,13 +95,13 @@ class Welcome extends React.Component {
             <PaperContainer
               tag={obj.item}
               pressAction={this._switcherLister}
-              longPressAction={this._showIconBar}
+              longPressAction={this._showHeaderLeftBtn}
             />
           )}
           keyExtractor={(item, index) => index.toString()}
         />
         <TouchableOpacity
-          onPress={() => this._switcherOne()} /**this._showDialog()}**/
+          onPress={() => this._switcherOne()}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -140,6 +127,34 @@ class Welcome extends React.Component {
       </View>
     );
   }
+
+  _showHeaderLeftBtn = () => {
+    this.setState(
+      {
+        headerBtnIndex: 2,
+      },
+      () => {
+        Animated.timing(this.state.headerBtn, {
+          toValue: 1,
+          duration: 500,
+          easing: Easing.linear(),
+          useNativeDriver: false,
+        }).start();
+      },
+    );
+  };
+    _hideHeaderLeftBtn = () => {
+    Animated.timing(this.state.headerBtn, {
+      toValue: 0,
+      duration: 500,
+      easing: Easing.linear(),
+      useNativeDriver: false,
+    }).start(() => {
+      this.setState({
+        headerBtnIndex: 0,
+      });
+    });
+  };
 
   _switcherOne = tag => {
     this.props.navigation.navigate('Tag', {tag: tag});
@@ -169,3 +184,7 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(Welcome);
+/**
+
+
+ **/
