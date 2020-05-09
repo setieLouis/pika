@@ -73,6 +73,31 @@ class Welcome extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              height: 80,
+              padding: 10,
+              width: '100%',
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              zIndex: 1,
+            }}>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity style={{margin: 5}}>
+                <MatIcon name={'pencil'} size={30} color={'#fff'} />
+              </TouchableOpacity>
+              <TouchableOpacity style={{margin: 5}}>
+                <MatIcon name={'delete'} size={30} color={'#fff'} />
+              </TouchableOpacity>
+              <TouchableOpacity style={{margin: 5}}>
+                <MatIcon name={'share-variant'} size={30} color={'#fff'} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
 
         <FlatList
