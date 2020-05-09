@@ -12,7 +12,7 @@ import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MatIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
-import {findAllTag, tagId} from './database/Paperbase';
+import {findAllTag, deleteTag} from './database/Paperbase';
 
 const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
@@ -30,7 +30,6 @@ class Welcome extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <View>
         <View
@@ -92,7 +91,6 @@ class Welcome extends React.Component {
           numColumns={2}
           data={this.props.tags}
           renderItem={obj => {
-            console.log(obj);
             return (
               <PaperContainer
                 tag={obj.item}
@@ -138,14 +136,12 @@ class Welcome extends React.Component {
     this.props.dispatch(action);
   };
   _showHeaderLeftBtn = tag => {
-    console.log(tag);
     this.setState(
       {
         focusTag: tag,
         headerBtnIndex: 2,
       },
       () => {
-        console.log(this.state.focusTag);
         Animated.timing(this.state.headerBtn, {
           toValue: 1,
           duration: 500,
@@ -155,6 +151,7 @@ class Welcome extends React.Component {
       },
     );
   };
+
   _hideHeaderLeftBtn = () => {
     Animated.timing(this.state.headerBtn, {
       toValue: 0,
@@ -187,18 +184,16 @@ class Welcome extends React.Component {
       value: this.state.focusTag,
     };
     this.props.dispatch(action);
+
+    deleteTag(this.state.focusTag);
     this.setState({
       focusTag: '',
     });
   };
 
-  componentDidMount(): void {
-    this.setState({
-      tags: findAllTag(),
-    });
+  componentWillUnmount(): void {
+    this.props.updateTags.forEach(tag => { saveTag(tag)});
   }
-
-  componentDidUpdate(): void {}
 }
 
 const mapStateToProps = state => {
