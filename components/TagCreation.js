@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconPut from './IconPut';
 import IconOverlay from './IconOverlay';
 import {connect} from 'react-redux';
-import {saveTag, tagModel} from './database/Paperbase';
+import {tagId} from './database/Paperbase';
 
 class TagCreation extends React.Component {
   _showDialog = () => this.setState({showDialog: true});
@@ -74,15 +74,20 @@ class TagCreation extends React.Component {
 
   _createTags() {
     //SAVE ON DATABASE
+    let id = this.state.tagId;
+    let actionType = 'UPDATE_TAG';
+    if (id === -1) {
+      id = tagId();
+      actionType = 'ADD_NEW_TAGS';
+    }
 
-    let actionType = this.state.tagId === -1 ? 'ADD_NEW_TAGS' : 'UPDATE_TAG';
     // Redux pero unitile
     const action = {
       type: actionType,
       value: {
         tag: this.state.tagName,
         icon: this.state.icon,
-        id: this.state.tagId,
+        id: id,
       },
     };
     this.props.dispatch(action);

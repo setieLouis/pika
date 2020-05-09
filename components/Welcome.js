@@ -12,7 +12,7 @@ import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MatIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
-import {findAllTag} from './database/Paperbase';
+import {findAllTag, tagId} from './database/Paperbase';
 
 const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
@@ -30,7 +30,7 @@ class Welcome extends React.Component {
   }
 
   render() {
-    console.log();
+    console.log(this.props);
     return (
       <View>
         <View
@@ -77,7 +77,7 @@ class Welcome extends React.Component {
                 onPress={this._headerUpdateTagAction}>
                 <MatIcon name={'pencil'} size={30} color={'#fff'} />
               </TouchableOpacity>
-              <TouchableOpacity style={{margin: 5}}>
+              <TouchableOpacity style={{margin: 5}} onPress={this._deleteTag}>
                 <MatIcon name={'delete'} size={30} color={'#fff'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
@@ -181,6 +181,17 @@ class Welcome extends React.Component {
     this.props.navigation.navigate('Lister', {tag: id});
   };
 
+  _deleteTag = () => {
+    const action = {
+      type: 'DELETE_TAG',
+      value: this.state.focusTag,
+    };
+    this.props.dispatch(action);
+    this.setState({
+      focusTag: '',
+    });
+  };
+
   componentDidMount(): void {
     this.setState({
       tags: findAllTag(),
@@ -192,9 +203,10 @@ class Welcome extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    tags: state.tags,
+    tags: state.paper.tag.tags,
+    updateTags: state.paper.tag.updateTags,
+    deleteTags: state.paper.tag.deleteTags,
   };
 };
 
 export default connect(mapStateToProps)(Welcome);
-

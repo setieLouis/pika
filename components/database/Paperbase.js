@@ -145,7 +145,7 @@ function createId(obj, sortDescriptor) {
   return response;
 }
 
-function tagId() {
+export function tagId() {
   const elem = createId(TAG, ID);
   if (elem) {
     return elem.id + 1;
@@ -182,9 +182,6 @@ export function tagModel(tag, icon, id) {
     tag: tag,
     icon: icon,
   };
-
-  console.log('==== creo il modello ');
-  console.log(el);
   return el;
 }
 
