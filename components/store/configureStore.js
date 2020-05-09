@@ -1,6 +1,6 @@
 // Store/configureStore.js
 
-import {createStore} from 'redux';
-import toggleFavorite from './reducers/tagReducer';
+import {createStore, combineReducers} from 'redux';
+import toggleFavorite from './reducers/routeReducer';
 
 export default createStore(toggleFavorite);

@@ -20,9 +20,11 @@ export default class Navigator extends React.Component {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          options={(navigation, route) => ({
-            header: props => <TagHeader nav={navigation} />,
-          })}
+          options={{
+
+
+            headerShown: false,
+          }}
           name={'welcome'}
           component={Welcome}
         />

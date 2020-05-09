@@ -8,27 +8,32 @@ import {findAllBlock, findAllMeta, findAllTag} from './database/Paperbase';
 const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
 const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
 class Welcome extends React.Component {
+  static navigationOptions = ({navigation}) => {
+    console.log('=======');
+    console.log(navigation);
+  };
+
   constructor(props) {
     super(props);
-
-    this.list = [];
-    super(props);
+    this.state = {
+      tags: [],
+    };
   }
 
   render() {
-    const tags = findAllTag();
     return (
       <View>
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          data={tags}
+          data={this.state.tags}
           renderItem={obj => (
             <PaperContainer
               tag={obj.item}
-              ListerAction={this._switcherLister}
+              pressAction={this._switcherLister}
+              longPressAction={this._showIconBar}
             />
-          )} //... toString() since it accepts string elements
+          )}
           keyExtractor={(item, index) => index.toString()}
         />
         <TouchableOpacity
@@ -59,17 +64,26 @@ class Welcome extends React.Component {
     );
   }
 
-  _switcherOne = () => {
-    this.props.navigation.navigate('Tag');
+  _switcherOne = tag => {
+    this.props.navigation.navigate('Tag', {tag: tag});
   };
 
   _switcherLister = id => {
+
     this.props.navigation.navigate('Lister', {tag: id});
   };
 
+  _showIconBar = tag => {
+    this.props.route.params.actionBar(tag);
+  };
+
   componentDidMount(): void {
-    this.list = findAllMeta();
+    this.setState({
+      tags: findAllTag(),
+    });
   }
+
+  componentDidUpdate(): void {}
 }
 
 const mapStateToProps = state => {

@@ -13,12 +13,17 @@ class TagCreation extends React.Component {
   _hideDialog = () => this.setState({showDialog: false});
 
   constructor(props) {
+
     super(props);
+    const tag = this.props.route.params.tag
+      ? this.props.route.params.tag
+      : {icon: 'cocktail', id: -1, tag: ''};
 
     this.state = {
       showDialog: false,
-      icon: 'cocktail',
-      tagName: '',
+      icon: tag.icon,
+      tagName: tag.tag,
+      tagId: tag.id,
     };
   }
 
@@ -27,7 +32,8 @@ class TagCreation extends React.Component {
       <View style={{flex: 1, marginTop: 50}}>
         <TextPut
           label={'Nickname'}
-          placeholder={'nome.cognome'}
+          placeholder={'some placeholder'}
+          content={{value: this.state.tagName}}
           inputValue={this._tagName}
         />
         <IconPut
@@ -69,8 +75,15 @@ class TagCreation extends React.Component {
 
   _createTags() {
     //SAVE ON DATABASE
-    saveTag(tagModel(this.state.tagName, this.state.icon));
 
+    if (this.state.tagId === -1) {
+      saveTag(tagModel(this.state.tagName, this.state.icon));
+    } else {
+      console.log(this.state.tagId);
+
+      saveTag(tagModel(this.state.tagName, this.state.icon, this.state.tagId));
+    }
+    // Redux pero unitile
     const action = {
       type: 'ADD',
       value: {
@@ -79,7 +92,7 @@ class TagCreation extends React.Component {
       },
     };
     this.props.dispatch(action);
-    this.props.navigation.navigate('Home');
+    this.props.navigation.navigate('welcome');
   }
 }
 

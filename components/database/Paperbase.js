@@ -100,6 +100,8 @@ export function findBlockByid(id) {
  */
 
 export function saveTag(tag) {
+  console.log('========= salvo il modello');
+  console.log(tag);
   repo.write(() => {
     repo.create(TAG, tag, Realm.UpdateMode.All);
   });
@@ -114,6 +116,21 @@ export function saveMeta(info) {
 export function saveBlock(block) {
   repo.write(() => {
     repo.create(BLOCK, block, Realm.UpdateMode.All);
+  });
+}
+
+/*
+  ===================================
+   Delete service
+  ===================================
+ */
+
+export function deleteTag(tag) {
+  console.log('delete the follow elements')
+  console.log(tag)
+  repo.write(() => {
+    const el = repo.create(TAG, tag, Realm.UpdateMode.All);
+    repo.delete(el);
   });
 }
 
@@ -158,12 +175,17 @@ function blockId() {
   ===================================
  */
 
-export function tagModel(tag, icon, id = tagId()) {
-  return {
+export function tagModel(tag, icon, id) {
+  id = id === undefined ? tagId() : id;
+  const el = {
     id: id,
     tag: tag,
     icon: icon,
   };
+
+  console.log('==== creo il modello ');
+  console.log(el);
+  return el;
 }
 
 function metaModel(tag, negozio, indirizzo, data, id = metaId()) {

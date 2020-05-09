@@ -1,14 +1,17 @@
 import React from 'react';
 import {
-  Text,
   View,
   TextInput,
   Dimensions,
   Animated,
   TouchableOpacity,
   Easing,
+  StyleSheet,
 } from 'react-native';
+import {deleteTag} from '../../database/Paperbase';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+import MatIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 const tabWidth = (Dimensions.get('window').width * 90) / 100;
 const left = (Dimensions.get('window').width - tabWidth) / 2;
 
@@ -16,14 +19,16 @@ export default class TagHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tag: undefined,
       searchIndex: 0,
-      searchWidth: new Animated.Value(tabWidth),
-      searchPos: new Animated.Value(left),
+      iconBarIndex: 0,
+      searchWidth: new Animated.Value(0),
+      iconBarWidth: new Animated.Value(0),
     };
+    this.props.nav.navigation.setParams({actionBar: this._espandIconBar});
   }
   render() {
     const {nav} = this.props;
-    console.log(nav.route);
 
     return (
       <View
@@ -33,42 +38,16 @@ export default class TagHeader extends React.Component {
           backgroundColor: '#fff',
           borderWidth: 0,
         }}>
-        <View
-          style={{
-            height: 80,
-            width: tabWidth,
-            backgroundColor: '#0ca832',
-            position: 'absolute',
-            left,
-            top: 0,
-            zIndex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Text>Paper</Text>
+        <View style={[style.main]}>
           <TouchableOpacity onPress={() => this._espandSearch()}>
             <Icon name={'md-search'} size={30} color={'#000'} />
           </TouchableOpacity>
         </View>
+
         <Animated.View
           style={[
-            {
-              height: 80,
-              width: 0,
-              backgroundColor: '#a8000c',
-              position: 'absolute',
-              left,
-              top: 0,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              zIndex: this.state.searchIndex,
-            },
-            {
-              width: this.state.searchWidth,
-              left: this.state.searchPos,
-            },
+            style.headerItem,
+            {zIndex: this.state.searchIndex, width: this.state.searchWidth},
           ]}>
           <TouchableOpacity
             style={{backgroundColor: '#fff'}}
@@ -78,49 +57,52 @@ export default class TagHeader extends React.Component {
           <TextInput
             placeholder={'Search...'}
             placeholderTextColor={'#919291'}
-            onChangeText={text => nav.route.params.search(text)}
-            style={{
-              height: 80,
-              width: '100%',
-              borderBottomColor: '#fff',
-              fontSize: 17,
-              paddingRight: 30,
-              paddingLeft: 20,
-              fontFamily: 'BrandonGrotesque-Light',
-              color: '#000000',
-              zIndex: 0,
-            }}
+            onChangeText={text => text}
+            style={style.input}
           />
+        </Animated.View>
+        <Animated.View
+          style={[
+            style.headerItem,
+            {zIndex: this.state.iconBarIndex, width: this.state.iconBarWidth},
+          ]}>
+          <TouchableOpacity onPress={() => this._updateTag()}>
+            <MatIcon name={'pencil'} size={25} color={'#fff'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this._deleteTag()}>
+            <MatIcon name={'delete'} size={25} color={'#fff'} />
+          </TouchableOpacity>
         </Animated.View>
       </View>
     );
   }
 
+  _updateTag() {
+    this.props.nav.navigation.navigate('Tag', {tag: this.state.tag});
+    this._closeIconBar(0);
+  }
+
+  _deleteTag() {
+    deleteTag(this.state.tag);
+  }
+
   _closeSearch() {
-    this.setState(
-      {
-        searchWidth: new Animated.Value(tabWidth),
-        searchPos: new Animated.Value(left),
-      },
-      () => {
-        Animated.parallel([
-          Animated.timing(this.state.searchWidth, {
-            toValue: 0,
-            duration: 500,
-            easing: Easing.linear(),
-            useNativeDriver: false,
-          }),
-        ]).start();
-      },
-    );
+    Animated.timing(this.state.searchWidth, {
+      toValue: 0,
+      duration: 0,
+      easing: Easing.linear(),
+      useNativeDriver: false,
+    }).start(() => {
+      this.setState({
+        searchIndex: 0,
+      });
+    });
   }
 
   _espandSearch() {
     this.setState(
       {
         searchIndex: 1,
-        searchWidth: new Animated.Value(0),
-        searchPos: new Animated.Value(tabWidth + left),
       },
       () => {
         Animated.parallel([
@@ -130,8 +112,34 @@ export default class TagHeader extends React.Component {
             easing: Easing.linear(),
             useNativeDriver: false,
           }),
-          Animated.timing(this.state.searchPos, {
-            toValue: left,
+        ]).start();
+      },
+    );
+  }
+
+  _closeIconBar(val) {
+    Animated.timing(this.state.iconBarWidth, {
+      toValue: 0,
+      duration: val,
+      easing: Easing.linear(),
+      useNativeDriver: false,
+    }).start(() => {
+      this.setState({
+        iconBarIndex: 0,
+      });
+    });
+  }
+
+  _espandIconBar = tag => {
+    this.setState(
+      {
+        tag: tag,
+        iconBarIndex: 1,
+      },
+      () => {
+        Animated.parallel([
+          Animated.timing(this.state.iconBarWidth, {
+            toValue: tabWidth,
             duration: 600,
             easing: Easing.linear(),
             useNativeDriver: false,
@@ -139,88 +147,47 @@ export default class TagHeader extends React.Component {
         ]).start();
       },
     );
-  }
+  };
 }
 
-/**
- < View
- style={{
-                position: 'absolute',
-                left,
-                top: 0,
-                height: 80,
-                width:
-                zIndex: 2,
-                backgroundColor: '#fff',
-                borderWidth: 0,
-                flexDirection: 'row',
-
-                alignItems: 'center',
-            }}>
- <View
- style={{
-          height: 80,
-          width: '100%',
-          backgroundColor: '#fff',
-          borderWidth: 0,
-        }}>
- < View
- style={{
-            position: 'absolute',
-            left,
-            top: 0,
-            height: 80,
-            width:
-            zIndex: 2,
-            backgroundColor: '#fff',
-            borderWidth: 0,
-            flexDirection: 'row',
-
-            alignItems: 'center',
-          }}>
- <TouchableOpacity
- style={{backgroundColor: '#fff'}}
- onPress={() => this._setIndexUnder(0)}>
- <Icon name={'md-arrow-back'} size={25} color={'#000'} />
- </TouchableOpacity>
- <TextInput
- placeholder={'Search...'}
- placeholderTextColor={'#919291'}
- onChangeText={text => nav.route.params.search(text)}
- style={{
-              height: 80,
-              width: '100%',
-              borderBottomColor: '#fff',
-              fontSize: 17,
-              paddingRight: 30,
-              paddingLeft: 20,
-              fontFamily: 'BrandonGrotesque-Light',
-              color: '#000000',
-            }}
- />
- </View>
- <View
- style={{
-            position: 'absolute',
-            left,
-            top: 0,
-            height: 80,
-            width: w,
-            backgroundColor: '#fff',
-            borderWidth: 0,
-            zIndex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
- <Text style={{fontSize: 20, fontWeight: 'bold'}}>Paper</Text>
- <Text style={{fontSize: 20}}>AE6523</Text>
- <TouchableOpacity
- style={{backgroundColor: '#fff'}}
- onPress={() => this._setIndexUnder(2)}>
- <Icon name={'md-search'} size={30} color={'#000'} />
- </TouchableOpacity>
- </View>
- </View>
-
- **/
+const style = StyleSheet.create({
+  main: {
+    height: 80,
+    width: tabWidth,
+    backgroundColor: '#0ca832',
+    position: 'absolute',
+    left,
+    top: 0,
+    zIndex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerItem: {
+    height: 80,
+    width: 0,
+    backgroundColor: '#a8000c',
+    position: 'absolute',
+    left,
+    top: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  flexline: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  input: {
+    height: 80,
+    width: '100%',
+    borderBottomColor: '#fff',
+    fontSize: 17,
+    paddingRight: 30,
+    paddingLeft: 20,
+    fontFamily: 'BrandonGrotesque-Light',
+    color: '#000000',
+    zIndex: 0,
+  },
+});
