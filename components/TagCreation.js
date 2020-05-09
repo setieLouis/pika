@@ -13,7 +13,6 @@ class TagCreation extends React.Component {
   _hideDialog = () => this.setState({showDialog: false});
 
   constructor(props) {
-
     super(props);
     const tag = this.props.route.params.tag
       ? this.props.route.params.tag
@@ -76,19 +75,14 @@ class TagCreation extends React.Component {
   _createTags() {
     //SAVE ON DATABASE
 
-    if (this.state.tagId === -1) {
-      saveTag(tagModel(this.state.tagName, this.state.icon));
-    } else {
-      console.log(this.state.tagId);
-
-      saveTag(tagModel(this.state.tagName, this.state.icon, this.state.tagId));
-    }
+    let actionType = this.state.tagId === -1 ? 'ADD_NEW_TAGS' : 'UPDATE_TAG';
     // Redux pero unitile
     const action = {
-      type: 'ADD',
+      type: actionType,
       value: {
-        name: this.state.tagName,
+        tag: this.state.tagName,
         icon: this.state.icon,
+        id: this.state.tagId,
       },
     };
     this.props.dispatch(action);
