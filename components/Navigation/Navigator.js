@@ -18,14 +18,16 @@ export default class Navigator extends React.Component {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
+          options={{headerShown: false}}
           name={'welcome'}
           component={Welcome}
         />
         <Stack.Screen name="Tag" component={TagCreation} />
-        <Stack.Screen name="Lister" component={PaperLister} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Lister"
+          component={PaperLister}
+        />
         <Stack.Screen name="paper" component={Paper} />
       </Stack.Navigator>
     );

@@ -61,7 +61,7 @@ export function findAllTag() {
   return toArray(response);
 }
 
-export function findAllMeta() {
+export function findAllInfo() {
   const response = repo.objects(PAPER_INFO);
 
   return toArray(response);

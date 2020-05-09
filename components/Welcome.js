@@ -37,7 +37,7 @@ class Welcome extends React.Component {
         <View
           style={{
             backgroundColor: '#000',
-            height: 80,
+            height: 60,
             width: '100%',
           }}>
           <View
@@ -46,7 +46,7 @@ class Welcome extends React.Component {
               justifyContent: 'flex-start',
               alignItems: 'center',
               backgroundColor: '#34eb7a',
-              height: 80,
+              height: 60,
               padding: 10,
               width: '100%',
               position: 'absolute',
@@ -59,7 +59,7 @@ class Welcome extends React.Component {
           <Animated.View
             style={[
               {
-                height: 80,
+                height: 60,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -208,7 +208,7 @@ class Welcome extends React.Component {
   _cancelHeaderBtn = () => {
     this._hideHeaderLeftBtn();
     this.focusTag = undefined;
-  }
+  };
 }
 
 const mapStateToProps = state => {
