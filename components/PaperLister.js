@@ -23,11 +23,13 @@ import {connect} from 'react-redux';
 class PaperLister extends React.Component {
   constructor(props) {
     super(props);
-    this.blocks = [];
+    this.infoCpy = undefined;
     this.focusMeta = undefined;
     this.state = {
       metaHeaderBtn: new Animated.Value(0),
       metaHeaderBtnIndex: 0,
+      searchHeaderBtn: new Animated.Value(0),
+      searchHeaderBtnIndex: 0,
       infos: findMetaByTagId(this.props.route.params.tag),
     };
     this._addInfoList(findAllInfo());
@@ -97,7 +99,7 @@ class PaperLister extends React.Component {
             </View>
             <TouchableOpacity
               style={{margin: 5}}
-              onPress={this._headerUpdateTagAction}>
+              onPress={this._showSearchHeaderBtn}>
               <MatIcon name={'search'} size={30} color={'#fff'} />
             </TouchableOpacity>
           </View>
@@ -141,11 +143,13 @@ class PaperLister extends React.Component {
                 position: 'absolute',
                 left: 0,
                 top: 0,
-                zIndex: 1,
-                opacity: 1,
+                zIndex: this.state.searchHeaderBtnIndex,
+                opacity: this.state.searchHeaderBtn,
               },
             ]}>
-            <TouchableOpacity style={{margin: 5}} onPress={this._cancelMetaBtn}>
+            <TouchableOpacity
+              style={{margin: 5}}
+              onPress={this._cancelInfoSearch}>
               <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
@@ -189,12 +193,28 @@ class PaperLister extends React.Component {
   };
 
   _showInfoHeaderBtn = meta => {
-    if (this.focusMeta) {
+    if (this.focusMeta || this.infoCpy) {
       return;
     }
     this.focusMeta = meta;
     this.setState({metaHeaderBtnIndex: 2}, () => {
       Animated.timing(this.state.metaHeaderBtn, {
+        toValue: 1,
+        duration: 500,
+        easing: Easing.linear(),
+        useNativeDriver: false,
+      }).start();
+    });
+  };
+
+  _showSearchHeaderBtn = meta => {
+    console.log(this.infoCpy, this.focusMeta)
+    if (this.focusMeta || this.infoCpy) {
+      return;
+    }
+    this.infoCpy = [];
+    this.setState({searchHeaderBtnIndex: 2}, () => {
+      Animated.timing(this.state.searchHeaderBtn, {
         toValue: 1,
         duration: 500,
         easing: Easing.linear(),
@@ -216,6 +236,32 @@ class PaperLister extends React.Component {
     });
   };
 
+  _hideSearchHeaderBtn = () => {
+    Animated.timing(this.state.searchHeaderBtn, {
+      toValue: 0,
+      duration: 500,
+      easing: Easing.linear(),
+      useNativeDriver: false,
+    }).start(() => {
+      this.setState({
+        searchHeaderBtnIndex: 0,
+      });
+    });
+  };
+
+  _cancelInfoSearch = () => {
+    this._hideSearchHeaderBtn();
+    this.setState(
+      {
+        infos: (this.infoCpy.length > 0)? this.infoCpy :this.state.infos,
+      },
+      () => {
+        this.infoCpy = undefined
+
+      },
+    );
+  };
+
   _deleteInfo = () => {
     /*const action = {
       type: 'DELETE_INFO',
@@ -233,19 +279,27 @@ class PaperLister extends React.Component {
   };
   _switcherPaper = id => {
     if (this.focusMeta) {
-      return;
+        return;
+    }
+
+    if(this.infoCpy){
+      this._cancelInfoSearch();
     }
     this.props.navigation.navigate('paper', {info: id});
   };
 
   _filtra(text) {
-    let list = this.state.infos.filter(
+    this.infoCpy = this.infoCpy.length > 0 ? this.infoCpy : this.state.infos;
+    let tofilter =
+      this.state.infos.length > 0 ? this.state.infos : this.infoCpy;
+
+    let list = tofilter.filter(
       el => el.indirizzo.includes(text) || el.negozio.includes(text),
     );
+    list = (text.length > 0)? list : this.infoCpy;
     this.setState({
       infos: list,
-    })
-    console.log(text);
+    });
   }
 
   componentDidMount(): void {
