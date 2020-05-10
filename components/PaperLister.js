@@ -28,12 +28,12 @@ class PaperLister extends React.Component {
     this.state = {
       metaHeaderBtn: new Animated.Value(0),
       metaHeaderBtnIndex: 0,
+      infos: findMetaByTagId(this.props.route.params.tag),
     };
     this._addInfoList(findAllInfo());
   }
 
   render() {
-    const list = findMetaByTagId(this.props.route.params.tag); //JSON.parse(this.props.route.params.list);
     return (
       <View>
         <View
@@ -149,13 +149,17 @@ class PaperLister extends React.Component {
               <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
-              <TextInput style={{width:300,marginLeft:20, backgroundColor:'#fff'}} placeholder={'Search...'} />
+              <TextInput
+                onChangeText={text => this._filtra(text)}
+                style={{width: 300, marginLeft: 20, backgroundColor: '#fff'}}
+                placeholder={'Search...'}
+              />
             </View>
           </Animated.View>
         </View>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={list}
+          data={this.state.infos}
           renderItem={(obj, index) => {
             return (
               <TouchableOpacity
@@ -213,11 +217,12 @@ class PaperLister extends React.Component {
   };
 
   _deleteInfo = () => {
-    const action = {
+    /*const action = {
       type: 'DELETE_INFO',
       value: this.focusMeta,
     };
-    this.props.dispatch(action);
+    this.props.dispatch(action);*/
+
     deleteInfo(this.focusMeta);
     this._cancelMetaBtn();
   };
@@ -232,6 +237,22 @@ class PaperLister extends React.Component {
     }
     this.props.navigation.navigate('paper', {info: id});
   };
+
+  _filtra(text) {
+    let list = this.state.infos.filter(
+      el => el.indirizzo.includes(text) || el.negozio.includes(text),
+    );
+    this.setState({
+      infos: list,
+    })
+    console.log(text);
+  }
+
+  componentDidMount(): void {
+    this.setState({
+      infos: this.props.infos,
+    });
+  }
 }
 const mapStateToProps = state => {
   return {
