@@ -4,11 +4,17 @@ import {
   TouchableOpacity,
   Text,
   View,
+  TextInput,
   Animated,
   Easing,
 } from 'react-native';
-import {ListItem} from 'react-native-elements';
-import {deleteInfo, findAllInfo, findAllTag, findMetaByTagId} from './database/Paperbase';
+import {ListItem, SearchBar} from 'react-native-elements';
+import {
+  deleteInfo,
+  findAllInfo,
+  findAllTag,
+  findMetaByTagId,
+} from './database/Paperbase';
 import {formatDate} from './Utility';
 import MatIcon from 'react-native-vector-icons/MaterialIcons';
 import MatCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -51,7 +57,40 @@ class PaperLister extends React.Component {
               zIndex: 1,
             }}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity style={{margin: 5}} onPress={() => this.props.navigation.goBack()}>
+              <TouchableOpacity
+                style={{margin: 5}}
+                onPress={() => this.props.navigation.goBack()}>
+                <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
+              </TouchableOpacity>
+              <Text style={{fontSize: 25, textAlign: 'left'}}>Nome tag</Text>
+            </View>
+            <TouchableOpacity
+              style={{margin: 5}}
+              onPress={this._headerUpdateTagAction}>
+              <MatIcon name={'search'} size={30} color={'#fff'} />
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: '#34eb7a',
+              height: 60,
+              padding: 10,
+              width: '100%',
+
+              position: 'absolute',
+
+              left: 0,
+              top: 0,
+              zIndex: 1,
+            }}>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                style={{margin: 5}}
+                onPress={() => this.props.navigation.goBack()}>
                 <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
               </TouchableOpacity>
               <Text style={{fontSize: 25, textAlign: 'left'}}>Nome tag</Text>
@@ -88,6 +127,29 @@ class PaperLister extends React.Component {
               <TouchableOpacity style={{margin: 5}}>
                 <MatCIcon name={'share-variant'} size={30} color={'#fff'} />
               </TouchableOpacity>
+            </View>
+          </Animated.View>
+          <Animated.View
+            style={[
+              {
+                height: 60,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                backgroundColor: '#3486eb',
+                width: '100%',
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                zIndex: 1,
+                opacity: 1,
+              },
+            ]}>
+            <TouchableOpacity style={{margin: 5}} onPress={this._cancelMetaBtn}>
+              <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
+            </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+              <TextInput style={{width:300,marginLeft:20, backgroundColor:'#fff'}} placeholder={'Search...'} />
             </View>
           </Animated.View>
         </View>
@@ -157,8 +219,7 @@ class PaperLister extends React.Component {
     };
     this.props.dispatch(action);
     deleteInfo(this.focusMeta);
-    this.focusMeta = undefined;
-    this._hideInfoHeaderBtn();
+    this._cancelMetaBtn();
   };
 
   _cancelMetaBtn = () => {
@@ -166,7 +227,9 @@ class PaperLister extends React.Component {
     this.focusMeta = undefined;
   };
   _switcherPaper = id => {
-    if(this.focusMeta) return;
+    if (this.focusMeta) {
+      return;
+    }
     this.props.navigation.navigate('paper', {info: id});
   };
 }

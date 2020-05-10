@@ -81,7 +81,7 @@ function tagsHandler(state = initialState, action) {
           ...paper,
           info: {
             ...stateInfo,
-            infos: [...stateInfo.infos, ...action.value],
+            infos: [...action.value],
           },
         },
       };
