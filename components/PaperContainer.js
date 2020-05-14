@@ -5,9 +5,14 @@ import {color} from 'react-native-reanimated';
 const windowWidth = Math.ceil(Dimensions.get('window').width - 360) / 3;
 export default class PaperContainer extends React.Component {
   render() {
-    const {tag, pressAction, longPressAction, cas} = this.props;
+    const {tag, pressAction, longPressAction} = this.props;
+    console.log(tag.icon);
     return (
-        <View>
+        <View style={{ margin: 20}}>
+            <View>
+                <Icon name={tag.icon} size={120} color={'#0384fc'} />
+            </View>
+
             <Icon name={'folder'} size={120} color={'#0384fc'} />
         </View>
 
@@ -38,7 +43,7 @@ export default class PaperContainer extends React.Component {
           height: 130,
           borderRadius: 2,
           backgroundColor: '#fff',
-          margin: 20,
+
 
           borderWidth: 1,
           borderColor: '#e4e9ed',
