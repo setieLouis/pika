@@ -7,7 +7,10 @@ export default class PaperContainer extends React.Component {
   render() {
     const {tag, pressAction, longPressAction, cas} = this.props;
     return (
-        <Icon name={'folder'} size={100} color={'#0384fc'} />
+        <View>
+            <Icon name={'folder'} size={120} color={'#0384fc'} />
+        </View>
+
 
     );
   }
