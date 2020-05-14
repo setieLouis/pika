@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import PaperContainer from './PaperContainer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import MatCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import MatIcon from 'react-native-vector-icons/MaterialIcons';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+
 import {connect} from 'react-redux';
 import {findAllTag, deleteTag} from './database/Paperbase';
 
@@ -33,19 +33,28 @@ class Welcome extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
         <View
           style={{
             backgroundColor: '#000',
             height: 60,
             width: '100%',
+            marginBottom: 10,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 20,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 5,
           }}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'flex-start',
               alignItems: 'center',
-              backgroundColor: '#34eb7a',
+              backgroundColor: '#fff',
               height: 60,
               padding: 10,
               width: '100%',
@@ -54,7 +63,9 @@ class Welcome extends React.Component {
               top: 0,
               zIndex: 1,
             }}>
-            <Text style={{fontSize: 25, textAlign: 'left'}}>Paper</Text>
+            <Text style={{fontSize: 25, fontFamily: 'NanumGothic-Regular', fontWeight:'500', textAlign: 'left', color: '#000'}}>
+              Paper
+            </Text>
           </View>
           <Animated.View
             style={[
@@ -63,7 +74,7 @@ class Welcome extends React.Component {
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                backgroundColor: '#3486eb',
+                backgroundColor: '#fff',
                 width: '100%',
                 position: 'absolute',
                 left: 0,
@@ -73,41 +84,43 @@ class Welcome extends React.Component {
               },
             ]}>
             <TouchableOpacity
-              style={{margin: 5}}
+              style={{marginLeft: 15}}
               onPress={this._cancelHeaderBtn}>
-              <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
+              <AntIcon name={'close'} size={30} color={'#0384fc'} />
             </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginRight: 15}}>
               <TouchableOpacity
                 style={{margin: 5}}
                 onPress={this._headerUpdateTagAction}>
-                <MatCIcon name={'pencil'} size={30} color={'#fff'} />
+                <AntIcon name={'form'} size={25} color={'#0384fc'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}} onPress={this._deleteTag}>
-                <MatCIcon name={'delete'} size={30} color={'#fff'} />
+                <AntIcon name={'delete'} size={25} color={'#0384fc'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
-                <MatCIcon name={'share-variant'} size={30} color={'#fff'} />
+                <AntIcon name={'sharealt'} size={25} color={'#0384fc'} />
               </TouchableOpacity>
             </View>
           </Animated.View>
         </View>
+        <View style={{width: 340, marginLeft: 10}}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            numColumns={2}
+            data={this.props.tags}
+            renderItem={obj => {
+              return (
+                <PaperContainer
+                  tag={obj.item}
+                  pressAction={this._switcherLister}
+                  longPressAction={this._showHeaderLeftBtn}
+                />
+              );
+            }}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </View>
 
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          data={this.props.tags}
-          renderItem={obj => {
-            return (
-              <PaperContainer
-                tag={obj.item}
-                pressAction={this._switcherLister}
-                longPressAction={this._showHeaderLeftBtn}
-              />
-            );
-          }}
-          keyExtractor={(item, index) => index.toString()}
-        />
         <TouchableOpacity
           onPress={() => this._switcherOne()}
           style={{
@@ -143,9 +156,6 @@ class Welcome extends React.Component {
     this.props.dispatch(action);
   };
   _showHeaderLeftBtn = tag => {
-    if (this.focusTag) {
-      console.log('already take');
-    }
     this.focusTag = tag;
     this.setState(
       {
@@ -187,11 +197,11 @@ class Welcome extends React.Component {
     this.props.navigation.navigate('Tag', {tag: tag});
   };
 
-  _switcherLister = id => {
+  _switcherLister = (id, nome) => {
     if (this.focusTag) {
       return;
     }
-    this.props.navigation.navigate('Lister', {tag: id});
+    this.props.navigation.navigate('Lister', {tag: id, nome : nome});
   };
 
   _deleteTag = () => {

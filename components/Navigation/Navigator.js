@@ -22,13 +22,21 @@ export default class Navigator extends React.Component {
           name={'welcome'}
           component={Welcome}
         />
-        <Stack.Screen name="Tag" component={TagCreation} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Tag"
+          component={TagCreation}
+        />
         <Stack.Screen
           options={{headerShown: false}}
           name="Lister"
           component={PaperLister}
         />
-        <Stack.Screen name="paper" component={Paper} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="paper"
+          component={Paper}
+        />
       </Stack.Navigator>
     );
   }

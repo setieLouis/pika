@@ -6,6 +6,7 @@ import IconPut from './IconPut';
 import IconOverlay from './IconOverlay';
 import {connect} from 'react-redux';
 import {saveTag, tagId, tagModel} from './database/Paperbase';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 
 class TagCreation extends React.Component {
   _showDialog = () => this.setState({showDialog: true});
@@ -28,29 +29,69 @@ class TagCreation extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, marginTop: 50}}>
-        <TextPut
-          label={'Nickname'}
-          placeholder={'some placeholder'}
-          content={{value: this.state.tagName}}
-          inputValue={this._tagName}
-        />
-        <IconPut
-          label={'Icon'}
-          rightCmp={this._getArrow()}
-          content={this.state.icon}
-          rightCmpAction={this._showDialog}
-        />
-        <IconOverlay visible={this.state.showDialog} icon={this._icon} />
-
-        <TouchableOpacity
-          onPress={() => this._createTags()}
+      <View style={{flex: 1}}>
+        <View
           style={{
-            backgroundColor: '#000',
-            padding: 10,
+            flexDirection: 'row',
+
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            height: 70,
+            width: '100%',
+
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            zIndex: 2,
+
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 20,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 5,
           }}>
-          <Text style={{color: '#fff', textAlign: 'center'}}>Ciao</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={{marginLeft: 15}}
+            onPress={() => this.props.navigation.goBack()}>
+            <AntIcon name={'arrowleft'} size={30} color={'#000'} />
+          </TouchableOpacity>
+          <Text
+            style={{
+              width:'80%',
+              fontSize: 20,
+              fontFamily: 'NanumGothic-Regular',
+              textAlign: 'center',
+              color: '#000',
+            }}>Create a folder</Text>
+
+        </View>
+        <View style={{flex: 1, marginTop: 100}}>
+          <TextPut
+            label={'Nickname'}
+            placeholder={'some placeholder'}
+            content={{value: this.state.tagName}}
+            inputValue={this._tagName}
+          />
+          <IconPut
+            label={'Icon'}
+            rightCmp={this._getArrow()}
+            content={this.state.icon}
+            rightCmpAction={this._showDialog}
+          />
+          <IconOverlay visible={this.state.showDialog} icon={this._icon} />
+
+          <TouchableOpacity
+            onPress={() => this._createTags()}
+            style={{
+              backgroundColor: '#000',
+              padding: 10,
+            }}>
+            <Text style={{color: '#fff', textAlign: 'center'}}>Ciao</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -92,7 +133,7 @@ class TagCreation extends React.Component {
     };
     this.props.dispatch(action);
     this.props.navigation.navigate('welcome');
-    saveTag(tagModel(this.state.tagName, this.state.icon, id))
+    saveTag(tagModel(this.state.tagName, this.state.icon, id));
   }
 }
 

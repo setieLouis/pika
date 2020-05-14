@@ -4,6 +4,7 @@ import {getPaper} from './caller/PaperCaller';
 
 import QRCode from 'react-native-qrcode-svg';
 import {findBlockByid} from './database/Paperbase';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 
 export default class extends React.Component {
   constructor(props) {
@@ -11,16 +12,69 @@ export default class extends React.Component {
   }
   render() {
     const list = findBlockByid(this.props.route.params.info).content.split('|');
-
     return (
-      <ScrollView>
+      <View>
         <View
-          style={{flex: 1, backgroundColor: '#fff', margin: 15, padding: 15}}>
-          {list.map(element => {
-            return this._getRow(element);
-          })}
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            height: 70,
+            width: '100%',
+
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            zIndex: 2,
+
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 20,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 5,
+          }}>
+          <TouchableOpacity
+            style={{marginLeft: 15}}
+            onPress={() => this.props.navigation.goBack()}>
+            <AntIcon name={'arrowleft'} size={30} color={'#000'} />
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 20,
+              fontFamily: 'NanumGothic-Regular',
+              textAlign: 'left',
+              color: '#000',
+            }}>
+            {this.props.route.params.negozio}
+          </Text>
+
+          <TouchableOpacity
+            style={{marginRight: 15}}
+            onPress={this._showSearchHeaderBtn}>
+            <AntIcon name={'sharealt'} size={25} color={'#000'} />
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+
+        <ScrollView>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#fff',
+              marginLeft: 15,
+              marginRight: 15,
+              marginTop: 100,
+              padding: 15,
+            }}>
+            {list.map(element => {
+              return this._getRow(element);
+            })}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
   componentDidMount(): void {}

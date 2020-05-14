@@ -7,6 +7,7 @@ import {
   TextInput,
   Animated,
   Easing,
+  Dimensions,
 } from 'react-native';
 import {ListItem, SearchBar} from 'react-native-elements';
 import {
@@ -18,11 +19,15 @@ import {
 import {formatDate} from './Utility';
 import MatIcon from 'react-native-vector-icons/MaterialIcons';
 import MatCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
 
+const width = Dimensions.get('window').width;
+const ottPerCent = Math.floor((Dimensions.get('window').width * 80) / 100);
 class PaperLister extends React.Component {
   constructor(props) {
     super(props);
+
     this.infoCpy = undefined;
     this.focusMeta = undefined;
     this.state = {
@@ -37,80 +42,67 @@ class PaperLister extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1, backgroundColor: '#fff'}}>
         <View
           style={{
             backgroundColor: '#000',
-            height: 60,
+            height: 70,
             width: '100%',
+            marginBottom: 10,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 20,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 5,
           }}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              backgroundColor: '#34eb7a',
-              height: 60,
-              padding: 10,
+              backgroundColor: '#fff',
+              height: 70,
+
               width: '100%',
+
               position: 'absolute',
+
               left: 0,
               top: 0,
               zIndex: 1,
             }}>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={{margin: 5}}
-                onPress={() => this.props.navigation.goBack()}>
-                <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
-              </TouchableOpacity>
-              <Text style={{fontSize: 25, textAlign: 'left'}}>Nome tag</Text>
-            </View>
             <TouchableOpacity
-              style={{margin: 5}}
-              onPress={this._headerUpdateTagAction}>
-              <MatIcon name={'search'} size={30} color={'#fff'} />
+              style={{marginLeft: 15}}
+              onPress={() => this.props.navigation.goBack()}>
+              <AntIcon name={'arrowleft'} size={30} color={'#000'} />
             </TouchableOpacity>
-          </View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: 'NanumGothic-Regular',
+                textAlign: 'left',
+                color: '#000',
+              }}>
+              {this.props.route.params.nome}
+            </Text>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              backgroundColor: '#34eb7a',
-              height: 60,
-              padding: 10,
-              width: '100%',
-
-              position: 'absolute',
-
-              left: 0,
-              top: 0,
-              zIndex: 1,
-            }}>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={{margin: 5}}
-                onPress={() => this.props.navigation.goBack()}>
-                <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
-              </TouchableOpacity>
-              <Text style={{fontSize: 25, textAlign: 'left'}}>Nome tag</Text>
-            </View>
             <TouchableOpacity
-              style={{margin: 5}}
+              style={{marginRight: 15}}
               onPress={this._showSearchHeaderBtn}>
-              <MatIcon name={'search'} size={30} color={'#fff'} />
+              <AntIcon name={'search1'} size={25} color={'#000'} />
             </TouchableOpacity>
           </View>
           <Animated.View
             style={[
               {
-                height: 60,
+                height: 70,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                backgroundColor: '#3486eb',
+                backgroundColor: '#fff',
                 width: '100%',
                 position: 'absolute',
                 left: 0,
@@ -119,27 +111,32 @@ class PaperLister extends React.Component {
                 opacity: this.state.metaHeaderBtn,
               },
             ]}>
-            <TouchableOpacity style={{margin: 5}} onPress={this._cancelMetaBtn}>
-              <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
+            <TouchableOpacity
+              style={{marginLeft: 15}}
+              onPress={this._cancelMetaBtn}>
+              <AntIcon name={'close'} size={30} color={'#0384fc'} />
             </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity style={{margin: 5}} onPress={this._deleteInfo}>
-                <MatCIcon name={'delete'} size={30} color={'#fff'} />
+            <View style={{flexDirection: 'row', marginRight: 15}}>
+              <TouchableOpacity style={{margin: 5}} onPress={this._deleteTag}>
+                <AntIcon name={'delete'} size={25} color={'#0384fc'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
-                <MatCIcon name={'share-variant'} size={30} color={'#fff'} />
+                <AntIcon name={'sharealt'} size={25} color={'#0384fc'} />
               </TouchableOpacity>
             </View>
           </Animated.View>
+
           <Animated.View
             style={[
               {
-                height: 60,
+                height: 70,
+                width: '100%',
+
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'flex-start',
-                backgroundColor: '#3486eb',
-                width: '100%',
+                backgroundColor: '#fff',
+
                 position: 'absolute',
                 left: 0,
                 top: 0,
@@ -148,17 +145,15 @@ class PaperLister extends React.Component {
               },
             ]}>
             <TouchableOpacity
-              style={{margin: 5}}
+              style={{marginLeft: 15, backgroundColor: '#fff'}}
               onPress={this._cancelInfoSearch}>
-              <MatIcon name={'arrow-back'} size={30} color={'#fff'} />
+              <AntIcon name={'close'} size={25} color={'#0384fc'} />
             </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
-              <TextInput
-                onChangeText={text => this._filtra(text)}
-                style={{width: 300, marginLeft: 20, backgroundColor: '#fff'}}
-                placeholder={'Search...'}
-              />
-            </View>
+            <TextInput
+              onChangeText={text => this._filtra(text)}
+              style={{width: 320, marginLeft: 10, backgroundColor: '#fff'}}
+              placeholder={'Search...'}
+            />
           </Animated.View>
         </View>
         <FlatList
@@ -167,7 +162,7 @@ class PaperLister extends React.Component {
           renderItem={(obj, index) => {
             return (
               <TouchableOpacity
-                onPress={() => this._switcherPaper(obj.item.id)}
+                onPress={() => this._switcherPaper(obj.item.id,obj.item.negozio)}
                 onLongPress={() => this._showInfoHeaderBtn(obj.item)}>
                 <ListItem
                   title={obj.item.negozio}
@@ -208,7 +203,6 @@ class PaperLister extends React.Component {
   };
 
   _showSearchHeaderBtn = meta => {
-    console.log(this.infoCpy, this.focusMeta)
     if (this.focusMeta || this.infoCpy) {
       return;
     }
@@ -253,11 +247,10 @@ class PaperLister extends React.Component {
     this._hideSearchHeaderBtn();
     this.setState(
       {
-        infos: (this.infoCpy.length > 0)? this.infoCpy :this.state.infos,
+        infos: this.infoCpy.length > 0 ? this.infoCpy : this.state.infos,
       },
       () => {
-        this.infoCpy = undefined
-
+        this.infoCpy = undefined;
       },
     );
   };
@@ -277,15 +270,15 @@ class PaperLister extends React.Component {
     this._hideInfoHeaderBtn();
     this.focusMeta = undefined;
   };
-  _switcherPaper = id => {
+  _switcherPaper = (id, negozio) => {
     if (this.focusMeta) {
-        return;
+      return;
     }
 
-    if(this.infoCpy){
+    if (this.infoCpy) {
       this._cancelInfoSearch();
     }
-    this.props.navigation.navigate('paper', {info: id});
+    this.props.navigation.navigate('paper', {info: id, negozio: negozio});
   };
 
   _filtra(text) {
@@ -296,7 +289,7 @@ class PaperLister extends React.Component {
     let list = tofilter.filter(
       el => el.indirizzo.includes(text) || el.negozio.includes(text),
     );
-    list = (text.length > 0)? list : this.infoCpy;
+    list = text.length > 0 ? list : this.infoCpy;
     this.setState({
       infos: list,
     });
