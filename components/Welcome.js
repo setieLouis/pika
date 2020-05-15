@@ -15,8 +15,8 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
 import {findAllTag, deleteTag} from './database/Paperbase';
 
-const adderTop = Math.floor((Dimensions.get('window').height * 80) / 100);
-const adderRight = Math.floor((Dimensions.get('window').width * 82) / 100);
+const adderTop = Dimensions.get('window').height - 80;
+const adderRight = Dimensions.get('window').width - 80;
 
 class Welcome extends React.Component {
   constructor(props) {
@@ -33,13 +33,12 @@ class Welcome extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
+      <View style={{flex: 1, alignItems: 'center', backgroundColor: '#fff'}}>
         <View
           style={{
             backgroundColor: '#000',
             height: 60,
             width: '100%',
-            marginBottom: 10,
             shadowColor: '#000',
             shadowOffset: {
               width: 0,
@@ -56,14 +55,21 @@ class Welcome extends React.Component {
               alignItems: 'center',
               backgroundColor: '#fff',
               height: 60,
-              padding: 10,
               width: '100%',
               position: 'absolute',
               left: 0,
               top: 0,
               zIndex: 1,
             }}>
-            <Text style={{fontSize: 25, fontFamily: 'NanumGothic-Regular', fontWeight:'500', textAlign: 'left', color: '#000'}}>
+            <Text
+              style={{
+                marginLeft:15,
+                fontSize: 25,
+                fontFamily: 'IBMPlexSerif-SemiBold',
+                fontWeight: '500',
+                textAlign: 'left',
+                color: '#000',
+              }}>
               Paper
             </Text>
           </View>
@@ -103,33 +109,31 @@ class Welcome extends React.Component {
             </View>
           </Animated.View>
         </View>
-        <View style={{width: 340, marginLeft: 10}}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            numColumns={2}
-            data={this.props.tags}
-            renderItem={obj => {
-              return (
-                <PaperContainer
-                  tag={obj.item}
-                  pressAction={this._switcherLister}
-                  longPressAction={this._showHeaderLeftBtn}
-                />
-              );
-            }}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </View>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          data={this.props.tags}
+          renderItem={obj => {
+            return (
+              <PaperContainer
+                tag={obj.item}
+                pressAction={this._switcherLister}
+                longPressAction={this._showHeaderLeftBtn}
+              />
+            );
+          }}
+          keyExtractor={(item, index) => index.toString()}
+        />
 
         <TouchableOpacity
           onPress={() => this._switcherOne()}
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#4b99f2',
+            backgroundColor: '#fff',
             width: 60,
             height: 60,
-            borderRadius: 3,
+            borderRadius: 30,
             position: 'absolute',
             left: adderRight,
             top: adderTop,
@@ -138,12 +142,12 @@ class Welcome extends React.Component {
               width: 0,
               height: 20,
             },
-            shadowOpacity: 0.22,
+            shadowOpacity: 2.22,
             shadowRadius: 2.22,
 
             elevation: 5,
           }}>
-          <Icon name={'plus'} size={30} color={'#fff'} />
+          <Icon name={'plus'} size={30} color={'#0384fc'} />
         </TouchableOpacity>
       </View>
     );
@@ -201,7 +205,7 @@ class Welcome extends React.Component {
     if (this.focusTag) {
       return;
     }
-    this.props.navigation.navigate('Lister', {tag: id, nome : nome});
+    this.props.navigation.navigate('Lister', {tag: id, nome: nome});
   };
 
   _deleteTag = () => {
