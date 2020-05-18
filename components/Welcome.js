@@ -26,6 +26,7 @@ import {
 import IconOverlay from './IconOverlay';
 import TextPut from './TextPut';
 import OverlayIconRender from './OverlayIconRender';
+import EmptyOverlay from './EmptyOverlay';
 
 const adderTop = Dimensions.get('window').height - 80;
 const adderRight = Dimensions.get('window').width - 80;
@@ -149,13 +150,13 @@ class Welcome extends React.Component {
           }}
           keyExtractor={(item, index) => index.toString()}
         />
-        {/*
-          *
-            ============================================
-            =============== Adding Folder ==============
-            ============================================
-          *
-          */}
+          {/**
+
+           ===============================
+           =      CREATE FOLDER BTN      =
+           ===============================
+
+           **/}
         <TouchableOpacity
           onPress={() => this._createFolder()}
           style={{
@@ -183,11 +184,13 @@ class Welcome extends React.Component {
           style={{width, height, position: 'absolute', backgroundColor: '000'}}
         />
 
-        {/*
-            ======================================
-            ======================================
-            ======================================
-          */}
+        {/**
+
+           ===============================
+           =       CREATE FOLDER         =
+           ===============================
+
+          **/}
 
         <Animated.View
           style={{
@@ -241,26 +244,13 @@ class Welcome extends React.Component {
             )}
           </Animated.View>
         </Animated.View>
-        {/*
-            AddFolderOverlay
 
-          */}
-        <IconOverlay
-          closeTitle={'Cancel'}
-          mainTitle={'Create'}
-          visible={this.state.showIconOveralay}
-          height={400}
-          body={this._overLayIconBody()}
-        />
-
-        <IconOverlay
-          closeTitle={'Cancel'}
-          closeAction={this._hideFolderOveraly}
-          mainTitle={'Icon'}
-          visible={this.state.showFolderName}
-          height={200}
-          body={this._AddFolderOverlay()}
-        />
+        {/**
+           ===============================
+           =        EMPTY OVERLAY        =
+           ===============================
+          **/}
+        <EmptyOverlay visible={true} />
       </View>
     );
   }
