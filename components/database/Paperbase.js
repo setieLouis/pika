@@ -100,8 +100,6 @@ export function findBlockByid(id) {
  */
 
 export function saveTag(tag) {
-  console.log('========= salvo il modello');
-  console.log(tag);
   repo.write(() => {
     repo.create(TAG, tag, Realm.UpdateMode.All);
   });
@@ -134,8 +132,8 @@ export function deleteTag(tag) {
 
 export function deleteInfo(info) {
   repo.write(() => {
-   let tmpInfo =  repo.create(PAPER_INFO, info, Realm.UpdateMode.All);
-   repo.delete(tmpInfo)
+    let tmpInfo = repo.create(PAPER_INFO, info, Realm.UpdateMode.All);
+    repo.delete(tmpInfo);
   });
 }
 
@@ -181,7 +179,7 @@ function blockId() {
  */
 
 export function tagModel(tag, icon, id) {
-  id = id === undefined ? tagId() : id;
+  id = id === undefined || id === -1 ? tagId() : id;
   const el = {
     id: id,
     tag: tag,
@@ -222,11 +220,16 @@ function toArray(collect) {
 }
 
 const t1 = tagModel('default', 'carrot', 0);
-const m1 = metaModel(0, 'serafino', 'via garibaldi', '01 Apr 2008', 0);
+const m1 = metaModel(0, 'berafino', 'via garibaldi', '01 Apr 2008', 0);
 const m2 = metaModel(0, 'alberto', 'via garibaldi', '01 Apr 2008', 1);
 const m3 = metaModel(0, 'emilie', 'via garibaldi', '01 Apr 2008', 2);
-const m4 = metaModel(0, 'ramona', 'via garibaldi', '01 Apr 2008', 3);
-const m5 = metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 4);
+const m4 = metaModel(0, 'camona', 'via garibaldi', '01 Apr 2008', 3);
+const m5 = metaModel(0, 'alberto', 'via garibaldi', '01 Apr 2008', 5);
+const m6 = metaModel(0, 'emilie', 'via garibaldi', '01 Apr 2008', 6);
+const m7 = metaModel(0, 'camona', 'via garibaldi', '01 Apr 2008', 7);
+const m8 = metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 8);
+const m9 = metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 9);
+const m10 = metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 10);
 const b1 = blockModel(
   '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}',
   0,
@@ -238,5 +241,10 @@ saveMeta(m2);
 saveMeta(m3);
 saveMeta(m4);
 saveMeta(m5);
+saveMeta(m6);
+saveMeta(m7);
+saveMeta(m8);
+saveMeta(m9);
+saveMeta(m10);
 
 saveBlock(b1);

@@ -5,6 +5,7 @@ import TagCreation from '../TagCreation';
 import PaperLister from '../PaperLister';
 import Paper from '../Paper';
 import {Animated, Easing, Text, TextInput, View} from 'react-native';
+import CreateTag from '../CreateTag';
 const Stack = createStackNavigator();
 
 export default class Navigator extends React.Component {
@@ -36,6 +37,11 @@ export default class Navigator extends React.Component {
           options={{headerShown: false}}
           name="paper"
           component={Paper}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="create_tag"
+          component={CreateTag}
         />
       </Stack.Navigator>
     );

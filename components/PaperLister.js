@@ -9,13 +9,8 @@ import {
   Easing,
   Dimensions,
 } from 'react-native';
-import {ListItem, SearchBar} from 'react-native-elements';
-import {
-  deleteInfo,
-  findAllInfo,
-  findAllTag,
-  findMetaByTagId,
-} from './database/Paperbase';
+import ListItem from './ListItem';
+import {deleteInfo, findAllInfo, findMetaByTagId} from './database/Paperbase';
 import {formatDate} from './Utility';
 import MatIcon from 'react-native-vector-icons/MaterialIcons';
 import MatCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -48,7 +43,6 @@ class PaperLister extends React.Component {
             backgroundColor: '#000',
             height: 70,
             width: '100%',
-            marginBottom: 10,
             shadowColor: '#000',
             shadowOffset: {
               width: 0,
@@ -161,17 +155,11 @@ class PaperLister extends React.Component {
           data={this.state.infos}
           renderItem={(obj, index) => {
             return (
-              <TouchableOpacity
-                onPress={() => this._switcherPaper(obj.item.id,obj.item.negozio)}
-                onLongPress={() => this._showInfoHeaderBtn(obj.item)}>
-                <ListItem
-                  title={obj.item.negozio}
-                  subtitle={obj.item.indirizzo}
-                  rightTitle={formatDate(obj.item.data)}
-                  rightSubtitle={''}
-                  bottomDivider
-                />
-              </TouchableOpacity>
+              <ListItem
+                onPress={this._switcherPaper}
+                onLongPress={this._showInfoHeaderBtn}
+                element={obj.item}
+              />
             );
           }}
           keyExtractor={item => item.id.toString()}
@@ -309,3 +297,21 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(PaperLister);
+
+/*
+
+<TouchableOpacity
+
+                <ListItem
+                  title={obj.item.negozio}
+                  titleStyle={{fontSize:20, fontFamily:'IBMPlexSerif-Medium'}}
+                  subtitle={obj.item.indirizzo}
+                  subtitleStyle={{fontSize:15,fontFamily:'IBMPlexSerif-Regular' }}
+                  leftAvatar={<View style={{width:30, height:30, borderRadius:20, justifyContent:'center', alignItems:'center', backgroundColor:'#cc3f0e'}}><Text style={{color:'#fff', fontSize:22,fontFamily:'IBMPlexSerif-SemiBold'}}>S</Text></View>}
+                  rightTitle={formatDate(obj.item.data)}
+                  rightSubtitle={''}
+                  bottomDivider
+
+                />
+              </TouchableOpacity>
+ */

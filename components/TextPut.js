@@ -38,15 +38,15 @@ export default class TextPut extends React.Component {
       content,
       rightCmpAction,
     } = this.props;
-
     return (
       <View style={{marginTop: 10}}>
         <Text
           style={{
-            paddingLeft: 20,
             fontFamily: 'BrandonGrotesque-Medium',
             fontSize: 17,
             color: '#210E4A',
+            marginBottom: 5,
+            textAlign: 'center',
           }}>
           {label}
         </Text>
@@ -55,15 +55,16 @@ export default class TextPut extends React.Component {
           placeholderTextColor={'#919291'}
           onChangeText={text => inputValue(text)}
           style={{
-            height: 40,
+            backgroundColor: '#f1f3f4',
+            height: 60,
             borderColor: 'gray',
-            borderBottomWidth: 1,
-            borderBottomColor: '#bfbfbf',
-            fontSize: 17,
+            borderBottomWidth: 2,
+            borderBottomColor: '#3D83FE',
+            fontSize: 20,
             paddingRight: 30,
-            paddingLeft: 20,
+            paddingLeft: 10,
             fontFamily: 'BrandonGrotesque-Light',
-            color: '#3D83FE',
+            color: '#000000',
           }}
           value={this._getValue(content)}
         />
@@ -74,7 +75,7 @@ export default class TextPut extends React.Component {
 
   _getValue(content) {
     if (content !== undefined) {
-      return content.value;
+      return content;
     }
   }
 }

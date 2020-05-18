@@ -54,6 +54,18 @@
 		81E019F1099D42F4B2D4C2CC /* IBMPlexSerif-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CAA092A8ACE440A8F6270C9 /* IBMPlexSerif-SemiBoldItalic.ttf */; };
 		0DFF2CD3DD274C57B11EFC91 /* IBMPlexSerif-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D45E69118E364D8EBB0E03EA /* IBMPlexSerif-Thin.ttf */; };
 		B099383D2AD44FC6A690E699 /* IBMPlexSerif-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F47852588AC247329A0B58BD /* IBMPlexSerif-ThinItalic.ttf */; };
+		728EDA145F8B4FCBA7C056F7 /* BrandonGrotesque-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25BBCDFBBBE1474DB1BF8FAB /* BrandonGrotesque-Black.ttf */; };
+		05514E1C5FE74D5DAF1EEEF5 /* BrandonGrotesque-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DC584E0CD144238AD4B842F /* BrandonGrotesque-BlackItalic.ttf */; };
+		6190E7590A8E4EA1A3CCE6A0 /* BrandonGrotesque-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 728C614986794D948B02F2A3 /* BrandonGrotesque-Bold.ttf */; };
+		C22F0612C1BC4F04B7228B81 /* BrandonGrotesque-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE2AABD31EE84E02BE5CFE40 /* BrandonGrotesque-BoldItalic.ttf */; };
+		B38765737CE34D5BAF546FB1 /* BrandonGrotesque-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 70B3C565682C4A0B8F65B963 /* BrandonGrotesque-Light.ttf */; };
+		73EAD6DB2D744C6AAB981EE0 /* BrandonGrotesque-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D90EC847C46C42C1BF6CDD26 /* BrandonGrotesque-LightItalic.ttf */; };
+		1F31CA1F71E84B6C8F3F1824 /* BrandonGrotesque-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7948DF6678742BABF76851A /* BrandonGrotesque-Medium.ttf */; };
+		520057E0724E4B6E926CC4D5 /* BrandonGrotesque-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 607BBFFC1234422B94EB11D3 /* BrandonGrotesque-MediumItalic.ttf */; };
+		B8263FFB902C439A8C512B86 /* BrandonGrotesque-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8299E626966477F96D38F00 /* BrandonGrotesque-Regular.ttf */; };
+		1CC652CAB2EE4D9DB430ED71 /* BrandonGrotesque-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAF2188FD4E4AE99E0518C5 /* BrandonGrotesque-RegularItalic.ttf */; };
+		81CC34ACD3954F07B0FA53EB /* BrandonGrotesque-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31279F1DF1D7495EA64D4667 /* BrandonGrotesque-Thin.ttf */; };
+		3B162947AB374140B03D9307 /* BrandonGrotesque-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14DBE139D52D44BB847BBBFA /* BrandonGrotesque-ThinItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +147,18 @@
 		1CAA092A8ACE440A8F6270C9 /* IBMPlexSerif-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "IBMPlexSerif-SemiBoldItalic.ttf"; path = "../assets/fonts/IBM-Plex-Serif/IBMPlexSerif-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		D45E69118E364D8EBB0E03EA /* IBMPlexSerif-Thin.ttf */ = {isa = PBXFileReference; name = "IBMPlexSerif-Thin.ttf"; path = "../assets/fonts/IBM-Plex-Serif/IBMPlexSerif-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F47852588AC247329A0B58BD /* IBMPlexSerif-ThinItalic.ttf */ = {isa = PBXFileReference; name = "IBMPlexSerif-ThinItalic.ttf"; path = "../assets/fonts/IBM-Plex-Serif/IBMPlexSerif-ThinItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		25BBCDFBBBE1474DB1BF8FAB /* BrandonGrotesque-Black.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-Black.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9DC584E0CD144238AD4B842F /* BrandonGrotesque-BlackItalic.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-BlackItalic.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-BlackItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		728C614986794D948B02F2A3 /* BrandonGrotesque-Bold.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-Bold.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DE2AABD31EE84E02BE5CFE40 /* BrandonGrotesque-BoldItalic.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-BoldItalic.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		70B3C565682C4A0B8F65B963 /* BrandonGrotesque-Light.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-Light.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D90EC847C46C42C1BF6CDD26 /* BrandonGrotesque-LightItalic.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-LightItalic.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C7948DF6678742BABF76851A /* BrandonGrotesque-Medium.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-Medium.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		607BBFFC1234422B94EB11D3 /* BrandonGrotesque-MediumItalic.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-MediumItalic.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F8299E626966477F96D38F00 /* BrandonGrotesque-Regular.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-Regular.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9FAF2188FD4E4AE99E0518C5 /* BrandonGrotesque-RegularItalic.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-RegularItalic.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-RegularItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		31279F1DF1D7495EA64D4667 /* BrandonGrotesque-Thin.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-Thin.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		14DBE139D52D44BB847BBBFA /* BrandonGrotesque-ThinItalic.ttf */ = {isa = PBXFileReference; name = "BrandonGrotesque-ThinItalic.ttf"; path = "../assets/fonts/Brandon-Grotesque/BrandonGrotesque-ThinItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +312,18 @@
 				1CAA092A8ACE440A8F6270C9 /* IBMPlexSerif-SemiBoldItalic.ttf */,
 				D45E69118E364D8EBB0E03EA /* IBMPlexSerif-Thin.ttf */,
 				F47852588AC247329A0B58BD /* IBMPlexSerif-ThinItalic.ttf */,
+				25BBCDFBBBE1474DB1BF8FAB /* BrandonGrotesque-Black.ttf */,
+				9DC584E0CD144238AD4B842F /* BrandonGrotesque-BlackItalic.ttf */,
+				728C614986794D948B02F2A3 /* BrandonGrotesque-Bold.ttf */,
+				DE2AABD31EE84E02BE5CFE40 /* BrandonGrotesque-BoldItalic.ttf */,
+				70B3C565682C4A0B8F65B963 /* BrandonGrotesque-Light.ttf */,
+				D90EC847C46C42C1BF6CDD26 /* BrandonGrotesque-LightItalic.ttf */,
+				C7948DF6678742BABF76851A /* BrandonGrotesque-Medium.ttf */,
+				607BBFFC1234422B94EB11D3 /* BrandonGrotesque-MediumItalic.ttf */,
+				F8299E626966477F96D38F00 /* BrandonGrotesque-Regular.ttf */,
+				9FAF2188FD4E4AE99E0518C5 /* BrandonGrotesque-RegularItalic.ttf */,
+				31279F1DF1D7495EA64D4667 /* BrandonGrotesque-Thin.ttf */,
+				14DBE139D52D44BB847BBBFA /* BrandonGrotesque-ThinItalic.ttf */,
 			);
 			name = Resources;
 			path = "";
@@ -487,6 +523,18 @@
 				81E019F1099D42F4B2D4C2CC /* IBMPlexSerif-SemiBoldItalic.ttf in Resources */,
 				0DFF2CD3DD274C57B11EFC91 /* IBMPlexSerif-Thin.ttf in Resources */,
 				B099383D2AD44FC6A690E699 /* IBMPlexSerif-ThinItalic.ttf in Resources */,
+				728EDA145F8B4FCBA7C056F7 /* BrandonGrotesque-Black.ttf in Resources */,
+				05514E1C5FE74D5DAF1EEEF5 /* BrandonGrotesque-BlackItalic.ttf in Resources */,
+				6190E7590A8E4EA1A3CCE6A0 /* BrandonGrotesque-Bold.ttf in Resources */,
+				C22F0612C1BC4F04B7228B81 /* BrandonGrotesque-BoldItalic.ttf in Resources */,
+				B38765737CE34D5BAF546FB1 /* BrandonGrotesque-Light.ttf in Resources */,
+				73EAD6DB2D744C6AAB981EE0 /* BrandonGrotesque-LightItalic.ttf in Resources */,
+				1F31CA1F71E84B6C8F3F1824 /* BrandonGrotesque-Medium.ttf in Resources */,
+				520057E0724E4B6E926CC4D5 /* BrandonGrotesque-MediumItalic.ttf in Resources */,
+				B8263FFB902C439A8C512B86 /* BrandonGrotesque-Regular.ttf in Resources */,
+				1CC652CAB2EE4D9DB430ED71 /* BrandonGrotesque-RegularItalic.ttf in Resources */,
+				81CC34ACD3954F07B0FA53EB /* BrandonGrotesque-Thin.ttf in Resources */,
+				3B162947AB374140B03D9307 /* BrandonGrotesque-ThinItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

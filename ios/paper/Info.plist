@@ -89,6 +89,18 @@
 		<string>IBMPlexSerif-SemiBoldItalic.ttf</string>
 		<string>IBMPlexSerif-Thin.ttf</string>
 		<string>IBMPlexSerif-ThinItalic.ttf</string>
+		<string>BrandonGrotesque-Black.ttf</string>
+		<string>BrandonGrotesque-BlackItalic.ttf</string>
+		<string>BrandonGrotesque-Bold.ttf</string>
+		<string>BrandonGrotesque-BoldItalic.ttf</string>
+		<string>BrandonGrotesque-Light.ttf</string>
+		<string>BrandonGrotesque-LightItalic.ttf</string>
+		<string>BrandonGrotesque-Medium.ttf</string>
+		<string>BrandonGrotesque-MediumItalic.ttf</string>
+		<string>BrandonGrotesque-Regular.ttf</string>
+		<string>BrandonGrotesque-RegularItalic.ttf</string>
+		<string>BrandonGrotesque-Thin.ttf</string>
+		<string>BrandonGrotesque-ThinItalic.ttf</string>
 	</array>
 </dict>
 </plist>

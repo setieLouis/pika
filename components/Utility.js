@@ -15,11 +15,5 @@ export function formatDate(date, sep = '  ') {
     'Dic',
   ];
   const day = date.getDate();
-  return (
-    (day < 10 ? '0' + day : day.toString()) +
-    sep +
-    Month[date.getMonth()] +
-    sep +
-    date.getFullYear()
-  );
+  return Month[date.getMonth()] + sep + (day < 10 ? '0' + day : day.toString());
 }

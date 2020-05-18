@@ -2,15 +2,13 @@ import React from 'react';
 import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import AwsIcon from 'react-native-vector-icons/FontAwesome';
 import Aws5Icon from 'react-native-vector-icons/FontAwesome5';
-import {color} from 'react-native-reanimated';
-const windowWidth = Math.ceil(Dimensions.get('window').width - 360) / 3;
 
+const windowWidth = Math.ceil(Dimensions.get('window').width - 360) / 3;
 const width = Dimensions.get('window').width;
 const blockWidth = (width - 20) / 2;
 export default class PaperContainer extends React.Component {
   render() {
     const {tag, pressAction, longPressAction} = this.props;
-    console.log(tag);
     return (
       <View
         style={{
