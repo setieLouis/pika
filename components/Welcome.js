@@ -33,13 +33,15 @@ const adderRight = Dimensions.get('window').width - 80;
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 const overlayWidth = Math.floor((width * 90) / 100);
+
+const blockWidth = (width - 20) / 2;
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
 
     this.folderIconName = undefined;
-
     this.state = {
+      mainBodyBackground: '#f1f3f4',
       headerBtn: new Animated.Value(0),
       headerBtnIndex: 0,
       folderTitleOverlay: false,
@@ -59,7 +61,7 @@ class Welcome extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: this.state.mainBodyBackground}}>
         <View
           style={{
             backgroundColor: '#000',
@@ -117,7 +119,10 @@ class Welcome extends React.Component {
             ]}>
             <TouchableOpacity
               style={{marginLeft: 15}}
-              onPress={this._cancelHeaderBtn}>
+              onPress={() => {
+                this.folder = {id: -1};
+                this._cancelHeaderBtn();
+              }}>
               <AntIcon name={'close'} size={30} color={'#0384fc'} />
             </TouchableOpacity>
             <View style={{flexDirection: 'row', marginRight: 15}}>
@@ -135,6 +140,15 @@ class Welcome extends React.Component {
             </View>
           </Animated.View>
         </View>
+
+        {/**
+
+           ===============================
+           =          FOLDER LIST        =
+           ===============================
+
+           **/}
+
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
@@ -142,6 +156,7 @@ class Welcome extends React.Component {
           renderItem={obj => {
             return (
               <PaperContainer
+                idCurr={this.folder == undefined ? -1 : this.folder.id}
                 tag={obj.item}
                 pressAction={this._switcherLister}
                 longPressAction={this._showHeaderLeftBtn}
@@ -150,7 +165,8 @@ class Welcome extends React.Component {
           }}
           keyExtractor={(item, index) => index.toString()}
         />
-          {/**
+
+        {/**
 
            ===============================
            =      CREATE FOLDER BTN      =
@@ -250,7 +266,6 @@ class Welcome extends React.Component {
            =        EMPTY OVERLAY        =
            ===============================
           **/}
-        <EmptyOverlay visible={true} />
       </View>
     );
   }
@@ -264,7 +279,6 @@ class Welcome extends React.Component {
   };
   _showHeaderLeftBtn = tag => {
     this.folder = tag;
-    console.log(this.folder);
     this.setState(
       {
         headerBtnIndex: 2,
@@ -349,6 +363,7 @@ class Welcome extends React.Component {
   _hideOverlayContainer = () => {
     //console.log('=================');
     Keyboard.dismiss();
+    this.folder = {id: -1};
     this.setState(
       {
         shadowElevation: 5,
