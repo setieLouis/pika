@@ -12,7 +12,9 @@ const posCheck = Math.ceil((blockWidth * 33) / 100);
 export default class PaperContainer extends React.Component {
   render() {
     const {tag, pressAction, longPressAction, idCurr} = this.props;
-
+    console.log('=========== on presente =========== ')
+    console.log(idCurr)
+    console.log('=========== on presente =========== ')
     let zindexBlocked = 0;
     let opacityBlocked = 0;
 

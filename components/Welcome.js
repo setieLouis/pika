@@ -13,34 +13,24 @@ import PaperContainer from './PaperContainer';
 import ICONS from './static/ICONS';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import AntIcon from 'react-native-vector-icons/AntDesign';
-import Aws5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {connect} from 'react-redux';
-import {
-  findAllTag,
-  deleteTag,
-  tagId,
-  saveTag,
-  tagModel,
-} from './database/Paperbase';
-import IconOverlay from './IconOverlay';
+import {findAllTag, deleteTag, tagModel, saveTag} from './database/Paperbase';
 import TextPut from './TextPut';
 import OverlayIconRender from './OverlayIconRender';
-import EmptyOverlay from './EmptyOverlay';
 
 const adderTop = Dimensions.get('window').height - 80;
 const adderRight = Dimensions.get('window').width - 80;
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
-const overlayWidth = Math.floor((width * 90) / 100);
 
-const blockWidth = (width - 20) / 2;
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
 
     this.folderIconName = undefined;
     this.state = {
+      folders: findAllTag(),
       mainBodyBackground: '#f1f3f4',
       headerBtn: new Animated.Value(0),
       headerBtnIndex: 0,
@@ -48,20 +38,24 @@ class Welcome extends React.Component {
 
       // Overlay statee
       showFolderName: false,
-      showIconOveralay: false,
       iconContainerPos: new Animated.Value(width),
       nameContainerPos: new Animated.Value(0),
       overlayContianerOp: new Animated.Value(0),
       overlayContianerInd: -1,
       shadowElevation: 5,
     };
-
-    this._addTagList(findAllTag());
   }
 
   render() {
     return (
       <View style={{flex: 1, backgroundColor: this.state.mainBodyBackground}}>
+        {/**
+
+           ===============================
+           =       HEADER WRAPPER        =
+           ===============================
+
+         **/}
         <View
           style={{
             backgroundColor: '#000',
@@ -76,6 +70,13 @@ class Welcome extends React.Component {
             shadowRadius: 2.22,
             elevation: this.state.shadowElevation,
           }}>
+          {/**
+
+             ===============================
+             =         MAIN HEADER         =
+             ===============================
+
+             **/}
           <View
             style={{
               flexDirection: 'row',
@@ -101,6 +102,13 @@ class Welcome extends React.Component {
               Paper
             </Text>
           </View>
+          {/**
+
+             ===============================
+             =    UPDATE FOLDER HEADER     =
+             ===============================
+
+           **/}
           <Animated.View
             style={[
               {
@@ -120,8 +128,8 @@ class Welcome extends React.Component {
             <TouchableOpacity
               style={{marginLeft: 15}}
               onPress={() => {
-                this.folder = {id: -1};
-                this._cancelHeaderBtn();
+                this._hideHeaderLeftBtn();
+                this._resetSelected();
               }}>
               <AntIcon name={'close'} size={30} color={'#0384fc'} />
             </TouchableOpacity>
@@ -131,7 +139,9 @@ class Welcome extends React.Component {
                 onPress={this._headerUpdateTagAction}>
                 <AntIcon name={'form'} size={25} color={'#0384fc'} />
               </TouchableOpacity>
-              <TouchableOpacity style={{margin: 5}} onPress={this._deleteTag}>
+              <TouchableOpacity
+                style={{margin: 5}}
+                onPress={this._deleteFolder}>
                 <AntIcon name={'delete'} size={25} color={'#0384fc'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
@@ -140,23 +150,21 @@ class Welcome extends React.Component {
             </View>
           </Animated.View>
         </View>
-
         {/**
 
            ===============================
            =          FOLDER LIST        =
            ===============================
 
-           **/}
-
+         **/}
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          data={this.props.tags}
+          data={this.state.folders}
           renderItem={obj => {
             return (
               <PaperContainer
-                idCurr={this.folder == undefined ? -1 : this.folder.id}
+                idCurr={this.selected == undefined ? -1 : this.selected.id}
                 tag={obj.item}
                 pressAction={this._switcherLister}
                 longPressAction={this._showHeaderLeftBtn}
@@ -165,14 +173,13 @@ class Welcome extends React.Component {
           }}
           keyExtractor={(item, index) => index.toString()}
         />
-
         {/**
 
            ===============================
            =      CREATE FOLDER BTN      =
            ===============================
 
-           **/}
+         **/}
         <TouchableOpacity
           onPress={() => this._createFolder()}
           style={{
@@ -199,15 +206,12 @@ class Welcome extends React.Component {
         <View
           style={{width, height, position: 'absolute', backgroundColor: '000'}}
         />
-
         {/**
 
            ===============================
-           =       CREATE FOLDER         =
+           =   CREATE FOLDER  OVERLAY    =
            ===============================
-
-          **/}
-
+         **/}
         <Animated.View
           style={{
             position: 'absolute',
@@ -226,9 +230,7 @@ class Welcome extends React.Component {
             style={{position: 'absolute', left: this.state.nameContainerPos}}>
             {overlayBodyContaner(
               200,
-              this._AddFolderOverlay(
-                this.folder === undefined ? '' : this.folder.tag,
-              ),
+              addFolderOverlay(this.state.folderName, this._setFolderName),
               'Icon',
               undefined,
               undefined,
@@ -253,32 +255,27 @@ class Welcome extends React.Component {
                     : this.folderIconName;
                 this.folder = {...this.folder, icon: name};
 
-                this._hideOverlayContainer();
                 this._saveFolder(this.folder);
+                this._hideOverlayContainer();
               },
               () => this._hideOverlayContainer,
             )}
           </Animated.View>
         </Animated.View>
-
-        {/**
-           ===============================
-           =        EMPTY OVERLAY        =
-           ===============================
-          **/}
       </View>
     );
   }
+  /**
+ *******************************
+        HIDE SHOW METHOD
+ *******************************
+**/
 
-  _addTagList = tags => {
-    const action = {
-      type: 'ADD_TAG_LIST',
-      value: tags,
-    };
-    this.props.dispatch(action);
-  };
+  /**
+ =    UPDATE FOLDER HEADER    =
+ **/
   _showHeaderLeftBtn = tag => {
-    this.folder = tag;
+    this.selected = tag;
     this.setState(
       {
         headerBtnIndex: 2,
@@ -307,42 +304,11 @@ class Welcome extends React.Component {
     });
   };
 
-  _switcherOne = tag => {
-    if (this.folder) {
-      return;
-    }
-    // this._showFolderOveraly();
-    //this.props.navigation.navigate('create_tag', {tag: tag});
-  };
-
-  _switcherLister = (id, nome) => {
-    if (this.folder) {
-      return;
-    }
-    this.props.navigation.navigate('Lister', {tag: id, nome: nome});
-  };
-
-  _deleteTag = () => {
-    const action = {
-      type: 'DELETE_TAG',
-      value: this.folder,
-    };
-    this.props.dispatch(action);
-    deleteTag(this.focusTag);
-    this._hideHeaderLeftBtn();
-  };
-
-  _cancelHeaderBtn = () => {
-    this._hideHeaderLeftBtn();
-  };
-
   /**
-     ==================================
-     ======= Overlay function =========
-     ==================================
-     **/
+    =   CREATE FOLDER  OVERLAY    =
+    **/
+
   _showoverlayContainer = () => {
-    //console.log('=================');
     this.setState(
       {
         overlayCurrIconId: -1,
@@ -361,9 +327,8 @@ class Welcome extends React.Component {
   };
 
   _hideOverlayContainer = () => {
-    //console.log('=================');
+    this._resetSelected();
     Keyboard.dismiss();
-    this.folder = {id: -1};
     this.setState(
       {
         shadowElevation: 5,
@@ -387,8 +352,19 @@ class Welcome extends React.Component {
     );
   };
 
+  /**
+     *******************************
+     HEADER BTN ACTION
+     *******************************
+     **/
+
+  /**
+     =   UPDATE FOLDER    =
+     **/
+
   _headerUpdateTagAction = () => {
     this._hideHeaderLeftBtn();
+    this.folder = this.selected;
     this.setState(
       {
         folderName: this.folder.tag,
@@ -398,66 +374,120 @@ class Welcome extends React.Component {
     );
   };
 
+  _deleteFolder = () => {
+    this.setState(
+      {
+        folders: this.state.folders.filter(f => f.id !== this.selected.id),
+      },
+      () => {
+        deleteTag(this.selected);
+        this._resetSelected();
+        this._hideHeaderLeftBtn();
+      },
+    );
+  };
+
   _createFolder() {
     this.folder = {id: -1, tag: '', icon: 'cocktail'};
     this.folderIconName = undefined;
     this._showoverlayContainer();
   }
 
+  /**
+     *******************************
+     CREATE FOLDER OVERLAY  Action
+     *******************************
+   **/
+
+  /** save folder on view and on database **/
   _saveFolder = folder => {
-    //SAVE ON DATABASE
-    let id = folder.id;
-    let actionType = 'UPDATE_TAG';
-    if (id === -1) {
-      id = tagId();
-      actionType = 'ADD_NEW_TAGS';
+    const currfolder = tagModel(folder.tag, folder.icon, folder.id);
+
+    // update change on view
+    let tmpFolder = this.state.folders;
+    if (this.folder.id !== -1) {
+      tmpFolder = tmpFolder.filter(f => f.id !== this.folder.id);
     }
-    console.log('======== check ============');
-    console.log(this.folder);
-
-    saveTag(tagModel(folder.tag, folder.icon, folder.id));
-
-    // Redux pero unitile
-    /*const action = {
-          type: actionType,
-          value: folder,
-        };
-        this.props.dispatch(action);
-        this.props.navigation.navigate('welcome');*/
-  };
-
-  _hideFolderOveraly = () => {
     this.setState(
       {
-        showFolderName: false,
+        folders: [...tmpFolder, currfolder],
       },
-      this._showIconOveraly(),
+      () => {
+        this._resetSelected();
+        // save update on database
+        saveTag(currfolder);
+      },
     );
   };
 
-  _showIconOveraly() {
-    this.setState({
-      showIconOveralay: true,
-    });
+  _resetSelected() {
+    this.selected = {id: -1};
   }
 
-  _hideIconOveraly = () => {
+  /** get set the folder name on state variable **/
+  _setFolderName = text => {
     this.setState({
-      showIconOveralay: false,
+      folderName: text,
     });
   };
 
-  _AddFolderOverlay(content) {
-    return (
-      <TextPut
-        label={'Create Folder'}
-        placeholder={'Folder name'}
-        content={this.state.folderName}
-        inputValue={this._setFolderName}
-      />
-    );
-  }
+  /** overlay btn icon Action **/
+  _folderNameAction = () => {
+    Keyboard.dismiss();
+    const timeOut = setTimeout(() => {
+      Animated.parallel([
+        Animated.timing(this.state.nameContainerPos, {
+          toValue: -400,
+          duration: 500,
+          easing: Easing.linear(),
+          useNativeDriver: false,
+        }),
+        Animated.timing(this.state.iconContainerPos, {
+          toValue: 0,
+          duration: 500,
+          easing: Easing.linear(),
+          useNativeDriver: false,
+        }),
+      ]).start(() => {});
+      clearTimeout(clearTimeout);
+    }, 800);
 
+    const name =
+      this.state.folderName === undefined || this.state.folderName === ''
+        ? 'untitle folder'
+        : this.state.folderName;
+
+    this.folder = {icon: this.folder.icon, id: this.folder.id, tag: name};
+  };
+
+  /** Icon View previous Action **/
+  _overlayPreviousaction = () => {
+    Animated.parallel([
+      Animated.timing(this.state.nameContainerPos, {
+        toValue: 0,
+
+        duration: 500,
+        easing: Easing.linear(),
+        useNativeDriver: false,
+      }),
+      Animated.timing(this.state.iconContainerPos, {
+        toValue: width,
+        duration: 500,
+        easing: Easing.linear(),
+        useNativeDriver: false,
+      }),
+    ]).start();
+  };
+
+  /**
+     *******************************
+     SWITCH ON ANOTHER VIEW
+     *******************************
+     **/
+  /** move to paper list View **/
+  _switcherLister = (id, nome) => {
+    this.props.navigation.navigate('Lister', {tag: id, nome: nome});
+  };
   _overLayIconBody() {
     return (
       <FlatList
@@ -479,64 +509,6 @@ class Welcome extends React.Component {
       />
     );
   }
-
-  _setFolderName = text => {
-    this.setState({
-      folderName: text,
-    });
-  };
-
-  _folderNameAction = () => {
-    Keyboard.dismiss();
-
-    setTimeout(() => {
-      Animated.parallel([
-        Animated.timing(this.state.nameContainerPos, {
-          toValue: -400,
-          duration: 500,
-          easing: Easing.linear(),
-          useNativeDriver: false,
-        }),
-        Animated.timing(this.state.iconContainerPos, {
-          toValue: 0,
-          duration: 500,
-          easing: Easing.linear(),
-          useNativeDriver: false,
-        }),
-      ]).start(() => {});
-    }, 800);
-
-    const name =
-      this.state.folderName === undefined || this.state.folderName === ''
-        ? 'untitle folder'
-        : this.state.folderName;
-    console.log('======= FIRST ==========');
-    console.log(this.folder);
-
-    this.folder = {icon: this.folder.icon, id: this.folder.id, tag: name};
-
-    console.log('======= AFTER ==========');
-    console.log(this.folder);
-    console.log('======= END ==========');
-  };
-
-  _overlayPreviousaction = () => {
-    Animated.parallel([
-      Animated.timing(this.state.nameContainerPos, {
-        toValue: 0,
-
-        duration: 500,
-        easing: Easing.linear(),
-        useNativeDriver: false,
-      }),
-      Animated.timing(this.state.iconContainerPos, {
-        toValue: width,
-        duration: 500,
-        easing: Easing.linear(),
-        useNativeDriver: false,
-      }),
-    ]).start();
-  };
 }
 const mapStateToProps = state => {
   return {
@@ -549,8 +521,24 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(Welcome);
 
 const overlayWdth = Math.floor((Dimensions.get('window').width * 85) / 100);
-const overlayHgth = Math.floor((Dimensions.get('window').height * 90) / 100);
-const marginLeft = (overlayWdth - 320) / 2;
+
+/**
+ *******************************
+ CREATE FOLDER OVERLAY  VIEW
+ *******************************
+ **/
+
+/** folder name input view **/
+function addFolderOverlay(folderName, setFolderName) {
+  return (
+    <TextPut
+      label={'Create Folder'}
+      placeholder={'Folder name'}
+      content={folderName}
+      inputValue={setFolderName}
+    />
+  );
+}
 
 function overlayBodyContaner(
   height,
