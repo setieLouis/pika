@@ -7,9 +7,8 @@ const windowWidth = Math.ceil(Dimensions.get('window').width - 360) / 3;
 const width = Dimensions.get('window').width;
 const blockWidth = (width - 20) / 2;
 
-
-const posIcon = Math.ceil((blockWidth * 40 )/ 100)
-const posCheck = Math.ceil((blockWidth * 33 )/ 100)
+const posIcon = Math.ceil((blockWidth * 40) / 100);
+const posCheck = Math.ceil((blockWidth * 33) / 100);
 export default class PaperContainer extends React.Component {
   render() {
     const {tag, pressAction, longPressAction, idCurr} = this.props;
@@ -28,9 +27,6 @@ export default class PaperContainer extends React.Component {
       zindexBlocked = 1;
       opacityBlocked = 1;
     }
-
-    console.log(blockWidth)
-
     return (
       <View style={{}}>
         <View
@@ -66,11 +62,11 @@ export default class PaperContainer extends React.Component {
               width: 60,
               height: 60,
               borderRadius: 30,
-              backgroundColor: '#74d4c0',
+              backgroundColor: '#32e647',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Aws5Icon name={'check'} size={25} color={'#fff'} />
+            <Aws5Icon name={'check'} size={28} color={'#fff'} />
           </View>
         </View>
 
@@ -86,7 +82,12 @@ export default class PaperContainer extends React.Component {
             alignItems: 'center',
           }}>
           <View
-            style={{position: 'absolute', left: posIcon, top: '35%', zIndex: 1}}>
+            style={{
+              position: 'absolute',
+              left: posIcon,
+              top: '35%',
+              zIndex: 1,
+            }}>
             <Aws5Icon name={tag.icon} size={35} color={'#fff'} />
           </View>
 
