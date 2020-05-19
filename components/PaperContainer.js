@@ -3,7 +3,6 @@ import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import AwsIcon from 'react-native-vector-icons/FontAwesome';
 import Aws5Icon from 'react-native-vector-icons/FontAwesome5';
 
-const windowWidth = Math.ceil(Dimensions.get('window').width - 360) / 3;
 const width = Dimensions.get('window').width;
 const blockWidth = (width - 20) / 2;
 
@@ -12,9 +11,7 @@ const posCheck = Math.ceil((blockWidth * 33) / 100);
 export default class PaperContainer extends React.Component {
   render() {
     const {tag, pressAction, longPressAction, idCurr} = this.props;
-    console.log('=========== on presente =========== ')
-    console.log(idCurr)
-    console.log('=========== on presente =========== ')
+
     let zindexBlocked = 0;
     let opacityBlocked = 0;
 
@@ -110,44 +107,3 @@ export default class PaperContainer extends React.Component {
     );
   }
 }
-
-/**
- *
- *
- *
- <View
- style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-
- <Text style={{color: '#0384fc'}}>{tag.tag + tag.id}</Text>
- </View>
-
-
- style={{
-
-          borderRadius: 2,
-          backgroundColor: '#fff',
-
-
-          borderWidth: 1,
-          borderColor: '#e4e9ed',
-          /*shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowOpacity: 0.22,
-          shadowRadius: 2.22,
-
-          elevation: 3,*/
-/**marginBottom: windowWidth,
- borderWidth: 1,
- borderColor: '#edeff2',
-}}>
-
-
-</TouchableOpacity>
- **/

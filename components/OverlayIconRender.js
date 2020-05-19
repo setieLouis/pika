@@ -30,15 +30,3 @@ export default class extends React.Component {
     );
   }
 }
-
-/**
- {
-      ,
-          () => {
-            console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-            console.log(this.state.overlayCurrIconId);
-            console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-          },
-        );
-      }
- **/
