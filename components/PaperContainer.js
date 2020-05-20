@@ -90,7 +90,7 @@ export default class PaperContainer extends React.Component {
             <Aws5Icon name={tag.icon} size={35} color={'#fff'} />
           </View>
 
-          <AwsIcon name={'folder'} size={120} color={'#0384fc'} />
+          <AwsIcon name={'folder'} size={120} color={'#5588a3'} />
 
           <Text
             onPress={pressAction}

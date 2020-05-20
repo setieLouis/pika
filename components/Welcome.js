@@ -189,19 +189,21 @@ class Welcome extends React.Component {
             width: 60,
             height: 60,
             borderRadius: 30,
+            borderWidth: 1,
+            borderColor: 'rgba(218,225,231,0.75)',
             position: 'absolute',
             left: adderRight,
             top: adderTop,
             shadowColor: '#000',
             shadowOffset: {
-              width: 0,
+              width: 10,
               height: 20,
             },
-            shadowOpacity: 0.22,
+            shadowOpacity: 1,
             shadowRadius: 2.22,
             elevation: this.state.shadowElevation,
           }}>
-          <Icon name={'plus'} size={30} color={'#0384fc'} />
+          <Icon name={'plus'} size={30} color={'#5588a3'} />
         </TouchableOpacity>
         <View
           style={{width, height, position: 'absolute', backgroundColor: '000'}}
