@@ -17,7 +17,7 @@ export default class Navigator extends React.Component {
   }
   render() {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName={'paperLister'}>
         <Stack.Screen
           options={{headerShown: false}}
           name={'welcome'}
@@ -30,7 +30,7 @@ export default class Navigator extends React.Component {
         />
         <Stack.Screen
           options={{headerShown: false}}
-          name="Lister"
+          name="paperLister"
           component={PaperLister}
         />
         <Stack.Screen
