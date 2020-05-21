@@ -10,7 +10,12 @@ import {
   Dimensions,
 } from 'react-native';
 import ListItem from './ListItem';
-import {deleteInfo, findAllInfo, findMetaByTagId} from './database/Paperbase';
+import {
+  deleteInfo,
+  findAllInfo,
+  findMetaByTagId,
+  toArray,
+} from './database/Paperbase';
 
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
@@ -25,23 +30,18 @@ class PaperLister extends React.Component {
 
     this.infoCpy = undefined;
     this.selected = {id: -1};
+    this.realmInfos = findAllInfo();
+    this.lower = 0;
     this.state = {
       metaHeaderBtn: new Animated.Value(0),
       metaHeaderBtnIndex: 0,
       searchHeaderBtn: new Animated.Value(0),
       searchHeaderBtnIndex: 0,
-      infos: [],
+      infos: this._addInfo(), //findMetaByTagId(this.props.route.params.tag),
     };
-
-    console.log('===================');
-    //console.log(this.state.infos);
-    console.log('===================');
-
-    //this._addInfoList(findAllInfo());
   }
 
   render() {
-    console.log(this.state.infos.length);
     return (
       <View style={{flex: 1, backgroundColor: '#fff'}}>
         <View
@@ -63,7 +63,7 @@ class PaperLister extends React.Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              backgroundColor: '#fff',
+              backgroundColor: '#1089ff',
               height: 70,
               width: '100%',
               position: 'absolute',
@@ -75,22 +75,22 @@ class PaperLister extends React.Component {
             <TouchableOpacity
               style={{marginLeft: 15}}
               onPress={() => this.props.navigation.goBack()}>
-              <AntIcon name={'arrowleft'} size={30} color={'#000'} />
+              <AntIcon name={'arrowleft'} size={30} color={'#fff'} />
             </TouchableOpacity>
             <Text
               style={{
                 fontSize: 20,
                 fontFamily: 'NanumGothic-Regular',
                 textAlign: 'left',
-                color: '#000',
+                color: '#fff',
               }}>
-              {this.props.route.params.nome}
+              78ASER
             </Text>
 
             <TouchableOpacity
               style={{marginRight: 15}}
-              onPress={this._showSearchHeaderBtn}>
-              <AntIcon name={'search1'} size={25} color={'#000'} />
+              onPress={() => this._showSearchHeaderBtn()}>
+              <AntIcon name={'search1'} size={25} color={'#fff'} />
             </TouchableOpacity>
           </View>
           <Animated.View
@@ -167,18 +167,53 @@ class PaperLister extends React.Component {
               element={obj.item}
             />
           )}
-          keyExtractor={(item, index) => item.id}
+          keyExtractor={(item, index) => item.id.toString()}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            this.setState({
+              infos: [...this.state.infos, ...this._addInfo()],
+            });
+            /* console.log('================== trigger ====================');
+            console.log(this.state.infos.length);
+            this.setState(
+              {
+                infos: [)],
+              },
+              () => {
+                console.log(this.state.infos.length);
+                console.log(
+                  '================== fine trigger ====================',
+                );
+              },
+            );*/
+          }}
         />
       </View>
     );
   }
-  _addInfoList = infos => {
-    const action = {
-      type: 'ADD_INFO_LIST',
-      value: infos,
-    };
-    this.props.dispatch(action);
-  };
+
+  _addInfo() {
+    const upper =
+      this.lower + 20 > this.realmInfos.length
+        ? this.realmInfos.length
+        : this.lower + 20;
+
+    const list = this.realmInfos.slice(this.lower, upper);
+
+
+    console.log('lower first = ');
+    console.log(this.lower);
+    this.lower = upper;
+    console.log('upper = ');
+    console.log(upper);
+
+    console.log('lowe = ');
+    console.log(this.lower);
+
+    return toArray(list);
+
+    //return [];
+  }
 
   _showInfoHeaderBtn = meta => {
     this.selected = meta;
@@ -198,6 +233,7 @@ class PaperLister extends React.Component {
 
   _showSearchHeaderBtn = meta => {
     this.infoCpy = [];
+    console.log('sono nella ricerca');
     this.setState({searchHeaderBtnIndex: 2}, () => {
       Animated.timing(this.state.searchHeaderBtn, {
         toValue: 1,
@@ -216,7 +252,7 @@ class PaperLister extends React.Component {
       useNativeDriver: false,
     }).start(() => {
       this.setState({
-        headerBtnIndex: 0,
+        metaHeaderBtnIndex: 0,
       });
     });
   };
@@ -260,13 +296,11 @@ class PaperLister extends React.Component {
     this.selected = {id: -1};
   };
   _switcherPaper = (id, negozio) => {
-    if (this.infoCpy) {
-      this._cancelInfoSearch();
-    }
     this.props.navigation.navigate('paper', {info: id, negozio: negozio});
   };
 
   _filtra(text) {
+    text = text.toLowerCase();
     this.infoCpy = this.infoCpy.length > 0 ? this.infoCpy : this.state.infos;
     let tofilter =
       this.state.infos.length > 0 ? this.state.infos : this.infoCpy;
@@ -277,12 +311,6 @@ class PaperLister extends React.Component {
     list = text.length > 0 ? list : this.infoCpy;
     this.setState({
       infos: list,
-    });
-  }
-
-  componentDidMount(): void {
-    this.setState({
-      infos: findMetaByTagId(this.props.route.params.tag),
     });
   }
 }
