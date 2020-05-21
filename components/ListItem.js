@@ -9,7 +9,7 @@ export default class ListItem extends React.Component {
     let backgroundColor = '#f1f3f4';
     let color = '#426b80';
     if (idCurr.id !== -1 && idCurr.id !== element.id) {
-      zIndex = 2;
+      //zIndex = 2;
     } else if (idCurr.id === element.id) {
       backgroundColor = '#1089ff';
       color = '#fff';

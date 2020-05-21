@@ -34,7 +34,6 @@ function tagsHandler(state = initialState, action) {
       break;
     case 'UPDATE_TAG':
       list = stateTag.tags.filter(tag => tag.id !== action.value.id);
-      console.log(list);
       nextstate = {
         ...state,
         paper: {

@@ -173,19 +173,6 @@ class PaperLister extends React.Component {
             this.setState({
               infos: [...this.state.infos, ...this._addInfo()],
             });
-            /* console.log('================== trigger ====================');
-            console.log(this.state.infos.length);
-            this.setState(
-              {
-                infos: [)],
-              },
-              () => {
-                console.log(this.state.infos.length);
-                console.log(
-                  '================== fine trigger ====================',
-                );
-              },
-            );*/
           }}
         />
       </View>

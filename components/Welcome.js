@@ -488,7 +488,7 @@ class Welcome extends React.Component {
      **/
   /** move to paper list View **/
   _switcherLister = (id, nome) => {
-    this.props.navigation.navigate('Lister', {tag: id, nome: nome});
+    this.props.navigation.navigate('paperLister', {tag: id, nome: nome});
   };
   _overLayIconBody() {
     return (
