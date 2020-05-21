@@ -11,31 +11,37 @@ import {
 } from 'react-native';
 import ListItem from './ListItem';
 import {deleteInfo, findAllInfo, findMetaByTagId} from './database/Paperbase';
-import {formatDate} from './Utility';
-import MatIcon from 'react-native-vector-icons/MaterialIcons';
-import MatCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
+import {set} from 'react-native-reanimated';
 
 const width = Dimensions.get('window').width;
 const ottPerCent = Math.floor((Dimensions.get('window').width * 80) / 100);
+
 class PaperLister extends React.Component {
   constructor(props) {
     super(props);
 
     this.infoCpy = undefined;
-    this.focusMeta = undefined;
+    this.selected = {id: -1};
     this.state = {
       metaHeaderBtn: new Animated.Value(0),
       metaHeaderBtnIndex: 0,
       searchHeaderBtn: new Animated.Value(0),
       searchHeaderBtnIndex: 0,
-      infos: findMetaByTagId(this.props.route.params.tag),
+      infos: [],
     };
-    this._addInfoList(findAllInfo());
+
+    console.log('===================');
+    //console.log(this.state.infos);
+    console.log('===================');
+
+    //this._addInfoList(findAllInfo());
   }
 
   render() {
+    console.log(this.state.infos.length);
     return (
       <View style={{flex: 1, backgroundColor: '#fff'}}>
         <View
@@ -59,9 +65,7 @@ class PaperLister extends React.Component {
               alignItems: 'center',
               backgroundColor: '#fff',
               height: 70,
-
               width: '100%',
-
               position: 'absolute',
 
               left: 0,
@@ -111,7 +115,9 @@ class PaperLister extends React.Component {
               <AntIcon name={'close'} size={30} color={'#0384fc'} />
             </TouchableOpacity>
             <View style={{flexDirection: 'row', marginRight: 15}}>
-              <TouchableOpacity style={{margin: 5}} onPress={this._deleteTag}>
+              <TouchableOpacity
+                style={{margin: 5}}
+                onPress={() => this._deleteInfo()}>
                 <AntIcon name={'delete'} size={25} color={'#0384fc'} />
               </TouchableOpacity>
               <TouchableOpacity style={{margin: 5}}>
@@ -150,19 +156,18 @@ class PaperLister extends React.Component {
             />
           </Animated.View>
         </View>
+
         <FlatList
-          showsVerticalScrollIndicator={false}
           data={this.state.infos}
-          renderItem={(obj, index) => {
-            return (
-              <ListItem
-                onPress={this._switcherPaper}
-                onLongPress={this._showInfoHeaderBtn}
-                element={obj.item}
-              />
-            );
-          }}
-          keyExtractor={item => item.id.toString()}
+          renderItem={obj => (
+            <ListItem
+              onPress={this._switcherPaper}
+              onLongPress={this._showInfoHeaderBtn}
+              idCurr={this.selected}
+              element={obj.item}
+            />
+          )}
+          keyExtractor={(item, index) => item.id}
         />
       </View>
     );
@@ -176,10 +181,11 @@ class PaperLister extends React.Component {
   };
 
   _showInfoHeaderBtn = meta => {
-    if (this.focusMeta || this.infoCpy) {
-      return;
-    }
-    this.focusMeta = meta;
+    this.selected = meta;
+    this._showPutHeader();
+  };
+
+  _showPutHeader() {
     this.setState({metaHeaderBtnIndex: 2}, () => {
       Animated.timing(this.state.metaHeaderBtn, {
         toValue: 1,
@@ -188,12 +194,9 @@ class PaperLister extends React.Component {
         useNativeDriver: false,
       }).start();
     });
-  };
+  }
 
   _showSearchHeaderBtn = meta => {
-    if (this.focusMeta || this.infoCpy) {
-      return;
-    }
     this.infoCpy = [];
     this.setState({searchHeaderBtnIndex: 2}, () => {
       Animated.timing(this.state.searchHeaderBtn, {
@@ -244,25 +247,19 @@ class PaperLister extends React.Component {
   };
 
   _deleteInfo = () => {
-    /*const action = {
-      type: 'DELETE_INFO',
-      value: this.focusMeta,
-    };
-    this.props.dispatch(action);*/
+    this.setState({
+      infos: this.state.infos.filter(el => el.id !== this.selected.id),
+    });
 
-    deleteInfo(this.focusMeta);
+    deleteInfo(this.selected);
     this._cancelMetaBtn();
   };
 
   _cancelMetaBtn = () => {
     this._hideInfoHeaderBtn();
-    this.focusMeta = undefined;
+    this.selected = {id: -1};
   };
   _switcherPaper = (id, negozio) => {
-    if (this.focusMeta) {
-      return;
-    }
-
     if (this.infoCpy) {
       this._cancelInfoSearch();
     }
@@ -285,33 +282,15 @@ class PaperLister extends React.Component {
 
   componentDidMount(): void {
     this.setState({
-      infos: this.props.infos,
+      infos: findMetaByTagId(this.props.route.params.tag),
     });
   }
 }
 const mapStateToProps = state => {
   return {
     deleteInfos: state.paper.info.deleteInfos,
-    infos: state.paper.info.infos,
+    //infos: state.paper.info.infos,
   };
 };
 
 export default connect(mapStateToProps)(PaperLister);
-
-/*
-
-<TouchableOpacity
-
-                <ListItem
-                  title={obj.item.negozio}
-                  titleStyle={{fontSize:20, fontFamily:'IBMPlexSerif-Medium'}}
-                  subtitle={obj.item.indirizzo}
-                  subtitleStyle={{fontSize:15,fontFamily:'IBMPlexSerif-Regular' }}
-                  leftAvatar={<View style={{width:30, height:30, borderRadius:20, justifyContent:'center', alignItems:'center', backgroundColor:'#cc3f0e'}}><Text style={{color:'#fff', fontSize:22,fontFamily:'IBMPlexSerif-SemiBold'}}>S</Text></View>}
-                  rightTitle={formatDate(obj.item.data)}
-                  rightSubtitle={''}
-                  bottomDivider
-
-                />
-              </TouchableOpacity>
- */

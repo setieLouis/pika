@@ -36,7 +36,7 @@ const paperMeta = {
     tag: 'int', // tag foreign key
     negozio: 'string',
     indirizzo: 'string',
-    data: 'date',
+    data: 'string',
   },
 };
 
