@@ -1,17 +1,44 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import {getPaper} from './caller/PaperCaller';
 
 import QRCode from 'react-native-qrcode-svg';
 import {findBlockByid} from './database/Paperbase';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 
+const heigth = Dimensions.get('window').height;
+const val = heigth - 950;
+const interval = val < 0 ? 60 : 80;
 export default class extends React.Component {
   constructor(props) {
     super(props);
+    this.paper = findBlockByid(this.props.route.params.info).content.split('|');
+    this.lower = 0;
+
+    this.scrollY = 0;
+    this.state = {
+      paperView: this._addLine(),
+    };
   }
   render() {
+    let ar = [];
     const list = findBlockByid(this.props.route.params.info).content.split('|');
+    let view = list.slice(0, 50).map((element, index) => {
+      return this._getRow(element);
+    });
+
+    ar.push(view);
+    ar.push(<Text>Ciai</Text>);
+
+    const ciao = ar.map(el => el);
+
     return (
       <View>
         <View
@@ -59,7 +86,11 @@ export default class extends React.Component {
           </TouchableOpacity>
         </View>
 
-        <ScrollView>
+        <ScrollView
+          onScroll={({nativeEvent}) => {
+            //console.log(nativeEvent)
+            this._reached(nativeEvent);
+          }}>
           <View
             style={{
               flex: 1,
@@ -69,9 +100,7 @@ export default class extends React.Component {
               marginTop: 100,
               padding: 15,
             }}>
-            {list.map(element => {
-              return this._getRow(element);
-            })}
+            {this.state.paperView}
           </View>
         </ScrollView>
       </View>
@@ -113,5 +142,35 @@ export default class extends React.Component {
         {item}
       </Text>
     );
+  }
+
+  _reached({contentOffset, layoutMeasurement, contentSize}) {
+    if (
+      contentOffset.y + layoutMeasurement.height >= contentSize.height - 50 &&
+      this.lower < this.paper.length &&
+      this._scrollToDown(contentOffset.y)
+    ) {
+      this.scrollY = contentOffset.y;
+      this.setState({
+        paperView: [this.state.paperView, this._addLine()].map(ele => ele),
+      });
+    }
+  }
+
+  _addLine() {
+    const upper =
+      this.paper.length < this.lower + interval
+        ? this.paper.length
+        : this.lower + interval;
+    const list = this.paper.slice(this.lower, upper).map(element => {
+      return this._getRow(element);
+    });
+    this.lower = upper;
+    console.log(this.lower);
+    return list;
+  }
+
+  _scrollToDown(y) {
+    return this.scrollY < y;
   }
 }
