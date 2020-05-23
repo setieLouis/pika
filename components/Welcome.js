@@ -143,7 +143,7 @@ class Welcome extends React.Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={{margin: 10}}
-                onPress={() => this._deleteInfo()}>
+                onPress={() => this._deleteFolder()}>
                 <MatComIcons name={'delete'} size={35} color={'#0384fc'} />
               </TouchableOpacity>
               <TouchableOpacity
