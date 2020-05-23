@@ -12,6 +12,7 @@ import {getPaper} from './caller/PaperCaller';
 import QRCode from 'react-native-qrcode-svg';
 import {findBlockByid} from './database/Paperbase';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const heigth = Dimensions.get('window').height;
 const val = heigth - 950;
@@ -46,7 +47,7 @@ export default class extends React.Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: '#fff',
+            backgroundColor: '#1089ff',
             height: 70,
             width: '100%',
 
@@ -67,14 +68,14 @@ export default class extends React.Component {
           <TouchableOpacity
             style={{marginLeft: 15}}
             onPress={() => this.props.navigation.goBack()}>
-            <AntIcon name={'arrowleft'} size={30} color={'#000'} />
+            <AntIcon name={'arrowleft'} size={30} color={'#fff'} />
           </TouchableOpacity>
           <Text
             style={{
-              fontSize: 20,
-              fontFamily: 'NanumGothic-Regular',
+              fontSize: 25,
+              fontFamily: 'BrandonGrotesque-Medium',
               textAlign: 'left',
-              color: '#000',
+              color: '#fff',
             }}>
             {this.props.route.params.negozio}
           </Text>
@@ -82,7 +83,7 @@ export default class extends React.Component {
           <TouchableOpacity
             style={{marginRight: 15}}
             onPress={this._showSearchHeaderBtn}>
-            <AntIcon name={'sharealt'} size={25} color={'#000'} />
+            <IonIcon name={'ios-share-alt'} size={30} color={'#fff'} />
           </TouchableOpacity>
         </View>
 

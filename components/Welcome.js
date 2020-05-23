@@ -18,6 +18,8 @@ import {connect} from 'react-redux';
 import {findAllTag, deleteTag, tagModel, saveTag} from './database/Paperbase';
 import TextPut from './TextPut';
 import OverlayIconRender from './OverlayIconRender';
+import MatComIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 const adderTop = Dimensions.get('window').height - 80;
 const adderRight = Dimensions.get('window').width - 80;
@@ -31,7 +33,7 @@ class Welcome extends React.Component {
     this.folderIconName = undefined;
     this.state = {
       folders: findAllTag(),
-      mainBodyBackground: '#f1f3f4',
+      mainBodyBackground: '#fff',
       headerBtn: new Animated.Value(0),
       headerBtnIndex: 0,
       folderTitleOverlay: false,
@@ -59,7 +61,7 @@ class Welcome extends React.Component {
         <View
           style={{
             backgroundColor: '#000',
-            height: 60,
+            height: 70,
             width: '100%',
             shadowColor: '#000',
             shadowOffset: {
@@ -82,8 +84,8 @@ class Welcome extends React.Component {
               flexDirection: 'row',
               justifyContent: 'flex-start',
               alignItems: 'center',
-              backgroundColor: '#fff',
-              height: 60,
+              backgroundColor: '#1089ff',
+              height: 70,
               width: '100%',
               position: 'absolute',
               left: 0,
@@ -93,11 +95,11 @@ class Welcome extends React.Component {
             <Text
               style={{
                 marginLeft: 15,
-                fontSize: 25,
-                fontFamily: 'IBMPlexSerif-SemiBold',
+                fontSize: 30,
+                fontFamily: 'BrandonGrotesque-Medium',
                 fontWeight: '500',
                 textAlign: 'left',
-                color: '#000',
+                color: '#fff',
               }}>
               Paper
             </Text>
@@ -112,7 +114,7 @@ class Welcome extends React.Component {
           <Animated.View
             style={[
               {
-                height: 60,
+                height: 70,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -135,17 +137,19 @@ class Welcome extends React.Component {
             </TouchableOpacity>
             <View style={{flexDirection: 'row', marginRight: 15}}>
               <TouchableOpacity
-                style={{margin: 5}}
+                style={{margin: 10}}
                 onPress={this._headerUpdateTagAction}>
-                <AntIcon name={'form'} size={25} color={'#0384fc'} />
+                <MatComIcons name={'pencil'} size={35} color={'#0384fc'} />
               </TouchableOpacity>
               <TouchableOpacity
-                style={{margin: 5}}
-                onPress={this._deleteFolder}>
-                <AntIcon name={'delete'} size={25} color={'#0384fc'} />
+                style={{margin: 10}}
+                onPress={() => this._deleteInfo()}>
+                <MatComIcons name={'delete'} size={35} color={'#0384fc'} />
               </TouchableOpacity>
-              <TouchableOpacity style={{margin: 5}}>
-                <AntIcon name={'sharealt'} size={25} color={'#0384fc'} />
+              <TouchableOpacity
+                style={{margin: 10}}
+                onPress={this._showSearchHeaderBtn}>
+                <IonIcons name={'ios-share-alt'} size={35} color={'#0384fc'} />
               </TouchableOpacity>
             </View>
           </Animated.View>
@@ -185,15 +189,18 @@ class Welcome extends React.Component {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#fff',
+            backgroundColor: '#1089ff',
             width: 60,
             height: 60,
             borderRadius: 30,
-            borderWidth: 1,
-            borderColor: 'rgba(218,225,231,0.75)',
+
             position: 'absolute',
             left: adderRight,
             top: adderTop,
+
+
+            /*  borderWidth: 1,
+              borderColor: 'rgba(218,225,231,0.75)',
             shadowColor: '#000',
             shadowOffset: {
               width: 10,
@@ -201,9 +208,9 @@ class Welcome extends React.Component {
             },
             shadowOpacity: 1,
             shadowRadius: 2.22,
-            elevation: this.state.shadowElevation,
+            elevation: this.state.shadowElevation,*/
           }}>
-          <Icon name={'plus'} size={30} color={'#5588a3'} />
+          <Icon name={'plus'} size={30} color={'#fff'} />
         </TouchableOpacity>
         <View
           style={{width, height, position: 'absolute', backgroundColor: '000'}}
@@ -451,8 +458,8 @@ class Welcome extends React.Component {
           useNativeDriver: false,
         }),
       ]).start(() => {});
-      clearTimeout(clearTimeout);
-    }, 800);
+      clearTimeout(timeOut);
+    }, 200);
 
     const name =
       this.state.folderName === undefined || this.state.folderName === ''

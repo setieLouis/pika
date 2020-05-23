@@ -7,7 +7,7 @@ const width = Dimensions.get('window').width;
 const blockWidth = (width - 20) / 2;
 
 const posIcon = Math.ceil((blockWidth * 40) / 100);
-const posCheck = Math.ceil((blockWidth * 33) / 100);
+const posCheck = Math.ceil((blockWidth * 40) / 100);
 export default class PaperContainer extends React.Component {
   render() {
     const {tag, pressAction, longPressAction, idCurr} = this.props;
@@ -58,14 +58,8 @@ export default class PaperContainer extends React.Component {
               position: 'absolute',
               left: posCheck,
               top: 45,
-              width: 60,
-              height: 60,
-              borderRadius: 30,
-              backgroundColor: '#32e647',
-              alignItems: 'center',
-              justifyContent: 'center',
             }}>
-            <Aws5Icon name={'check'} size={28} color={'#fff'} />
+            <Aws5Icon name={'check'} size={35} color={'#17b794'} />
           </View>
         </View>
 
@@ -90,7 +84,7 @@ export default class PaperContainer extends React.Component {
             <Aws5Icon name={tag.icon} size={35} color={'#fff'} />
           </View>
 
-          <AwsIcon name={'folder'} size={120} color={'#5588a3'} />
+          <AwsIcon name={'folder'} size={120} color={'#d3d6db'} />
 
           <Text
             onPress={pressAction}

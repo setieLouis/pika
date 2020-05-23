@@ -18,6 +18,8 @@ import {
 } from './database/Paperbase';
 
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import MatComIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
 import {set} from 'react-native-reanimated';
 
@@ -79,8 +81,8 @@ class PaperLister extends React.Component {
             </TouchableOpacity>
             <Text
               style={{
-                fontSize: 20,
-                fontFamily: 'NanumGothic-Regular',
+                fontSize: 25,
+                fontFamily: 'BrandonGrotesque-Medium',
                 textAlign: 'left',
                 color: '#fff',
               }}>
@@ -90,7 +92,7 @@ class PaperLister extends React.Component {
             <TouchableOpacity
               style={{marginRight: 15}}
               onPress={() => this._showSearchHeaderBtn()}>
-              <AntIcon name={'search1'} size={25} color={'#fff'} />
+              <IonIcons name={'md-search'} size={30} color={'#fff'} />
             </TouchableOpacity>
           </View>
           <Animated.View
@@ -116,12 +118,14 @@ class PaperLister extends React.Component {
             </TouchableOpacity>
             <View style={{flexDirection: 'row', marginRight: 15}}>
               <TouchableOpacity
-                style={{margin: 5}}
+                style={{margin: 10}}
                 onPress={() => this._deleteInfo()}>
-                <AntIcon name={'delete'} size={25} color={'#0384fc'} />
+                <MatComIcons name={'delete'} size={35} color={'#0384fc'} />
               </TouchableOpacity>
-              <TouchableOpacity style={{margin: 5}}>
-                <AntIcon name={'sharealt'} size={25} color={'#0384fc'} />
+              <TouchableOpacity
+                style={{margin:10}}
+                onPress={this._showSearchHeaderBtn}>
+                <IonIcons name={'ios-share-alt'} size={35} color={'#0384fc'} />
               </TouchableOpacity>
             </View>
           </Animated.View>
@@ -186,7 +190,6 @@ class PaperLister extends React.Component {
         : this.lower + 20;
 
     const list = this.realmInfos.slice(this.lower, upper);
-
 
     console.log('lower first = ');
     console.log(this.lower);
