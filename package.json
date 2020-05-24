@@ -17,6 +17,7 @@
     "react-native": "^0.62.2",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-notifications": "^3.2.2",
     "react-native-paper": "^3.8.0",
     "react-native-qrcode-generator": "^1.2.2",
     "react-native-qrcode-svg": "^6.0.6",

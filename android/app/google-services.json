@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "940539986704",
+    "firebase_url": "https://paper-eacc9.firebaseio.com",
+    "project_id": "paper-eacc9",
+    "storage_bucket": "paper-eacc9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940539986704:android:7d7966692a2fcb8188db95",
+        "android_client_info": {
+          "package_name": "com.paper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940539986704-akfrffavtlqu331k12kno0ibahs7dhnp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATK9raa4V6JgkFznPNjNYaxOjdy-Dxkvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940539986704-akfrffavtlqu331k12kno0ibahs7dhnp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

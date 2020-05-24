@@ -1,5 +1,8 @@
 apply plugin: "com.android.application"
 
+// for FCM
+apply plugin: 'com.google.gms.google-services'
+
 import com.android.build.OutputFile
 
 /**
@@ -188,6 +191,9 @@ android {
 }
 
 dependencies {
+    // for FCM
+    implementation project(':react-native-notifications')
+    implementation 'com.google.firebase:firebase-core:16.0.0'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
