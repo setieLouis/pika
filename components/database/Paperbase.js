@@ -35,7 +35,7 @@ const paperMeta = {
   primaryKey: ID,
   properties: {
     id: 'int', // negozio database
-    // tag: 'int', // tag foreign key
+    tag: 'int', // tag foreign key
     negozio: 'string',
     indirizzo: 'string',
     data: 'string',
@@ -59,7 +59,7 @@ const receipt = {
   properties: {
     id: 'int',
     shop: 'string',
-    content: ' string',
+    content: 'string',
   },
 };
 
