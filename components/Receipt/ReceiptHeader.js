@@ -12,7 +12,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import MatComIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default class ShopHeader extends React.Component {
+export default class ReceiptHeader extends React.Component {
   constructor(props) {
     super(props);
     this.flag = true;
@@ -119,7 +119,9 @@ export default class ShopHeader extends React.Component {
           style.container,
           {backgroundColor: '#1089ff', justifyContent: 'space-between'},
         ]}>
-        <Text style={style.title}>Pika</Text>
+        <TouchableOpacity style={{marginLeft: 15}}>
+          <AntIcon name={'arrowleft'} size={30} color={'#fff'} />
+        </TouchableOpacity>
         <Text style={style.code}>{value}</Text>
 
         <TouchableOpacity
@@ -179,8 +181,3 @@ const style = StyleSheet.create({
     elevation: 5,
   },
 });
-
-/**   <TouchableOpacity style={{marginLeft: 15}}>
- <AntIcon name={'arrowleft'} size={30} color={'#fff'} />
- </TouchableOpacity>
- **/
