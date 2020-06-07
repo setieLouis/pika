@@ -3,9 +3,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Welcome from '../Welcome';
 import TagCreation from '../TagCreation';
 import PaperLister from '../PaperLister';
+import ShopLister from '../Shop/ShopLister';
 import Paper from '../Paper';
 import {Animated, Easing, Text, TextInput, View} from 'react-native';
 import CreateTag from '../CreateTag';
+import Ciao from '../Shop/ShopHeader';
 const Stack = createStackNavigator();
 
 export default class Navigator extends React.Component {
@@ -17,7 +19,7 @@ export default class Navigator extends React.Component {
   }
   render() {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName={'shop_lister'}>
         <Stack.Screen
           options={{headerShown: false}}
           name={'welcome'}
@@ -42,6 +44,11 @@ export default class Navigator extends React.Component {
           options={{headerShown: false}}
           name="create_tag"
           component={CreateTag}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="shop_lister"
+          component={ShopLister}
         />
       </Stack.Navigator>
     );
