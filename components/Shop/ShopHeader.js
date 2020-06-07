@@ -15,31 +15,51 @@ import MatComIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 export default class ShopHeader extends React.Component {
   constructor(props) {
     super(props);
+    this.flag = true;
     this.state = {
       flagOne: false,
       flagTwo: false,
     };
   }
   render() {
+    const {
+      value,
+      social,
+      socialHeaderShow,
+      socialDelete,
+      socialShare,
+      searchAction,
+    } = this.props;
     return (
-      <View style={{flex: 1}}>
+      <View>
         <Animatable.View animation={'slideInLeft'} duration={250}>
           <Animatable.View
-            animation={this._checkFlagOne() ? 'fadeInLeft' : 'fadeInRight'}
+            animation={
+              this._checkFlagOne() || social ? 'fadeInLeft' : 'fadeInRight'
+            }
             duration={250}>
-            {this._getElememt()}
+            {this._getElememt(
+              value,
+              social,
+              socialHeaderShow,
+              socialDelete,
+              socialShare,
+              searchAction,
+            )}
           </Animatable.View>
         </Animatable.View>
       </View>
     );
   }
 
-  /**
-     *
-     onPress={() =>{ this._setFlag(true, false);}}
-     */
-
-  _getElememt() {
+  _getElememt(
+    value,
+    flag,
+    socialHeaderShow,
+    socialDelete,
+    socialShare,
+    searchAction,
+  ) {
     if (this._checkFlagTwo()) {
       return (
         <View
@@ -56,13 +76,13 @@ export default class ShopHeader extends React.Component {
             <AntIcon name={'close'} size={25} color={'#0384fc'} />
           </TouchableOpacity>
           <TextInput
-            onChangeText={text => this._filtra(text)}
+            onChangeText={text => searchAction(text)}
             style={{width: 320, marginLeft: 10, backgroundColor: '#fff'}}
             placeholder={'Search...'}
           />
         </View>
       );
-    } else if (this._checkFlagOne()) {
+    } else if (flag) {
       return (
         <View
           style={[
@@ -73,19 +93,19 @@ export default class ShopHeader extends React.Component {
           <TouchableOpacity
             style={{marginLeft: 15}}
             onPress={() => {
-              this._setFlag(false, false);
+              socialHeaderShow();
             }}>
             <AntIcon name={'close'} size={30} color={'#0384fc'} />
           </TouchableOpacity>
           <View style={{flexDirection: 'row', marginRight: 15}}>
             <TouchableOpacity
               style={{margin: 10}}
-              onPress={() => this._deleteInfo()}>
+              onPress={() => socialDelete()}>
               <MatComIcons name={'delete'} size={35} color={'#0384fc'} />
             </TouchableOpacity>
             <TouchableOpacity
               style={{margin: 10}}
-              onPress={this._showSearchHeaderBtn}>
+              onPress={() => socialShare()}>
               <IonIcon name={'ios-share-alt'} size={35} color={'#0384fc'} />
             </TouchableOpacity>
           </View>
@@ -102,12 +122,12 @@ export default class ShopHeader extends React.Component {
         <TouchableOpacity style={{marginLeft: 15}}>
           <AntIcon name={'arrowleft'} size={30} color={'#fff'} />
         </TouchableOpacity>
-        <Text style={style.code}>78ASER</Text>
+        <Text style={style.code}>{value}</Text>
 
         <TouchableOpacity
           style={{marginRight: 15}}
           onPress={() => {
-            this._setFlag(false, true);
+            this._setFlag(true, true);
           }}>
           <IonIcon name={'md-search'} size={30} color={'#fff'} />
         </TouchableOpacity>
