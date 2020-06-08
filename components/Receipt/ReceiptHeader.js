@@ -23,7 +23,7 @@ export default class ReceiptHeader extends React.Component {
   render() {
     const {
       value,
-      social,
+      socialFlag,
       socialHeaderShow,
       socialDelete,
       socialShare,
@@ -35,12 +35,12 @@ export default class ReceiptHeader extends React.Component {
         <Animatable.View animation={'slideInLeft'} duration={250}>
           <Animatable.View
             animation={
-              this._checkFlagOne() || social ? 'fadeInLeft' : 'fadeInRight'
+              this._checkFlagOne() || socialFlag ? 'fadeInLeft' : 'fadeInRight'
             }
             duration={250}>
             {this._getElememt(
               value,
-              social,
+              socialFlag,
               socialHeaderShow,
               socialDelete,
               socialShare,
@@ -55,7 +55,7 @@ export default class ReceiptHeader extends React.Component {
 
   _getElememt(
     value,
-    flag,
+    socialFlag,
     socialHeaderShow,
     socialDelete,
     socialShare,
@@ -84,7 +84,7 @@ export default class ReceiptHeader extends React.Component {
           />
         </View>
       );
-    } else if (flag) {
+    } else if (socialFlag) {
       return (
         <View
           style={[

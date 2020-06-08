@@ -4,8 +4,6 @@ import ReceiptHeader from './ReceiptHeader';
 import {findReceiptByShopId, toArray} from '../database/Paperbase';
 import ReceiptItem from './ReceiptItem';
 
-
-
 const re =
   '                {*}*ESSELUNGA S.P.A*{*}             ' +
   '\n            DOCUMENTO COMMERCIALE            ' +
@@ -36,16 +34,25 @@ export default class ReceiptLister extends React.Component {
   constructor(props) {
     super(props);
     this.paperList = toArray(findReceiptByShopId(1));
+    this.selectedList = [];
+    this.state = {
+      socialFlag: false,
+    };
   }
 
   render() {
     return (
       <View style={style.container}>
-        <ReceiptHeader goBack={this._goBack} />
+        <ReceiptHeader
+          socialFlag={this.state.socialFlag}
+          goBack={this._goBack}
+        />
         <FlatList
-          data={[re, re, re , re]}
+          data={[re, re, re]}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={obj => <ReceiptItem receipt={obj} />}
+          renderItem={obj => (
+            <ReceiptItem onPress={this._showToolHeader} receipt={obj} />
+          )}
         />
       </View>
     );
@@ -54,6 +61,29 @@ export default class ReceiptLister extends React.Component {
   _goBack = () => {
     this.props.navigation.goBack();
   };
+
+  _showToolHeader = (element, flag) => {
+    if (flag) {
+      this.selectedList.push(element.index);
+    } else {
+      this.selectedList = this.selectedList.filter(index => {
+        return index !== element.index;
+      });
+    }
+    this._checkToHideToolHeader();
+  };
+
+  _checkToHideToolHeader() {
+    if (this.state.socialFlag && this.selectedList.length === 0) {
+      this.setState({
+        socialFlag: false,
+      });
+    } else if (!this.state.socialFlag && this.selectedList.length > 0) {
+      this.setState({
+        socialFlag: true,
+      });
+    }
+  }
 }
 
 const style = StyleSheet.create({

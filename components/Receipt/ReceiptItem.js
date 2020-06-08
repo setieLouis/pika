@@ -18,16 +18,23 @@ export default class ReceiptItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedColor: 0,
+      selectedColor: false,
     };
   }
   render() {
-    const {receipt} = this.props;
+    const {receipt, onPress} = this.props;
+
     return (
       <TouchableOpacity
         onPress={() => {
+          let flag = true;
+          let content = receipt;
+          if (this.state.selectedColor) {
+            flag = false;
+          }
+          onPress(content, flag)
           this.setState({
-            selectedColor: this.state.selectedColor ? 0 : 1,
+            selectedColor: flag,
           });
         }}
         style={{marginTop: 10, marginLeft: 15, marginRight: 15}}>
