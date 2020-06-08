@@ -8,6 +8,7 @@ import Paper from '../Paper';
 import {Animated, Easing, Text, TextInput, View} from 'react-native';
 import CreateTag from '../CreateTag';
 import Ciao from '../Shop/ShopHeader';
+import ReceiptLister from '../Receipt/ReceiptLister';
 const Stack = createStackNavigator();
 
 export default class Navigator extends React.Component {
@@ -49,6 +50,11 @@ export default class Navigator extends React.Component {
           options={{headerShown: false}}
           name="shop_lister"
           component={ShopLister}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="receipt_lister"
+          component={ReceiptLister}
         />
       </Stack.Navigator>
     );

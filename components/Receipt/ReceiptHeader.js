@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Animated,
   TextInput,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -29,6 +28,7 @@ export default class ReceiptHeader extends React.Component {
       socialDelete,
       socialShare,
       searchAction,
+      goBack,
     } = this.props;
     return (
       <View>
@@ -45,6 +45,7 @@ export default class ReceiptHeader extends React.Component {
               socialDelete,
               socialShare,
               searchAction,
+              goBack,
             )}
           </Animatable.View>
         </Animatable.View>
@@ -59,6 +60,7 @@ export default class ReceiptHeader extends React.Component {
     socialDelete,
     socialShare,
     searchAction,
+    goBack,
   ) {
     if (this._checkFlagTwo()) {
       return (
@@ -119,7 +121,11 @@ export default class ReceiptHeader extends React.Component {
           style.container,
           {backgroundColor: '#1089ff', justifyContent: 'space-between'},
         ]}>
-        <TouchableOpacity style={{marginLeft: 15}}>
+        <TouchableOpacity
+          onPress={() => {
+            goBack();
+          }}
+          style={{marginLeft: 15}}>
           <AntIcon name={'arrowleft'} size={30} color={'#fff'} />
         </TouchableOpacity>
         <Text style={style.code}>{value}</Text>
