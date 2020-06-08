@@ -48,6 +48,8 @@ export default class ReceiptLister extends React.Component {
           socialFlag={this.state.socialFlag}
           goBack={this._goBack}
           socialHeaderHide={this._hideToolHeader}
+          socialDelete={this._deleteReceipt}
+          socialShare={this._shareReceipt}
         />
         <FlatList
           data={[re, re, re]}
@@ -108,7 +110,7 @@ export default class ReceiptLister extends React.Component {
       selectedList: [],
       socialFlag: false,
     });
-  }
+  };
 
   _isSelected(index) {
     if (this.state.selectedList.length === 0) {
@@ -118,6 +120,16 @@ export default class ReceiptLister extends React.Component {
     const container = this.state.selectedList.filter(el => el === index);
     return container.length === 0 ? false : true;
   }
+
+  _deleteReceipt = () => {
+    console.log('delete  all selected receipt');
+    this._hideToolHeader()
+  };
+
+  _shareReceipt = () => {
+    console.log('share all selected receipt');
+    this._hideToolHeader()
+  };
 }
 
 const style = StyleSheet.create({

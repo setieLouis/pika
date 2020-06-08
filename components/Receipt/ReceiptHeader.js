@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -23,7 +22,6 @@ export default class ReceiptHeader extends React.Component {
       socialHeaderHide,
       socialDelete,
       socialShare,
-      searchAction,
       goBack,
     } = this.props;
     return (
@@ -38,7 +36,6 @@ export default class ReceiptHeader extends React.Component {
               socialHeaderHide,
               socialDelete,
               socialShare,
-              searchAction,
               goBack,
             )}
           </Animatable.View>
@@ -53,7 +50,6 @@ export default class ReceiptHeader extends React.Component {
     socialHeaderHide,
     socialDelete,
     socialShare,
-    searchAction,
     goBack,
   ) {
     if (socialFlag) {
