@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import ParsedText from 'react-native-parsed-text';
 import QRCode from 'react-native-qrcode-svg';
 
@@ -15,17 +15,31 @@ import QRCode from 'react-native-qrcode-svg';
  */
 
 export default class ReceiptItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedColor: 0,
+    };
+  }
   render() {
     const {receipt} = this.props;
     return (
-      <View style={style.container}>
+      <TouchableOpacity
+        onPress={() => {
+          this.setState({
+            selectedColor: this.state.selectedColor ? 0 : 1,
+          });
+        }}
+        style={{marginTop: 10, marginLeft: 15, marginRight: 15}}>
         <ParsedText
           style={{
             textAlign: 'center',
             fontSize: 10,
             fontFamily: 'CourierNew-Regular',
             borderColor: 'transparent',
-            borderWidth: 1,
+            backgroundColor: '#fff',
+            paddingBottom: 10,
+            paddingTop: 10,
           }}
           parse={[
             {
@@ -71,7 +85,20 @@ export default class ReceiptItem extends React.Component {
           ]}>
           {receipt.item}
         </ParsedText>
-      </View>
+        <View
+          style={{
+            height: '100%',
+            width: '100%',
+            backgroundColor: this.state.selectedColor
+              ? 'rgba(16,137,255,0.31)'
+              : 'transparent',
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            zIndex: this.state.selectedColor ? 2 : -1,
+          }}
+        />
+      </TouchableOpacity>
     );
   }
 
@@ -112,11 +139,10 @@ export default class ReceiptItem extends React.Component {
   }
 }
 
-
 const style = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    width: '100%',
+    backgroundColor: 'rgba(210,165,33,0.56)',
     marginLeft: 15,
     marginRight: 15,
     marginTop: 10,
