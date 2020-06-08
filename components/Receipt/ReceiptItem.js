@@ -3,7 +3,6 @@ import {StyleSheet, View} from 'react-native';
 import ParsedText from 'react-native-parsed-text';
 import QRCode from 'react-native-qrcode-svg';
 
-
 /**
  * {*}Strong{*}
  * {q}QrCode{q}
@@ -14,48 +13,6 @@ import QRCode from 'react-native-qrcode-svg';
  * {m*}size Medium 12 with bold{m*}
  * {n*}size normal 10 with bold{n*}
  */
-const regex = [
-  {
-    pattern: /{\*}[a-zA-Z0-9@?àé.*, ]{1,46}{\*}/,
-    style: style.strong,
-    renderText: this._strong,
-  },
-  {
-    pattern: /{q}[a-zA-Z0-9@?àé.*, ]{1,46}{q}/,
-    style: style.strong,
-    renderText: this._qrCoder,
-  },
-  {
-    pattern: /{b}[a-zA-Z0-9@?àé.*, ]{1,46}{b}/,
-    style: style.size_big,
-    renderText: this._big,
-  },
-  {
-    pattern: /{m}[a-zA-Z0-9@?àé.*, ]{1,46}{m}/,
-    style: style.size_medium,
-    renderText: this._medium,
-  },
-  {
-    pattern: /{s}[a-zA-Z0-9@?àé.*, ]{1,46}{s}/,
-    style: style.size_small,
-    renderText: this._small,
-  },
-  {
-    pattern: /{b\*}[a-zA-Z0-9@?àé.*, ]{1,46}{b\*}/,
-    style: style.strong_size_big,
-    renderText: this._bigStrong,
-  },
-  {
-    pattern: /{m\*}[a-zA-Z0-9@?àé.*, ]{1,46}{m\*}/,
-    style: style.strong_size_medium,
-    renderText: this._mediumStrong,
-  },
-  {
-    pattern: /{s\*}[a-zA-Z0-9@?àé.*, ]{1,46}{s\*}/,
-    style: style.strong_size_small,
-    renderText: this._smallStrong,
-  },
-];
 
 export default class ReceiptItem extends React.Component {
   render() {
@@ -70,7 +27,48 @@ export default class ReceiptItem extends React.Component {
             borderColor: 'transparent',
             borderWidth: 1,
           }}
-          parse={regex}>
+          parse={[
+            {
+              pattern: /{\*}[a-zA-Z0-9@?àé.*, ]{1,46}{\*}/,
+              style: style.strong,
+              renderText: this._strong,
+            },
+            {
+              pattern: /{q}[a-zA-Z0-9@?àé.*, ]{1,46}{q}/,
+              style: style.strong,
+              renderText: this._qrCoder,
+            },
+            {
+              pattern: /{b}[a-zA-Z0-9@?àé.*, ]{1,46}{b}/,
+              style: style.size_big,
+              renderText: this._big,
+            },
+            {
+              pattern: /{m}[a-zA-Z0-9@?àé.*, ]{1,46}{m}/,
+              style: style.size_medium,
+              renderText: this._medium,
+            },
+            {
+              pattern: /{s}[a-zA-Z0-9@?àé.*, ]{1,46}{s}/,
+              style: style.size_small,
+              renderText: this._small,
+            },
+            {
+              pattern: /{b\*}[a-zA-Z0-9@?àé.*, ]{1,46}{b\*}/,
+              style: style.strong_size_big,
+              renderText: this._bigStrong,
+            },
+            {
+              pattern: /{m\*}[a-zA-Z0-9@?àé.*, ]{1,46}{m\*}/,
+              style: style.strong_size_medium,
+              renderText: this._mediumStrong,
+            },
+            {
+              pattern: /{s\*}[a-zA-Z0-9@?àé.*, ]{1,46}{s\*}/,
+              style: style.strong_size_small,
+              renderText: this._smallStrong,
+            },
+          ]}>
           {receipt.item}
         </ParsedText>
       </View>
@@ -113,6 +111,7 @@ export default class ReceiptItem extends React.Component {
     return content;
   }
 }
+
 
 const style = StyleSheet.create({
   container: {
