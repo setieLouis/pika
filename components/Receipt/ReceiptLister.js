@@ -34,9 +34,10 @@ export default class ReceiptLister extends React.Component {
   constructor(props) {
     super(props);
     this.paperList = toArray(findReceiptByShopId(1));
-    this.selectedList = [];
+
     this.state = {
       socialFlag: false,
+      selectedList: [],
     };
   }
 
@@ -46,12 +47,17 @@ export default class ReceiptLister extends React.Component {
         <ReceiptHeader
           socialFlag={this.state.socialFlag}
           goBack={this._goBack}
+          socialHeaderHide={this._hideToolHeader}
         />
         <FlatList
           data={[re, re, re]}
           keyExtractor={(item, index) => index.toString()}
           renderItem={obj => (
-            <ReceiptItem onPress={this._showToolHeader} receipt={obj} />
+            <ReceiptItem
+              selected={this._isSelected(obj.index)}
+              onPress={this._showToolHeader}
+              receipt={obj}
+            />
           )}
         />
       </View>
@@ -63,33 +69,60 @@ export default class ReceiptLister extends React.Component {
   };
 
   _showToolHeader = (element, flag) => {
+    console.log(element.index);
     if (flag) {
-      this.selectedList.push(element.index);
+      this.setState(
+        {
+          selectedList: [...this.state.selectedList, element.index],
+        },
+        this._checkHideToolHeader,
+      );
     } else {
-      this.selectedList = this.selectedList.filter(index => {
-        return index !== element.index;
-      });
+      this.setState(
+        {
+          selectedList: this.state.selectedList.filter(index => {
+            return index !== element.index;
+          }),
+        },
+        this._checkHideToolHeader,
+      );
     }
-    this._checkToHideToolHeader();
   };
 
-  _checkToHideToolHeader() {
-    if (this.state.socialFlag && this.selectedList.length === 0) {
+  _checkHideToolHeader = () => {
+    console.log(this.state.selectedList);
+
+    if (this.state.socialFlag && this.state.selectedList.length === 0) {
       this.setState({
         socialFlag: false,
       });
-    } else if (!this.state.socialFlag && this.selectedList.length > 0) {
+    } else if (!this.state.socialFlag && this.state.selectedList.length > 0) {
       this.setState({
         socialFlag: true,
       });
     }
+  };
+
+  _hideToolHeader = () => {
+    this.setState({
+      selectedList: [],
+      socialFlag: false,
+    });
+  }
+
+  _isSelected(index) {
+    if (this.state.selectedList.length === 0) {
+      return false;
+    }
+
+    const container = this.state.selectedList.filter(el => el === index);
+    return container.length === 0 ? false : true;
   }
 }
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: '#fff',
   },
   item: {
     flex: 1,

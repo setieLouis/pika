@@ -15,16 +15,12 @@ export default class ReceiptHeader extends React.Component {
   constructor(props) {
     super(props);
     this.flag = true;
-    this.state = {
-      flagOne: false,
-      flagTwo: false,
-    };
   }
   render() {
     const {
       value,
       socialFlag,
-      socialHeaderShow,
+      socialHeaderHide,
       socialDelete,
       socialShare,
       searchAction,
@@ -34,14 +30,12 @@ export default class ReceiptHeader extends React.Component {
       <View>
         <Animatable.View animation={'slideInLeft'} duration={250}>
           <Animatable.View
-            animation={
-              this._checkFlagOne() || socialFlag ? 'fadeInLeft' : 'fadeInRight'
-            }
+            animation={socialFlag ? 'fadeInLeft' : 'fadeInRight'}
             duration={250}>
             {this._getElememt(
               value,
               socialFlag,
-              socialHeaderShow,
+              socialHeaderHide,
               socialDelete,
               socialShare,
               searchAction,
@@ -56,35 +50,13 @@ export default class ReceiptHeader extends React.Component {
   _getElememt(
     value,
     socialFlag,
-    socialHeaderShow,
+    socialHeaderHide,
     socialDelete,
     socialShare,
     searchAction,
     goBack,
   ) {
-    if (this._checkFlagTwo()) {
-      return (
-        <View
-          style={[
-            style.container,
-            style.shadow,
-            {backgroundColor: '#fff', justifyContent: 'flex-start'},
-          ]}>
-          <TouchableOpacity
-            style={{marginLeft: 15, backgroundColor: '#fff'}}
-            onPress={() => {
-              this._setFlag(false, false);
-            }}>
-            <AntIcon name={'close'} size={25} color={'#0384fc'} />
-          </TouchableOpacity>
-          <TextInput
-            onChangeText={text => searchAction(text)}
-            style={{width: 320, marginLeft: 10, backgroundColor: '#fff'}}
-            placeholder={'Search...'}
-          />
-        </View>
-      );
-    } else if (socialFlag) {
+    if (socialFlag) {
       return (
         <View
           style={[
@@ -95,7 +67,7 @@ export default class ReceiptHeader extends React.Component {
           <TouchableOpacity
             style={{marginLeft: 15}}
             onPress={() => {
-              socialHeaderShow();
+              socialHeaderHide();
             }}>
             <AntIcon name={'close'} size={30} color={'#0384fc'} />
           </TouchableOpacity>
@@ -129,31 +101,9 @@ export default class ReceiptHeader extends React.Component {
           <AntIcon name={'arrowleft'} size={30} color={'#fff'} />
         </TouchableOpacity>
         <Text style={style.code}>{value}</Text>
-
-        <TouchableOpacity
-          style={{marginRight: 15}}
-          onPress={() => {
-            this._setFlag(true, true);
-          }}>
-          <IonIcon name={'md-search'} size={30} color={'#fff'} />
-        </TouchableOpacity>
       </View>
     );
   }
-
-  _setFlag = (f1, f2) => {
-    this.setState({
-      flagOne: f1,
-      flagTwo: f2,
-    });
-  };
-
-  _checkFlagOne = () => {
-    return this.state.flagOne;
-  };
-  _checkFlagTwo = () => {
-    return this.state.flagTwo;
-  };
 }
 
 const style = StyleSheet.create({

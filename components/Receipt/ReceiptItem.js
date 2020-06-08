@@ -22,20 +22,16 @@ export default class ReceiptItem extends React.Component {
     };
   }
   render() {
-    const {receipt, onPress} = this.props;
-
+    const {receipt, onPress, selected} = this.props;
     return (
       <TouchableOpacity
         onPress={() => {
           let flag = true;
           let content = receipt;
-          if (this.state.selectedColor) {
+          if (selected) {
             flag = false;
           }
-          onPress(content, flag)
-          this.setState({
-            selectedColor: flag,
-          });
+          onPress(content, flag);
         }}
         style={{marginTop: 10, marginLeft: 15, marginRight: 15}}>
         <ParsedText
@@ -96,13 +92,11 @@ export default class ReceiptItem extends React.Component {
           style={{
             height: '100%',
             width: '100%',
-            backgroundColor: this.state.selectedColor
-              ? 'rgba(16,137,255,0.31)'
-              : 'transparent',
+            backgroundColor: selected ? 'rgba(16,137,255,0.31)' : 'transparent',
             position: 'absolute',
             left: 0,
             top: 0,
-            zIndex: this.state.selectedColor ? 2 : -1,
+            zIndex: selected ? 2 : -1,
           }}
         />
       </TouchableOpacity>
