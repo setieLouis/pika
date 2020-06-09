@@ -31,7 +31,7 @@ export default class ShopHeader extends React.Component {
       searchAction,
     } = this.props;
     return (
-      <View>
+      <View style={{zIndex: 2}}>
         <Animatable.View animation={'slideInLeft'} duration={250}>
           <Animatable.View
             animation={

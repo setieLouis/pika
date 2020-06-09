@@ -16,21 +16,13 @@ export default class ListItem extends React.Component {
     }
     return (
       <View>
-        <View
-          style={{
-            width: '100%',
-            height: 80,
-            position: 'absolute',
-            backgroundColor: 'transparent',
-            zIndex,
-          }}
-        />
         <TouchableOpacity
           onPress={() => {
-            onPress(element.tag, element.negozio);
+            onPress(element.id, element.name);
           }}
           onLongPress={() => {
             onLongPress(element);
+            //onLongPress(element);
           }}
           style={{
             flex: 1,
@@ -64,7 +56,7 @@ export default class ListItem extends React.Component {
                       fontSize: 25,
                       color,
                     }}>
-                    {this._toUpperLetter(element.negozio)}
+                    {this._toUpperLetter(element.name)}
                   </Text>
                 </View>
               </View>
@@ -82,7 +74,7 @@ export default class ListItem extends React.Component {
                   color: '#000',
                   backgroundColor: '#fff',
                 }}>
-                {this._firstLetterUpper(element.negozio)}
+                {this._firstLetterUpper(element.name)}
               </Text>
               <Text
                 style={{
@@ -90,7 +82,7 @@ export default class ListItem extends React.Component {
                   fontSize: 18,
                   color: '#919291',
                 }}>
-                {element.indirizzo}
+                {element.address}
               </Text>
             </View>
             <View
@@ -108,7 +100,7 @@ export default class ListItem extends React.Component {
                   color: '#919291',
                   fontSize: 17,
                 }}>
-                {formatDate(element.data)}
+                {formatDate(element.last_update_date)}
               </Text>
             </View>
           </View>
@@ -116,6 +108,9 @@ export default class ListItem extends React.Component {
       </View>
     );
   }
+
+
+
 
   _toUpperLetter(s) {
     return s.charAt(0).toUpperCase();

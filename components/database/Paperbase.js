@@ -101,7 +101,7 @@ export function findAllReceipt() {
 }
 
 export function findAllShop() {
-  const response = repo.objects(RECEIPT);
+  const response = repo.objects(SHOP);
   return response;
 }
 
@@ -109,7 +109,7 @@ export function findAllShop() {
   ===================================
   Find by Id service
   ===================================
- */
+*/
 
 export function findTagByid(id) {
   const response = repo.objectForPrimaryKey(TAG, id).filtered(ID + '=' + id);
@@ -127,7 +127,7 @@ export function findBlockByid(id) {
 }
 
 export function findReceiptByShopId(shop_id) {
-  return findAllReceipt().filtered('shop=' + shop_id);
+  return findAllReceipt().filtered('shop = "' + shop_id.toString() + '"');
 }
 
 /*
@@ -310,6 +310,8 @@ export function toArray(collect) {
 const content =
   '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}';
 
+const content2 =
+  '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************';
 const t1 = tagModel('default', 'carrot', 0);
 const m1 = metaModel(0, 'berafino', 'via garibaldi', '01 Apr 2008', 0);
 const m2 = metaModel(0, 'alberto', 'via garibaldi', '01 Apr 2008', 1);
@@ -393,15 +395,21 @@ saveBlock(b1);
 
 saveReceipt({
   shop: shopModel('1', 'serafino', 'via garibaldi crema'),
-  receipt: receiptModel(content, '1'),
+  receipt: receiptModel(content2, '1'),
 });
-
 saveReceipt({
   shop: shopModel('1', 'serafino', 'via garibaldi crema'),
-  receipt: receiptModel(content, '1'),
+  receipt: receiptModel(content2, '1'),
 });
-
 saveReceipt({
   shop: shopModel('1', 'serafino', 'via garibaldi crema'),
-  receipt: receiptModel(content, '1'),
+  receipt: receiptModel(content2, '1'),
+});
+saveReceipt({
+  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  receipt: receiptModel(content2, '1'),
+});
+saveReceipt({
+  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  receipt: receiptModel(content2, '1'),
 });

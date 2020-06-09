@@ -96,7 +96,6 @@ export default class ReceiptItem extends React.Component {
             position: 'absolute',
             left: 0,
             top: 0,
-            zIndex: selected ? 2 : -1,
           }}
         />
       </TouchableOpacity>

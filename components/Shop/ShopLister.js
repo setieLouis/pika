@@ -2,7 +2,6 @@ import React from 'react';
 import {FlatList, View} from 'react-native';
 import ShopHeader from './ShopHeader';
 import ListItem from '../ListItem';
-import {findAllShop} from '../database/Paperbase';
 
 const SHOPS = [
   {
@@ -88,6 +87,7 @@ export default class ShopLister extends React.Component {
               idCurr={this.state.selected}
               element={obj.item}
               onLongPress={this._select}
+              onPress={this._goTo}
             />
           )}
           keyExtractor={(item, index) => item.id.toString()}
@@ -96,6 +96,9 @@ export default class ShopLister extends React.Component {
     );
   }
 
+  _goTo = () => {
+    this.props.navigation.navigate('receipt_lister');
+  }
   _setSocial = flag => {
     this.setState({
       showSocial: flag,
@@ -103,7 +106,7 @@ export default class ShopLister extends React.Component {
   };
 
   _socialDelete = () => {
-    console.log('delete this one');
+    console.log('delete ' + this.state.selected.name);
     this._unSelect();
   };
 

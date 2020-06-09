@@ -123,12 +123,12 @@ export default class ReceiptLister extends React.Component {
 
   _deleteReceipt = () => {
     console.log('delete  all selected receipt');
-    this._hideToolHeader()
+    this._hideToolHeader();
   };
 
   _shareReceipt = () => {
     console.log('share all selected receipt');
-    this._hideToolHeader()
+    this._hideToolHeader();
   };
 }
 

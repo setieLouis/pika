@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -25,7 +20,7 @@ export default class ReceiptHeader extends React.Component {
       goBack,
     } = this.props;
     return (
-      <View>
+      <View style={{zIndex: 2}}>
         <Animatable.View animation={'slideInLeft'} duration={250}>
           <Animatable.View
             animation={socialFlag ? 'fadeInLeft' : 'fadeInRight'}
