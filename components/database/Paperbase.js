@@ -11,6 +11,8 @@ const PAPER_INFO = 'info';
 const BLOCK = 'block';
 const ID = 'id';
 const INFO = 'info';
+const RECEIPT = 'receipt';
+const SHOP = 'shop';
 
 /*
   ===================================
@@ -32,11 +34,32 @@ const paperMeta = {
   name: PAPER_INFO,
   primaryKey: ID,
   properties: {
-    id: 'int',
+    id: 'int', // negozio database
     tag: 'int', // tag foreign key
     negozio: 'string',
     indirizzo: 'string',
     data: 'string',
+  },
+};
+
+const shop = {
+  name: SHOP,
+  primaryKey: ID,
+  properties: {
+    id: 'string',
+    name: 'string',
+    address: 'string',
+    last_update_date: 'date',
+  },
+};
+
+const receipt = {
+  name: RECEIPT,
+  primaryKey: ID,
+  properties: {
+    id: 'int',
+    shop: 'string',
+    content: 'string',
   },
 };
 
@@ -49,7 +72,7 @@ const block = {
   },
 };
 
-const repo = new Realm({schema: [paperMeta, block, tag]});
+const repo = new Realm({schema: [paperMeta, block, tag, shop, receipt]});
 
 /*
   ===================================
@@ -72,11 +95,21 @@ export function findAllBlock() {
   return toArray(response);
 }
 
+export function findAllReceipt() {
+  const response = repo.objects(RECEIPT);
+  return response;
+}
+
+export function findAllShop() {
+  const response = repo.objects(SHOP);
+  return response;
+}
+
 /*
   ===================================
   Find by Id service
   ===================================
- */
+*/
 
 export function findTagByid(id) {
   const response = repo.objectForPrimaryKey(TAG, id).filtered(ID + '=' + id);
@@ -91,6 +124,10 @@ export function findMetaByTagId(id) {
 export function findBlockByid(id) {
   const response = repo.objectForPrimaryKey(BLOCK, id);
   return response; //toArray(response);
+}
+
+export function findReceiptByShopId(shop_id) {
+  return findAllReceipt().filtered('shop = "' + shop_id.toString() + '"');
 }
 
 /*
@@ -117,6 +154,19 @@ export function saveBlock(block) {
   });
 }
 
+export function saveShop(shop) {
+  repo.write(() => {
+    repo.create(SHOP, shop, Realm.UpdateMode.Modified);
+  });
+}
+
+export function saveReceipt(receipt) {
+  saveShop(receipt.shop);
+  repo.write(() => {
+    repo.create(RECEIPT, receipt.receipt, Realm.UpdateMode.All);
+  });
+}
+
 /*
   ===================================
    Delete service
@@ -134,6 +184,20 @@ export function deleteInfo(info) {
   repo.write(() => {
     let tmpInfo = repo.create(PAPER_INFO, info, Realm.UpdateMode.All);
     repo.delete(tmpInfo);
+  });
+}
+
+export function deleteShop(shop) {
+  repo.write(() => {
+    let tmpShop = repo.create(SHOP, shop, Realm.UpdateMode.All);
+    repo.delete(tmpShop);
+  });
+}
+
+export function deleteReceipt(receipt) {
+  repo.write(() => {
+    let tmpReceipt = repo.create(RECEIPT, receipt, Realm.UpdateMode.All);
+    repo.delete(tmpReceipt);
   });
 }
 
@@ -172,6 +236,14 @@ function blockId() {
   return 0;
 }
 
+function receiptId() {
+  const elem = createId(RECEIPT, ID);
+  if (elem) {
+    return elem.id + 1;
+  }
+  return 0;
+}
+
 /*
   ===================================
    Model creator  service
@@ -205,6 +277,23 @@ function blockModel(content, info = blockId()) {
   };
 }
 
+function receiptModel(content, shop) {
+  return {
+    id: receiptId(),
+    shop: shop,
+    content: content,
+  };
+}
+
+function shopModel(id, name, address) {
+  return {
+    id: id,
+    name: name,
+    address: address,
+    last_update_date: new Date(),
+  };
+}
+
 /*
   ===================================
    Utility
@@ -218,7 +307,11 @@ export function toArray(collect) {
   }
   return list;
 }
+const content =
+  '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}';
 
+const content2 =
+  '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************';
 const t1 = tagModel('default', 'carrot', 0);
 const m1 = metaModel(0, 'berafino', 'via garibaldi', '01 Apr 2008', 0);
 const m2 = metaModel(0, 'alberto', 'via garibaldi', '01 Apr 2008', 1);
@@ -299,3 +392,24 @@ saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 59));
 saveMeta(m10);
 
 saveBlock(b1);
+
+saveReceipt({
+  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  receipt: receiptModel(content2, '1'),
+});
+saveReceipt({
+  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  receipt: receiptModel(content2, '1'),
+});
+saveReceipt({
+  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  receipt: receiptModel(content2, '1'),
+});
+saveReceipt({
+  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  receipt: receiptModel(content2, '1'),
+});
+saveReceipt({
+  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  receipt: receiptModel(content2, '1'),
+});

@@ -12,7 +12,7 @@ import {
 import ListItem from './ListItem';
 import {
   deleteInfo,
-  findAllInfo,
+  findAllInfo, findAllShop,
   findMetaByTagId,
   toArray,
 } from './database/Paperbase';
@@ -32,7 +32,7 @@ class PaperLister extends React.Component {
 
     this.infoCpy = undefined;
     this.selected = {id: -1};
-    this.realmInfos = findAllInfo();
+    this.realmInfos = findAllShop();
     this.lower = 0;
     this.state = {
       metaHeaderBtn: new Animated.Value(0),
@@ -190,19 +190,8 @@ class PaperLister extends React.Component {
         : this.lower + 20;
 
     const list = this.realmInfos.slice(this.lower, upper);
-
-    console.log('lower first = ');
-    console.log(this.lower);
     this.lower = upper;
-    console.log('upper = ');
-    console.log(upper);
-
-    console.log('lowe = ');
-    console.log(this.lower);
-
     return toArray(list);
-
-    //return [];
   }
 
   _showInfoHeaderBtn = meta => {
@@ -285,8 +274,8 @@ class PaperLister extends React.Component {
     this._hideInfoHeaderBtn();
     this.selected = {id: -1};
   };
-  _switcherPaper = (id, negozio) => {
-    this.props.navigation.navigate('paper', {info: id, negozio: negozio});
+  _switcherPaper = (id, name) => {
+    this.props.navigation.navigate('paper', {shopId: id, shopName: name});
   };
 
   _filtra(text) {
@@ -312,3 +301,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(PaperLister);
+
+

@@ -10,38 +10,41 @@ import {
 import {getPaper} from './caller/PaperCaller';
 
 import QRCode from 'react-native-qrcode-svg';
-import {findBlockByid} from './database/Paperbase';
+import {
+  findAllReceipt,
+  findBlockByid,
+  toArray,
+  findReceiptByShopId,
+} from './database/Paperbase';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-
+import ReactHtmlParser from 'react-html-parser';
 const heigth = Dimensions.get('window').height;
+const width = Dimensions.get('window').width;
+
 const val = heigth - 950;
 const interval = val < 0 ? 60 : 80;
+
 export default class extends React.Component {
   constructor(props) {
     super(props);
-    this.paper = findBlockByid(this.props.route.params.info).content.split('|');
-    this.lower = 0;
-
-    this.scrollY = 0;
+    this.paperList = toArray(
+      findReceiptByShopId(this.props.route.params.shopId),
+    );
+    this.index = 0;
     this.state = {
-      paperView: this._addLine(),
+      receiptList: [
+        this._receipt(this._getReceipt()),
+        this._receipt(this._getReceipt()),
+        this._receipt(this._getReceipt()),
+      ],
     };
+
+    this.width = width;
   }
   render() {
-    let ar = [];
-    const list = findBlockByid(this.props.route.params.info).content.split('|');
-    let view = list.slice(0, 50).map((element, index) => {
-      return this._getRow(element);
-    });
-
-    ar.push(view);
-    ar.push(<Text>Ciai</Text>);
-
-    const ciao = ar.map(el => el);
-
     return (
-      <View>
+      <View style={{backgroundColor: '#ebf0f6'}}>
         <View
           style={{
             flexDirection: 'row',
@@ -77,7 +80,7 @@ export default class extends React.Component {
               textAlign: 'left',
               color: '#fff',
             }}>
-            {this.props.route.params.negozio}
+            {this.props.route.params.shopName}
           </Text>
 
           <TouchableOpacity
@@ -86,24 +89,36 @@ export default class extends React.Component {
             <IonIcon name={'ios-share-alt'} size={30} color={'#fff'} />
           </TouchableOpacity>
         </View>
+        <View style={{marginTop: 70}}>
+          <FlatList
+            data={this.state.receiptList}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={view => {
+              console.log(
+                '========================================================',
+              );
+              console.log(view);
+              console.log(
+                '========================================================',
+              );
 
-        <ScrollView
-          onScroll={({nativeEvent}) => {
-            //console.log(nativeEvent)
-            this._reached(nativeEvent);
-          }}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: '#fff',
-              marginLeft: 15,
-              marginRight: 15,
-              marginTop: 100,
-              padding: 15,
-            }}>
-            {this.state.paperView}
-          </View>
-        </ScrollView>
+              return (
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                    marginLeft: 15,
+                    marginRight: 15,
+                    marginTop: 10,
+
+                    paddingBottom: 10,
+                  }}>
+                  {view.item}
+                </View>
+              );
+            }}
+          />
+        </View>
       </View>
     );
   }
@@ -145,33 +160,46 @@ export default class extends React.Component {
     );
   }
 
-  _reached({contentOffset, layoutMeasurement, contentSize}) {
-    if (
-      contentOffset.y + layoutMeasurement.height >= contentSize.height - 50 &&
-      this.lower < this.paper.length &&
-      this._scrollToDown(contentOffset.y)
-    ) {
-      this.scrollY = contentOffset.y;
-      this.setState({
-        paperView: [this.state.paperView, this._addLine()].map(ele => ele),
-      });
+  _receipt(line) {
+    const view = line.content.split('|').map(ele => this._getRow(ele));
+
+    return view;
+  }
+
+  _getReceipt() {
+    if (this.index < this.paperList.length) {
+      return this.paperList[this.index++];
     }
   }
-
-  _addLine() {
-    const upper =
-      this.paper.length < this.lower + interval
-        ? this.paper.length
-        : this.lower + interval;
-    const list = this.paper.slice(this.lower, upper).map(element => {
-      return this._getRow(element);
-    });
-    this.lower = upper;
-    console.log(this.lower);
-    return list;
-  }
-
-  _scrollToDown(y) {
-    return this.scrollY < y;
-  }
 }
+
+/**
+ <FlatList
+ data={this.state.receiptList}
+ keyExtractor={(item, index) => index.toString()}
+ renderItem={view => {
+              console.log(
+                '========================================================',
+              );
+              console.log(view);
+              console.log(
+                '========================================================',
+              );
+
+              return (
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                    marginLeft: 15,
+                    marginRight: 15,
+                    marginTop: 10,
+                    paddingBottom: 10,
+                  }}>
+                  {view.item}
+                </View>
+              );
+            }}
+ />
+
+ */
