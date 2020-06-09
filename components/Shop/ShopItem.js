@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {formatDate} from './Utility';
+import {formatDate} from '../Utility';
 
-export default class ListItem extends React.Component {
+export default class ShopItem extends React.Component {
   render() {
     const {element, onPress, onLongPress, idCurr} = this.props;
     let zIndex = 0;
@@ -108,9 +108,6 @@ export default class ListItem extends React.Component {
       </View>
     );
   }
-
-
-
 
   _toUpperLetter(s) {
     return s.charAt(0).toUpperCase();

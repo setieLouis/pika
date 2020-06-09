@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
 import ShopHeader from './ShopHeader';
-import ListItem from '../ListItem';
+import ShopItem from './ShopItem';
 
 const SHOPS = [
   {
@@ -83,7 +83,7 @@ export default class ShopLister extends React.Component {
         <FlatList
           data={this.state.infos}
           renderItem={obj => (
-            <ListItem
+            <ShopItem
               idCurr={this.state.selected}
               element={obj.item}
               onLongPress={this._select}
