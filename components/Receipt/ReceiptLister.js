@@ -1,43 +1,24 @@
 import React from 'react';
 import {FlatList, Text, StyleSheet, View} from 'react-native';
 import ReceiptHeader from './ReceiptHeader';
-import {findReceiptByShopId, toArray} from '../database/Paperbase';
+import {
+  deleteReceipt,
+  findReceiptByShopId,
+  toArray,
+} from '../database/Paperbase';
 import ReceiptItem from './ReceiptItem';
-
-const re =
-  '                {*}*ESSELUNGA S.P.A*{*}             ' +
-  '\n            DOCUMENTO COMMERCIALE            ' +
-  '\n' +
-  '\n**********************************************' +
-  '\n*****       RECEVUTA DI PAGAMENTO        *****' +
-  '\nEsselunga via Famagosta\nPrepagate Virtuali' +
-  '\nS/E-CE 1163' +
-  '\nCASSA: 006 ID 00116306' +
-  '\nOPER: 27214 STAN 003452' +
-  '\nC 721973******4850 keyed' +
-  '\nCOD.AUT. 367506' +
-  '\nRESIDUO: 0,00\nACQ.ID 00000000029' +
-  '\n' +
-  '\n' +
-  '{m*}TOTALE                    3,55{m*}' +
-  '\n' +
-  '\nTRANSAZIONE AUTORIZZATTA' +
-  '\n*****      {RECEVUTA DI PAGAMENTO}       *****' +
-  '\n**********************************************' +
-  '\n' +
-  '\n' +
-  '{q}ciao mama come va{q}' +
-  '\n' +
-  '\n            DOCUMENTO COMMERCIALE            ';
 
 export default class ReceiptLister extends React.Component {
   constructor(props) {
     super(props);
-    this.paperList = toArray(findReceiptByShopId(1));
+    this.allReceipt = toArray(
+      findReceiptByShopId(this.props.route.params.shopId),
+    );
 
     this.state = {
       socialFlag: false,
       selectedList: [],
+      receipts: this.allReceipt,
     };
   }
 
@@ -45,6 +26,7 @@ export default class ReceiptLister extends React.Component {
     return (
       <View style={style.container}>
         <ReceiptHeader
+          value={this.props.route.params.shopName}
           socialFlag={this.state.socialFlag}
           goBack={this._goBack}
           socialHeaderHide={this._hideToolHeader}
@@ -52,13 +34,13 @@ export default class ReceiptLister extends React.Component {
           socialShare={this._shareReceipt}
         />
         <FlatList
-          data={[re, re, re]}
+          data={this.state.receipts}
           keyExtractor={(item, index) => index.toString()}
           renderItem={obj => (
             <ReceiptItem
-              selected={this._isSelected(obj.index)}
+              selected={this._isSelected(obj.item.id)}
               onPress={this._showToolHeader}
-              receipt={obj}
+              receipt={obj.item}
             />
           )}
         />
@@ -70,12 +52,11 @@ export default class ReceiptLister extends React.Component {
     this.props.navigation.goBack();
   };
 
-  _showToolHeader = (element, flag) => {
-    console.log(element.index);
+  _showToolHeader = (id, flag) => {
     if (flag) {
       this.setState(
         {
-          selectedList: [...this.state.selectedList, element.index],
+          selectedList: [...this.state.selectedList, id],
         },
         this._checkHideToolHeader,
       );
@@ -83,7 +64,7 @@ export default class ReceiptLister extends React.Component {
       this.setState(
         {
           selectedList: this.state.selectedList.filter(index => {
-            return index !== element.index;
+            return index !== id;
           }),
         },
         this._checkHideToolHeader,
@@ -92,8 +73,6 @@ export default class ReceiptLister extends React.Component {
   };
 
   _checkHideToolHeader = () => {
-    console.log(this.state.selectedList);
-
     if (this.state.socialFlag && this.state.selectedList.length === 0) {
       this.setState({
         socialFlag: false,
@@ -113,21 +92,40 @@ export default class ReceiptLister extends React.Component {
   };
 
   _isSelected(index) {
-    if (this.state.selectedList.length === 0) {
+    return this._onArray(this.state.selectedList, index);
+  }
+
+  _onArray(list, index) {
+    if (list.length === 0) {
       return false;
     }
 
-    const container = this.state.selectedList.filter(el => el === index);
+    const container = list.filter(el => el === index);
     return container.length === 0 ? false : true;
   }
 
   _deleteReceipt = () => {
-    console.log('delete  all selected receipt');
-    this._hideToolHeader();
-  };
+    const tmpSelected = this.state.selectedList;
+    this.setState(
+      {
+        receipts: this.state.receipts.filter(
+          el => !this._onArray(tmpSelected, el.id),
+        ),
+      },
+      () => {
+        this.allReceipt.forEach(el => {
+          if (this._onArray(tmpSelected, el.id)) {
+            deleteReceipt(el);
+          }
+        });
 
+        this._hideToolHeader();
+      },
+    );
+  };
   _shareReceipt = () => {
     console.log('share all selected receipt');
+
     this._hideToolHeader();
   };
 }

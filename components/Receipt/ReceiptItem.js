@@ -27,11 +27,10 @@ export default class ReceiptItem extends React.Component {
       <TouchableOpacity
         onPress={() => {
           let flag = true;
-          let content = receipt;
           if (selected) {
             flag = false;
           }
-          onPress(content, flag);
+          onPress(receipt.id, flag);
         }}
         style={{marginTop: 10, marginLeft: 15, marginRight: 15}}>
         <ParsedText
@@ -86,7 +85,7 @@ export default class ReceiptItem extends React.Component {
               renderText: this._smallStrong,
             },
           ]}>
-          {receipt.item}
+          {receipt.content}
         </ParsedText>
         <View
           style={{

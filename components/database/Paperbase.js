@@ -127,6 +127,7 @@ export function findBlockByid(id) {
 }
 
 export function findReceiptByShopId(shop_id) {
+  console.log(shop_id)
   return findAllReceipt().filtered('shop = "' + shop_id.toString() + '"');
 }
 
@@ -307,109 +308,148 @@ export function toArray(collect) {
   }
   return list;
 }
-const content =
-  '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}';
 
 const content2 =
-  '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************';
-const t1 = tagModel('default', 'carrot', 0);
-const m1 = metaModel(0, 'berafino', 'via garibaldi', '01 Apr 2008', 0);
-const m2 = metaModel(0, 'alberto', 'via garibaldi', '01 Apr 2008', 1);
-const m3 = metaModel(0, 'emilie', 'via garibaldi', '01 Apr 2008', 2);
-const m4 = metaModel(0, 'camona', 'via garibaldi', '01 Apr 2008', 3);
-const m5 = metaModel(0, 'alberto', 'via garibaldi', '01 Apr 2008', 5);
-const m6 = metaModel(0, 'emilie', 'via garibaldi', '01 Apr 2008', 6);
-const m7 = metaModel(0, 'camona', 'via garibaldi', '01 Apr 2008', 7);
-const m8 = metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 8);
-const m9 = metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 9);
-const m10 = metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 10);
-const b1 = blockModel(
-  '|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}|                *ESSELUNGA S.P.A*             {*}|            DOCUMENTO COMMERCIALE            |||**********************************************|*****       RECEVUTA DI PAGAMENTO        *****|Esselunga via Famagosta|Prepagate Virtuali|S/E-CE 1163|CASSA: 006 ID 00116306|OPER: 27214 STAN 003452|C 721973******4850 keyed|COD.AUT. 367506|RESIDUO: 0,00|ACQ.ID 00000000029|||TOTALE                    3,55|||TRANSAZIONE AUTORIZZATTA|*****      {RECEVUTA DI PAGAMENTO}       *****|**********************************************| ciao mama come va {q}',
-  0,
-);
-
-saveTag(t1);
-saveMeta(m1);
-saveMeta(m2);
-saveMeta(m3);
-saveMeta(m4);
-saveMeta(m5);
-saveMeta(m6);
-saveMeta(m7);
-saveMeta(m8);
-saveMeta(m9);
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 11));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 12));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 13));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 14));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 15));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 16));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 17));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 18));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 19));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 20));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 21));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 22));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 23));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 24));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 25));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 26));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 27));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 28));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 29));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 30));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 31));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 32));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 33));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 34));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 35));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 35));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 36));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 37));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 38));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 39));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 40));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 41));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 42));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 43));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 44));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 45));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 46));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 47));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 48));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 49));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 50));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 51));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 52));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 53));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 54));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 55));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 56));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 57));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 58));
-saveMeta(metaModel(0, 'dario', 'via garibaldi', '01 Apr 2008', 59));
-
-saveMeta(m10);
-
-saveBlock(b1);
+  '                {*}*ESSELUNGA S.P.A*{*}             ' +
+  '\n            DOCUMENTO COMMERCIALE            ' +
+  '\n' +
+  '\n**********************************************' +
+  '\n*****       RECEVUTA DI PAGAMENTO        *****' +
+  '\nEsselunga via Famagosta\nPrepagate Virtuali' +
+  '\nS/E-CE 1163' +
+  '\nCASSA: 006 ID 00116306' +
+  '\nOPER: 27214 STAN 003452' +
+  '\nC 721973******4850 keyed' +
+  '\nCOD.AUT. 367506' +
+  '\nRESIDUO: 0,00\nACQ.ID 00000000029' +
+  '\n' +
+  '\n' +
+  '{m*}TOTALE                    3,55{m*}' +
+  '\n' +
+  '\nTRANSAZIONE AUTORIZZATTA' +
+  '\n*****      {RECEVUTA DI PAGAMENTO}       *****' +
+  '\n**********************************************' +
+  '\n' +
+  '\n' +
+  '{q}ciao mama come va{q}' +
+  '\n' +
+  '\n            DOCUMENTO COMMERCIALE            ';
 
 saveReceipt({
-  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  shop: shopModel('0', 'serafino', 'via Settembre'),
+  receipt: receiptModel(content2, '0'),
+});
+saveReceipt({
+  shop: shopModel('0', 'serafino', 'via Settembre'),
+  receipt: receiptModel(content2, '0'),
+});
+saveReceipt({
+  shop: shopModel('0', 'serafino', 'via Settembre'),
+  receipt: receiptModel(content2, '0'),
+});
+
+saveReceipt({
+  shop: shopModel('1', 'Pizza Per Tutti', 'Pzza 25 novembre'),
   receipt: receiptModel(content2, '1'),
 });
 saveReceipt({
-  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  shop: shopModel('1', 'Pizza Per Tutti', 'Pzza 25 novembre'),
   receipt: receiptModel(content2, '1'),
 });
 saveReceipt({
-  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
+  shop: shopModel('1', 'Pizza Per Tutti', 'Pzza 25 novembre'),
   receipt: receiptModel(content2, '1'),
 });
+
 saveReceipt({
-  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
-  receipt: receiptModel(content2, '1'),
+  shop: shopModel('2', 'Grande Mercato', 'Pzza 25 novembre'),
+  receipt: receiptModel(content2, '2'),
 });
 saveReceipt({
-  shop: shopModel('1', 'serafino', 'via garibaldi crema'),
-  receipt: receiptModel(content2, '1'),
+  shop: shopModel('2', 'Grande Mercato', 'Pzza 25 novembre'),
+  receipt: receiptModel(content2, '2'),
+});
+saveReceipt({
+  shop: shopModel('2', 'Grande Mercato', 'Pzza 25 novembre'),
+  receipt: receiptModel(content2, '2'),
+});
+
+saveReceipt({
+  shop: shopModel('3', 'Piccolo Mercato', 'via della disperazione 89'),
+  receipt: receiptModel(content2, '3'),
+});
+saveReceipt({
+  shop: shopModel('3', 'Piccolo Mercato', 'via della disperazione 89'),
+  receipt: receiptModel(content2, '3'),
+});
+saveReceipt({
+  shop: shopModel('3', 'Piccolo Mercato', 'via della disperazione 89'),
+  receipt: receiptModel(content2, '3'),
+});
+
+saveReceipt({
+  shop: shopModel('4', 'Jolie', 'ia della verdi 89'),
+  receipt: receiptModel(content2, '4'),
+});
+saveReceipt({
+  shop: shopModel('4', 'Jolie', 'ia della verdi 89'),
+  receipt: receiptModel(content2, '4'),
+});
+saveReceipt({
+  shop: shopModel('4', 'Jolie', 'via della verdi 89'),
+  receipt: receiptModel(content2, '4'),
+});
+
+saveReceipt({
+  shop: shopModel('5', 'Petite fille', 'Piazza Garilbadi Milano verdi 89'),
+  receipt: receiptModel(content2, '5'),
+});
+saveReceipt({
+  shop: shopModel('5', 'Petite fille', 'Piazza Garilbadi Milano verdi 89'),
+  receipt: receiptModel(content2, '5'),
+});
+saveReceipt({
+  shop: shopModel('5', 'Petite fille', 'Piazza Garilbadi Milano verdi 89'),
+  receipt: receiptModel(content2, '5'),
+});
+
+saveReceipt({
+  shop: shopModel('6', 'Al lago', 'via Como Milano verdi 89'),
+  receipt: receiptModel(content2, '6'),
+});
+saveReceipt({
+  shop: shopModel('6', 'Al lago', 'via Como Milano verdi 89'),
+  receipt: receiptModel(content2, '6'),
+});
+saveReceipt({
+  shop: shopModel('6', 'Al lago', 'via Como Milano verdi 89'),
+  receipt: receiptModel(content2, '6'),
+});
+
+saveReceipt({
+  shop: shopModel('7', 'Da Yemi', 'via della MyGosh 89'),
+  receipt: receiptModel(content2, '7'),
+});
+saveReceipt({
+  shop: shopModel('7', 'Da Yemi', 'via della MyGosh 89'),
+  receipt: receiptModel(content2, '7'),
+});
+saveReceipt({
+  shop: shopModel('7', 'Da Yemi', 'via della MyGosh 89'),
+  receipt: receiptModel(content2, '7'),
+});
+
+saveReceipt({
+  shop: shopModel('8', 'Mare alto', 'via Rimino Milano verdi 89'),
+  receipt: receiptModel(content2, '8'),
+});
+
+saveReceipt({
+  shop: shopModel('8', 'Mare alto', 'via Rimino Milano verdi 89'),
+  receipt: receiptModel(content2, '8'),
+});
+
+saveReceipt({
+  shop: shopModel('8', 'Mare alto', 'via Rimino Milano verdi 89'),
+  receipt: receiptModel(content2, '8'),
 });

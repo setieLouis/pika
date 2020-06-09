@@ -2,69 +2,14 @@ import React from 'react';
 import {FlatList, View} from 'react-native';
 import ShopHeader from './ShopHeader';
 import ShopItem from './ShopItem';
+import {findAllShop} from '../database/Paperbase';
 
-const SHOPS = [
-  {
-    id: 0,
-    name: 'Serafino',
-    address: 'via Settembre',
-    last_update_date: new Date(),
-  },
-  {
-    id: 1,
-    name: 'Pizza Per Tutti',
-    address: 'Pza 25 novembre ',
-    last_update_date: new Date(),
-  },
-  {
-    id: 3,
-    name: 'Grande Mercato',
-    address: 'via della Mummia 5 ',
-    last_update_date: new Date(),
-  },
-  {
-    id: 4,
-    name: 'Piccolo Mercato',
-    address: 'via della disperazione 89 ',
-    last_update_date: new Date(),
-  },
-  {
-    id: 5,
-    name: 'Da Yemi',
-    address: 'via della MyGosh 89 ',
-    last_update_date: new Date(),
-  },
-  {
-    id: 6,
-    name: 'Jolie',
-    address: 'via della verdi 89 ',
-    last_update_date: new Date(),
-  },
-  {
-    id: 7,
-    name: 'Petite fille',
-    address: 'Piazza Garilbadi Milano verdi 89 ',
-    last_update_date: new Date(),
-  },
-  {
-    id: 9,
-    name: 'Al lago',
-    address: 'via Como Milano verdi 89 ',
-    last_update_date: new Date(),
-  },
-  {
-    id: 10,
-    name: 'Al lago',
-    address: 'via Como Milano verdi 89 ',
-    last_update_date: new Date(),
-  },
-];
 export default class ShopLister extends React.Component {
   constructor(props) {
     super(props);
     this.infoCpy = [];
     this.state = {
-      infos: SHOPS, //findAllShop(),
+      infos: findAllShop(),
       selected: {id: -1},
       showSocial: false,
     };
@@ -96,9 +41,13 @@ export default class ShopLister extends React.Component {
     );
   }
 
-  _goTo = () => {
-    this.props.navigation.navigate('receipt_lister');
-  }
+  _goTo = (id, name) => {
+    this.props.navigation.navigate('receipt_lister', {
+      shopId: id,
+      shopName: name,
+    });
+  };
+
   _setSocial = flag => {
     this.setState({
       showSocial: flag,
@@ -106,7 +55,6 @@ export default class ShopLister extends React.Component {
   };
 
   _socialDelete = () => {
-    console.log('delete ' + this.state.selected.name);
     this._unSelect();
   };
 
@@ -116,6 +64,7 @@ export default class ShopLister extends React.Component {
       selected: -1,
     });
   };
+
   _select = element => {
     this._setSocial(true);
     this.setState({
@@ -124,7 +73,6 @@ export default class ShopLister extends React.Component {
   };
 
   _filter = text => {
-    console.log(text);
     text = text.toLowerCase();
     this.infoCpy = this.infoCpy.length > 0 ? this.infoCpy : this.state.infos;
     let tofilter =
