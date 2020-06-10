@@ -2,7 +2,12 @@ import React from 'react';
 import {AppState, FlatList, TouchableOpacity, View} from 'react-native';
 import ShopHeader from './ShopHeader';
 import ShopItem from './ShopItem';
-import {deleteShop, findAllReceipt, findAllShop} from '../database/Paperbase';
+import {
+  deleteShop,
+  findAllReceipt,
+  findAllShop,
+  saveReceipt,
+} from '../database/Paperbase';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Notifications} from 'react-native-notifications';
 import {connect} from 'react-redux';
@@ -256,11 +261,19 @@ class ShopLister extends React.Component {
         }
         break;
       case 'background':
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&');
+        console.log(this.props);
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&');
         this.props.stateDeleteShops.forEach(shop => {
           deleteShop(shop);
-          //TODO WRITRE FIRST NEW ELEMENT
-          this._resetUpdate();
         });
+
+        this.props.stateNewsShops.forEach(receipt => {
+          saveReceipt(receipt);
+        });
+
+        this._resetUpdate();
+
         break;
 
       default:
@@ -309,6 +322,7 @@ const mapStateToProps = state => {
     stateShops: state.shop.all,
     stateDeleteShops: state.shop.delete,
     receiveNew: state.shop.receiveNew,
+    stateNewsShops: state.new,
   };
 };
 export default connect(mapStateToProps)(ShopLister);

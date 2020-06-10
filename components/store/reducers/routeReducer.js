@@ -20,6 +20,8 @@ const initialState = {
     all: [],
     delete: [],
   },
+
+  new: [],
 };
 
 function tagsHandler(state = initialState, action) {
@@ -34,6 +36,7 @@ function tagsHandler(state = initialState, action) {
       if (state.shop.all.length > 0) {
         return state;
       }
+
       nextstate = {
         ...state,
         shop: {
@@ -59,6 +62,19 @@ function tagsHandler(state = initialState, action) {
       };
       return nextstate;
 
+    case 'ADD_RECEIPT':
+      nextstate = {
+        ...state,
+        shop: {
+          ...state.shop,
+          //receiveNew: true,
+          all: [action.value, ...state.shop.all],
+        },
+        new: [...state.new, action.value],
+        //TODO ADD RECEIPT
+      };
+      return nextstate;
+
     case 'RESET_UPDATE_SHOP': {
       nextstate = {
         ...state,
@@ -66,6 +82,7 @@ function tagsHandler(state = initialState, action) {
           ...state.shop,
           delete: [],
         },
+        new: [],
       };
 
       return nextstate;
