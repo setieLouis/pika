@@ -10,16 +10,63 @@ const initialState = {
       deleteInfos: [],
     },
   },
+  shop: {
+    all: [],
+    delete: [],
+  },
+
+  receipt: {
+    all: [],
+    delete: [],
+  },
 };
 
 function tagsHandler(state = initialState, action) {
-  let nextstate;
+  let nextstate = state;
   let list;
   const stateTag = state.paper.tag;
   const stateInfo = state.paper.info;
   const paper = state.paper;
 
   switch (action.type) {
+    case 'GET_ALL_DATABASE':
+      if (state.shop.all.length > 0) {
+        return state;
+      }
+      nextstate = {
+        ...state,
+        shop: {
+          ...state.shop,
+          all: [...action.value.shops],
+        },
+        receipt: {
+          ...state.receipt,
+          all: [...state.receipt.all, action.value.shop],
+        },
+      };
+      return nextstate;
+    case 'DELETE_SHOP':
+      const tmpAll = state.shop.all.filter(shop => shop.id !== action.value.id);
+      nextstate = {
+        ...state,
+        shop: {
+          all: [...tmpAll],
+          delete: [...state.shop.delete, action.value],
+        },
+      };
+      return nextstate;
+
+    case 'RESET_UPDATE_SHOP': {
+      nextstate = {
+        ...state,
+        shop: {
+          ...state.shop,
+          delete: [],
+        },
+      };
+
+      return nextstate;
+    }
     case 'ADD_NEW_TAGS':
       nextstate = {
         ...state,
