@@ -1,6 +1,7 @@
 import React from 'react';
 import {Platform, View, Text} from 'react-native';
 import {Notifications} from 'react-native-notifications';
+import {receiptModel, saveReceipt, shopModel} from './database/Paperbase';
 
 export default class PushNotificationManager extends React.Component {
   componentDidMount() {
@@ -25,7 +26,8 @@ export default class PushNotificationManager extends React.Component {
   registerNotificationEvents = () => {
     Notifications.events().registerNotificationReceivedForeground(
       (notification, completion) => {
-        console.log('Notification Received - Foreground', notification);
+        //TODO SAVE THE RECEIVE REECEIPT
+
         // Calling completion on iOS with `alert: true` will present the native iOS inApp notification.
         completion({alert: false, sound: false, badge: false});
       },
@@ -33,13 +35,16 @@ export default class PushNotificationManager extends React.Component {
 
     Notifications.events().registerNotificationOpened(
       (notification, completion) => {
-        console.log('Notification opened by device user', notification);
-        console.log(
-          `Notification opened with an action identifier: ${
-            notification.identifier
-          }`,
-        );
-        completion();
+        const element = notification.payload.extra;
+        //TODO FIND THE WAY TO NOTIFY THE RECEIPT ON RECEIVE
+        saveReceipt({
+          shop: shopModel(
+            element.shop.id.toString(),
+            element.shop.name,
+            element.shop.address,
+          ),
+          receipt: receiptModel(element.receipt, element.shop.id.toString()),
+        });
       },
     );
 
@@ -74,3 +79,14 @@ export default class PushNotificationManager extends React.Component {
     return <View style={{flex: 1}}>{children}</View>;
   }
 }
+
+/**
+ console.log('Notification opened by device user', notification);
+ console.log(
+ `Notification opened with an action identifier: ${
+            notification.identifier
+          }`,
+ );
+ completion()
+
+ **/
