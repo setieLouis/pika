@@ -52,6 +52,9 @@ class ReceiptLister extends React.Component {
       receipts: this.allReceipt,
     });
   }
+  componentWillUnmount(): void {
+    this._deleteReceiptFromStore();
+  }
 
   _goBack = () => {
     this.props.navigation.goBack();
@@ -112,10 +115,10 @@ class ReceiptLister extends React.Component {
         ),
       },
       () => {
-        this.props.allReceipt = this.props.allReceipt.filter(
+        this.allReceipt = this.allReceipt.filter(
           el => !this._onArray(tmpSelected, el.id),
         );
-
+        this._putToDeleteStore(tmpSelected);
         this._hideToolHeader();
       },
     );
@@ -129,6 +132,21 @@ class ReceiptLister extends React.Component {
     return this.props.stateReceipts.filter(
       receipt => receipt.shop === this.props.route.params.shopId,
     );
+  }
+
+  _putToDeleteStore(storeDelete) {
+    const action = {
+      type: 'PUT_TO_DELETE_STORE',
+      value: storeDelete,
+    };
+    this.props.dispatch(action);
+  }
+
+  _deleteReceiptFromStore() {
+    const action = {
+      type: 'DELETE_RECEIPT',
+    };
+    this.props.dispatch(action);
   }
 }
 

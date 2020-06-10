@@ -7,9 +7,13 @@ const initialState = {
   receipt: {
     all: [],
     delete: [],
-    currShopReceipt: [],
   },
   new: [],
+};
+
+const onArray = function(list, index) {
+  const container = list.filter(el => el === index);
+  return container.length === 0 ? false : true;
 };
 
 function tagsHandler(state = initialState, action) {
@@ -78,6 +82,32 @@ function tagsHandler(state = initialState, action) {
         },
       };
       return nextstate;
+    case 'PUT_TO_DELETE_STORE':
+      nextstate = {
+        ...state,
+        receipt: {
+          ...state.receipt,
+          delete: [...state.receipt.delete, ...action.value],
+        },
+      };
+      return nextstate;
+
+    case 'DELETE_RECEIPT':
+      if (state.receipt.delete.length === 0) {
+        return state;
+      }
+      const tmpReceiptAll = state.receipt.all.filter(
+        receipt => !onArray(state.receipt.delete, receipt.id),
+      );
+      nextstate = {
+        ...state,
+        receipt: {
+          all: tmpReceiptAll,
+          delete: [],
+        },
+      };
+      return nextstate;
+
     /*case 'GET_RECEIPT_BY_SHOP_ID':
       nextstate = {
         ...state,
