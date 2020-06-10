@@ -7,6 +7,7 @@ const initialState = {
   receipt: {
     all: [],
     delete: [],
+    currShopReceipt: [],
   },
   new: [],
 };
@@ -28,7 +29,7 @@ function tagsHandler(state = initialState, action) {
         },
         receipt: {
           ...state.receipt,
-          all: [...state.receipt.all, action.value.shop],
+          all: [...action.value.receipts],
         },
       };
       return nextstate;
@@ -57,7 +58,7 @@ function tagsHandler(state = initialState, action) {
       };
       return nextstate;
 
-    case 'RESET_UPDATE_SHOP': {
+    case 'RESET_UPDATE_SHOP':
       nextstate = {
         ...state,
         shop: {
@@ -67,14 +68,24 @@ function tagsHandler(state = initialState, action) {
         new: [],
       };
       return nextstate;
-    }
 
     case 'RESET_RECEIVE_NEW':
       nextstate = {
         ...state,
         shop: {
-          ...state.shop,
+          ...shop,
           receiveNew: false,
+        },
+      };
+      return nextstate;
+    case 'GET_RECEIPT_BY_SHOP_ID':
+      nextstate = {
+        ...state,
+        receipt: {
+          ...state.receipt,
+          currShopReceipt: state.receipt.all.filter(
+            receipt => receipt.shop === action.value,
+          ),
         },
       };
       return nextstate;

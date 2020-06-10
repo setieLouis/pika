@@ -12,14 +12,14 @@ import {connect} from 'react-redux';
 class ReceiptLister extends React.Component {
   constructor(props) {
     super(props);
-    this.allReceipt = toArray(
+    /*this.allReceipt = toArray(
       findReceiptByShopId(this.props.route.params.shopId),
-    );
+    );*/
 
     this.state = {
       socialFlag: false,
       selectedList: [],
-      receipts: this.allReceipt,
+      receipts: [],
     };
     console.log(this.props);
   }
@@ -49,11 +49,21 @@ class ReceiptLister extends React.Component {
       </View>
     );
   }
+  componentDidMount(): void {
+    this._getReceipts();
+    this.setState(
+      {
+        receipts: this.props.allReceipt,
+      },
+      () => {
+        console.log(this.state.allReceipt);
+      },
+    );
+  }
 
   _goBack = () => {
     this.props.navigation.goBack();
   };
-
   _showToolHeader = (id, flag) => {
     if (flag) {
       this.setState(
@@ -73,7 +83,6 @@ class ReceiptLister extends React.Component {
       );
     }
   };
-
   _checkHideToolHeader = () => {
     if (this.state.socialFlag && this.state.selectedList.length === 0) {
       this.setState({
@@ -85,18 +94,15 @@ class ReceiptLister extends React.Component {
       });
     }
   };
-
   _hideToolHeader = () => {
     this.setState({
       selectedList: [],
       socialFlag: false,
     });
   };
-
   _isSelected(index) {
     return this._onArray(this.state.selectedList, index);
   }
-
   _onArray(list, index) {
     if (list.length === 0) {
       return false;
@@ -105,7 +111,6 @@ class ReceiptLister extends React.Component {
     const container = list.filter(el => el === index);
     return container.length === 0 ? false : true;
   }
-
   _deleteReceipt = () => {
     const tmpSelected = this.state.selectedList;
     this.setState(
@@ -115,11 +120,11 @@ class ReceiptLister extends React.Component {
         ),
       },
       () => {
-        this.allReceipt.forEach(el => {
+        /*this.allReceipt.forEach(el => {
           if (this._onArray(tmpSelected, el.id)) {
             deleteReceipt(el);
           }
-        });
+        });*/
 
         this._hideToolHeader();
       },
@@ -130,6 +135,14 @@ class ReceiptLister extends React.Component {
 
     this._hideToolHeader();
   };
+
+  _getReceipts() {
+    const action = {
+      type: 'GET_RECEIPT_BY_SHOP_ID',
+      value: this.props.route.params.shopId,
+    };
+    this.props.dispatch(action);
+  }
 }
 
 const style = StyleSheet.create({
@@ -147,6 +160,8 @@ const style = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    allReceipt: state.receipt.currShopReceipt,
+  };
 };
 export default connect(mapStateToProps)(ReceiptLister);
