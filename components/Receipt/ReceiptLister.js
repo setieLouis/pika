@@ -12,16 +12,13 @@ import {connect} from 'react-redux';
 class ReceiptLister extends React.Component {
   constructor(props) {
     super(props);
-    /*this.allReceipt = toArray(
-      findReceiptByShopId(this.props.route.params.shopId),
-    );*/
 
     this.state = {
       socialFlag: false,
       selectedList: [],
       receipts: [],
     };
-    console.log(this.props);
+    this.allReceipt = this._getReceipts();
   }
 
   render() {
@@ -49,16 +46,11 @@ class ReceiptLister extends React.Component {
       </View>
     );
   }
+
   componentDidMount(): void {
-    this._getReceipts();
-    this.setState(
-      {
-        receipts: this.props.allReceipt,
-      },
-      () => {
-        console.log(this.state.allReceipt);
-      },
-    );
+    this.setState({
+      receipts: this.allReceipt,
+    });
   }
 
   _goBack = () => {
@@ -120,11 +112,9 @@ class ReceiptLister extends React.Component {
         ),
       },
       () => {
-        /*this.allReceipt.forEach(el => {
-          if (this._onArray(tmpSelected, el.id)) {
-            deleteReceipt(el);
-          }
-        });*/
+        this.props.allReceipt = this.props.allReceipt.filter(
+          el => !this._onArray(tmpSelected, el.id),
+        );
 
         this._hideToolHeader();
       },
@@ -132,16 +122,13 @@ class ReceiptLister extends React.Component {
   };
   _shareReceipt = () => {
     console.log('share all selected receipt');
-
     this._hideToolHeader();
   };
 
   _getReceipts() {
-    const action = {
-      type: 'GET_RECEIPT_BY_SHOP_ID',
-      value: this.props.route.params.shopId,
-    };
-    this.props.dispatch(action);
+    return this.props.stateReceipts.filter(
+      receipt => receipt.shop === this.props.route.params.shopId,
+    );
   }
 }
 
@@ -161,7 +148,7 @@ const style = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    allReceipt: state.receipt.currShopReceipt,
+    stateReceipts: state.receipt.all,
   };
 };
 export default connect(mapStateToProps)(ReceiptLister);

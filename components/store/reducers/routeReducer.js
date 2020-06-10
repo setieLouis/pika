@@ -78,7 +78,7 @@ function tagsHandler(state = initialState, action) {
         },
       };
       return nextstate;
-    case 'GET_RECEIPT_BY_SHOP_ID':
+    /*case 'GET_RECEIPT_BY_SHOP_ID':
       nextstate = {
         ...state,
         receipt: {
@@ -88,8 +88,7 @@ function tagsHandler(state = initialState, action) {
           ),
         },
       };
-      return nextstate;
-
+      return nextstate;*/
     default:
       return state;
   }
