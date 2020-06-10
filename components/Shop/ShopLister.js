@@ -3,6 +3,7 @@ import {AppState, FlatList, TouchableOpacity, View} from 'react-native';
 import ShopHeader from './ShopHeader';
 import ShopItem from './ShopItem';
 import {
+  deleteReceipt,
   deleteShop,
   findAllReceipt,
   findAllShop,
@@ -261,19 +262,52 @@ class ShopLister extends React.Component {
         }
         break;
       case 'background':
-        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&');
-        console.log(this.props);
-        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&');
-        this.props.stateDeleteShops.forEach(shop => {
-          deleteShop(shop);
-        });
+        /**
+         * save all new receipt and shop from notiifcation
+         * where receipt :{
+         *     shop:{
+         *        id: 'string',
+         *        name: 'string',
+         *        address: 'string',
+         *        last_update_date: 'date',
+         *     },
+         *     receipt:{
+         *         id: 'int',
+         *         shop: 'string',
+         *         content: 'string',
+         *     }
+         * }
+         */
+        this.props.stateNewsShops.forEach(receipt => saveReceipt(receipt));
 
-        this.props.stateNewsShops.forEach(receipt => {
-          saveReceipt(receipt);
-        });
+        /**
+         * delete  all user deleting receipts
+         * where receipt :{
+         *     id: 'int',
+         *     shop: 'string',
+         *     content: 'string',
+         * }
+         */
 
+        this.props.stateDeleteReceipt.forEach(receipt =>
+          deleteReceipt(receipt),
+        );
+
+        this.props.stateDeleteGlobalReceipt.forEach(receipt =>
+          deleteReceipt(receipt),
+        );
+
+        /**
+         * delete  all user deleting shops
+         * where shop :{
+         *     id: 'string',
+         *     name: 'string',
+         *     address: 'string',
+         *     last_update_date: 'date',
+         * }
+         */
+        this.props.stateDeleteShops.forEach(shop => deleteShop(shop));
         this._resetUpdate();
-
         break;
 
       default:
@@ -323,6 +357,8 @@ const mapStateToProps = state => {
     stateDeleteShops: state.shop.delete,
     receiveNew: state.shop.receiveNew,
     stateNewsShops: state.new,
+    stateDeleteGlobalReceipt: state.receipt.globalDelete,
+    stateDeleteReceipt: state.receipt.delete,
   };
 };
 export default connect(mapStateToProps)(ShopLister);

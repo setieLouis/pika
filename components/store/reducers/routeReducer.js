@@ -7,6 +7,7 @@ const initialState = {
   receipt: {
     all: [],
     delete: [],
+    globalDelete: [],
   },
   new: [],
 };
@@ -69,6 +70,11 @@ function tagsHandler(state = initialState, action) {
           ...shop,
           delete: [],
         },
+        receipt: {
+          ...state.receipt,
+          globalDelete: [],
+          delete: [],
+        },
         new: [],
       };
       return nextstate;
@@ -96,6 +102,7 @@ function tagsHandler(state = initialState, action) {
       if (state.receipt.delete.length === 0) {
         return state;
       }
+
       const tmpReceiptAll = state.receipt.all.filter(
         receipt => !onArray(state.receipt.delete, receipt.id),
       );
@@ -103,6 +110,10 @@ function tagsHandler(state = initialState, action) {
         ...state,
         receipt: {
           all: tmpReceiptAll,
+          globalDelete: [
+            ...state.receipt.globalDelete,
+            ...state.receipt.delete,
+          ],
           delete: [],
         },
       };

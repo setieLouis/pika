@@ -115,10 +115,14 @@ class ReceiptLister extends React.Component {
         ),
       },
       () => {
-        this.allReceipt = this.allReceipt.filter(
-          el => !this._onArray(tmpSelected, el.id),
-        );
-        this._putToDeleteStore(tmpSelected);
+        const tmpPutDeleleStore = [];
+        this.allReceipt = this.allReceipt.filter(el => {
+          const flag = !this._onArray(tmpSelected, el.id);
+          if (flag) {
+            tmpPutDeleleStore.push(el);
+          }
+        });
+        this._putToDeleteStore(tmpPutDeleleStore);
         this._hideToolHeader();
       },
     );
