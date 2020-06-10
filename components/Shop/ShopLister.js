@@ -248,7 +248,7 @@ class ShopLister extends React.Component {
   _appStateDataHandler = nextAppState => {
     switch (nextAppState) {
       case 'active':
-        if (this.state.infos.length === 0) {
+        if (this.props.receiveNew) {
           this._getBaseData();
           this.setState({
             infos: this.props.stateShops,
@@ -297,11 +297,18 @@ class ShopLister extends React.Component {
     };
     this.props.dispatch(action);
   };
+
+  _receiveNew() {
+    this.props.dispatch({
+      type: 'RESET_RECEIVE_NEW',
+    });
+  }
 }
 const mapStateToProps = state => {
   return {
     stateShops: state.shop.all,
     stateDeleteShops: state.shop.delete,
+    receiveNew: state.shop.receiveNew,
   };
 };
 export default connect(mapStateToProps)(ShopLister);

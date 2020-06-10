@@ -7,8 +7,9 @@ import {
   toArray,
 } from '../database/Paperbase';
 import ReceiptItem from './ReceiptItem';
+import {connect} from 'react-redux';
 
-export default class ReceiptLister extends React.Component {
+class ReceiptLister extends React.Component {
   constructor(props) {
     super(props);
     this.allReceipt = toArray(
@@ -20,6 +21,7 @@ export default class ReceiptLister extends React.Component {
       selectedList: [],
       receipts: this.allReceipt,
     };
+    console.log(this.props);
   }
 
   render() {
@@ -143,3 +145,8 @@ const style = StyleSheet.create({
     paddingBottom: 10,
   },
 });
+
+const mapStateToProps = state => {
+  return {};
+};
+export default connect(mapStateToProps)(ReceiptLister);

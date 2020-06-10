@@ -2,8 +2,9 @@ import React from 'react';
 import {Platform, View, Text} from 'react-native';
 import {Notifications} from 'react-native-notifications';
 import {receiptModel, saveReceipt, shopModel} from './database/Paperbase';
+import {connect} from 'react-redux';
 
-export default class PushNotificationManager extends React.Component {
+class PushNotificationManager extends React.Component {
   componentDidMount() {
     this.registerDevice();
     this.registerNotificationEvents();
@@ -37,14 +38,27 @@ export default class PushNotificationManager extends React.Component {
       (notification, completion) => {
         const element = notification.payload.extra;
         //TODO FIND THE WAY TO NOTIFY THE RECEIPT ON RECEIVE
-        saveReceipt({
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&');
+        console.log(this.props);
+        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&');
+
+        const shop = shopModel(
+          element.shop.id.toString(),
+          element.shop.name,
+          element.shop.address,
+        );
+        this._addShop({
+          shop: shop,
+          receipt: receiptModel(element.receipt, element.shop.id.toString()),
+        });
+        /*saveReceipt({
           shop: shopModel(
             element.shop.id.toString(),
             element.shop.name,
             element.shop.address,
           ),
           receipt: receiptModel(element.receipt, element.shop.id.toString()),
-        });
+        });*/
       },
     );
 
@@ -78,15 +92,17 @@ export default class PushNotificationManager extends React.Component {
     const {children} = this.props;
     return <View style={{flex: 1}}>{children}</View>;
   }
+
+  _addShop(receipt) {
+    const action = {
+      type: 'ADD_RECEIPT',
+      value: receipt,
+    };
+    this.props.dispatch(action);
+  }
 }
 
-/**
- console.log('Notification opened by device user', notification);
- console.log(
- `Notification opened with an action identifier: ${
-            notification.identifier
-          }`,
- );
- completion()
-
- **/
+const mapStateToProps = state => {
+  return {};
+};
+export default connect(mapStateToProps)(PushNotificationManager);

@@ -11,6 +11,7 @@ const initialState = {
     },
   },
   shop: {
+    receiveNew: true,
     all: [],
     delete: [],
   },
@@ -37,6 +38,7 @@ function tagsHandler(state = initialState, action) {
         ...state,
         shop: {
           ...state.shop,
+          receiveNew: false,
           all: [...action.value.shops],
         },
         receipt: {
@@ -50,6 +52,7 @@ function tagsHandler(state = initialState, action) {
       nextstate = {
         ...state,
         shop: {
+          ...state.shop,
           all: [...tmpAll],
           delete: [...state.shop.delete, action.value],
         },
@@ -67,6 +70,16 @@ function tagsHandler(state = initialState, action) {
 
       return nextstate;
     }
+
+    case 'RESET_RECEIVE_NEW':
+      nextstate = {
+        ...state,
+        shop: {
+          ...state.shop,
+          receiveNew: false,
+        },
+      };
+      return nextstate;
     case 'ADD_NEW_TAGS':
       nextstate = {
         ...state,
