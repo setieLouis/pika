@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import {AppState, FlatList, TouchableOpacity, View} from 'react-native';
 import ShopHeader from './ShopHeader';
 import ShopItem from './ShopItem';
 import {findAllShop} from '../database/Paperbase';
@@ -98,6 +98,7 @@ export default class ShopLister extends React.Component {
       showSocial: false,
     };
   }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -142,6 +143,13 @@ export default class ShopLister extends React.Component {
         </TouchableOpacity>
       </View>
     );
+  }
+  componentDidMount(): void {
+    AppState.addEventListener('change', this._appStateDataHandler);
+  }
+
+  componentWillUnmount(): void {
+    AppState.removeEventListener('change', this._appStateDataHandler);
   }
 
   _goTo = (id, name) => {
@@ -202,4 +210,25 @@ export default class ShopLister extends React.Component {
       },
     });
   }
+
+  _appStateDataHandler = nextAppState => {
+    switch (nextAppState) {
+      case 'active':
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+        console.log('put all base on reduxBox');
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+        break;
+      case 'background':
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+        console.log('save update data on base');
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+        break;
+
+      default:
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+        console.log('unknow state' + nextAppState);
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+        break;
+    }
+  };
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, Text, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import ReceiptHeader from './ReceiptHeader';
 import {
   deleteReceipt,
